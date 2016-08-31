@@ -5,11 +5,40 @@
  */
 package Vistas;
 
+import Controller.LoginControlador;
+import DTO.Cliente;
+import javax.xml.soap.*;
+import java.net.*;
+import java.util.ArrayList;
+import static java.util.Collections.list;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.namespace.QName;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathFactory;
+import localhost.webservice.AutenticarResponse;
+import localhost.webservice.RegionesResponse;
+import org.w3._2001.xmlschema.ObjectFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import java.util.List;
+import org.w3c.dom.Element;
+
 /**
  *
  * @author Jorge
  */
 public class Login extends javax.swing.JFrame {
+
+    LoginControlador logc = new LoginControlador();
+    static MessageFactory messageFactory = null;
 
     /**
      * Creates new form Login
@@ -32,8 +61,10 @@ public class Login extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txtRut = new javax.swing.JTextField();
         pssClave = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnIngresar = new javax.swing.JButton();
+        btnSalir = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txaTest = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,21 +76,26 @@ public class Login extends javax.swing.JFrame {
 
         pssClave.setName("pssClave"); // NOI18N
 
-        jButton1.setText("INGRESAR");
-        jButton1.setName("btnIngresar"); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnIngresar.setText("INGRESAR");
+        btnIngresar.setName("btnIngresar"); // NOI18N
+        btnIngresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnIngresarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("SALIR");
-        jButton2.setName("btnSAlir"); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnSalir.setText("SALIR");
+        btnSalir.setName("btnSAlir"); // NOI18N
+        btnSalir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnSalirActionPerformed(evt);
             }
         });
+
+        txaTest.setColumns(20);
+        txaTest.setLineWrap(true);
+        txaTest.setRows(5);
+        jScrollPane1.setViewportView(txaTest);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -78,10 +114,13 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(pssClave)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(69, 69, 69)
-                        .addComponent(jButton1)
+                        .addComponent(btnIngresar)
                         .addGap(60, 60, 60)
-                        .addComponent(jButton2)))
-                .addContainerGap(113, Short.MAX_VALUE))
+                        .addComponent(btnSalir))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -94,68 +133,149 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(pssClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnIngresar)
+                    .addComponent(btnSalir))
                 .addGap(53, 53, 53))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       String user=txtRut.getText().trim();
-       String password=new String(pssClave.getPassword());
-       
-        // TODO add our handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        //Toma los datos ingresados y los envía al webservice para la autenticación 
+        //y luego abre la ventana correspondiente si el usuario es válido.
+        String user = txtRut.getText().trim();
+        String password = new String(pssClave.getPassword());
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-System.exit(0);        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+//            Ventana_Principal vp = new Ventana_Principal();
+//            vp.setVisible(true);
+//            vp.setLocationRelativeTo(null);
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+            // Create SOAP Connection
+            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
+            // Send SOAP Message to SOAP Server
+            String url = "http://localhost:49193/Service1.asmx";
+            SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(user, password), url);
+
+            // Process the SOAP Response
+//            printSOAPResponse(soapResponse);
+            String result = getSOAPResponse(soapResponse);
+            if (result != null) {
+                txaTest.setText(result);
+            } else {
+                txaTest.setText("La clave es incorrecta");
             }
-        });
+
+            soapConnection.close();
+        } catch (Exception e) {
+            System.err.println("Error occurred while sending SOAP Request to Server");
+            e.printStackTrace();
+        }
+
+
+    }//GEN-LAST:event_btnIngresarActionPerformed
+
+    private static SOAPMessage createSOAPRequest(String user, String password) throws Exception {
+        MessageFactory messageFactory = MessageFactory.newInstance();
+        SOAPMessage soapMessage = messageFactory.createMessage();
+        SOAPPart soapPart = soapMessage.getSOAPPart();
+
+        String serverURI = "http://localhost/WebService";
+
+        // SOAP Envelope
+        SOAPEnvelope envelope = soapPart.getEnvelope();
+        envelope.addNamespaceDeclaration("web", serverURI);
+
+        /*
+         Constructed SOAP Request Message:
+         <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:example="http://ws.cdyne.com/">
+         <SOAP-ENV:Header/>
+         <SOAP-ENV:Body>
+         <example:VerifyEmail>
+         <example:email>mutantninja@gmail.com</example:email>
+         <example:LicenseKey>123</example:LicenseKey>
+         </example:VerifyEmail>
+         </SOAP-ENV:Body>
+         </SOAP-ENV:Envelope>
+         */
+        // SOAP Body
+        SOAPBody soapBody = envelope.getBody();
+        SOAPElement soapBodyElem = soapBody.addChildElement("Autenticar", "web");
+        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("user", "web");
+        soapBodyElem1.addTextNode(user);
+        SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("pas", "web");
+        soapBodyElem2.addTextNode(password);
+
+        MimeHeaders headers = soapMessage.getMimeHeaders();
+        headers.addHeader("SOAPAction", serverURI + "/Autenticar");
+
+        soapMessage.saveChanges();
+
+        /* Print the request message */
+        System.out.print("Request SOAP Message = ");
+        soapMessage.writeTo(System.out);
+        String x = soapMessage.toString();
+        System.out.println();
+
+        return soapMessage;
     }
 
+    private static void printSOAPResponse(SOAPMessage soapResponse) throws Exception {
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        Source sourceContent = soapResponse.getSOAPPart().getContent();
+        System.out.print("\nResponse SOAP Message = ");
+        StreamResult result = new StreamResult(System.out);
+        transformer.transform(sourceContent, result);
+    }
+
+    private static String getSOAPResponse(SOAPMessage soapResponse) throws Exception {
+        Cliente cli = new Cliente();
+        SOAPBody sb = soapResponse.getSOAPBody();
+        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Autenticar");
+        Document XMLDoc = sb.extractContentAsDocument();
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        XPathExpression expr = xpath.compile("//USER");
+        String result = String.class.cast(expr.evaluate(XMLDoc,
+                XPathConstants.STRING));
+
+
+//        
+//        if (sb.getChildElements()!= null) {
+//            cli.setRut(sb.getAttribute("RUT"));
+//            cli.setDv(sb.getAttribute("DV").charAt(0));
+//            cli.setNombre(sb.getAttribute("NOMBRE"));
+//            cli.setApellido(sb.getAttribute("APELLIDO"));
+//            cli.setSexo(sb.getAttribute("SEXO").charAt(0));
+//            cli.setCorreo(sb.getAttribute("CORREO"));
+//            cli.setTelefono(Integer.parseInt(sb.getAttribute("TELEFONO")));
+//            cli.setBloqueado(Integer.parseInt(sb.getAttribute("BLOQUEADO")));
+//            return cli;
+//        }
+        return result;
+    }
+
+
+    private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
+        System.exit(0);        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSalirActionPerformed
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnIngresar;
+    private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPasswordField pssClave;
+    private javax.swing.JTextArea txaTest;
     private javax.swing.JTextField txtRut;
     // End of variables declaration//GEN-END:variables
+
 }
