@@ -7,6 +7,7 @@ package Vistas;
 
 import Controller.LoginControlador;
 import DTO.Cliente;
+import DTO.Usuario;
 import javax.xml.soap.*;
 import java.net.*;
 import java.util.ArrayList;
@@ -165,9 +166,9 @@ public class Login extends javax.swing.JFrame {
 
             // Process the SOAP Response
 //            printSOAPResponse(soapResponse);
-            Cliente cli = getSOAPResponse(soapResponse);
-            if (cli.getNombre() != null) {
-                txaTest.setText(cli.getNombre() + ' ' + cli.getApellido());
+            Usuario usu = getSOAPResponse(soapResponse);
+            if (usu.getRut() != null) {
+                txaTest.setText(usu.getRut()+ ' ' + usu.getId_tipo_perfil());
             } else {
                 txaTest.setText("La clave es incorrecta");
             }
@@ -206,14 +207,14 @@ public class Login extends javax.swing.JFrame {
          */
         // SOAP Body
         SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem = soapBody.addChildElement("Autenticar", "web");
-        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("user", "web");
+        SOAPElement soapBodyElem = soapBody.addChildElement("Usuario_Sel", "web");
+        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("rut", "web");
         soapBodyElem1.addTextNode(user);
         SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("pas", "web");
         soapBodyElem2.addTextNode(password);
 
         MimeHeaders headers = soapMessage.getMimeHeaders();
-        headers.addHeader("SOAPAction", serverURI + "/Autenticar");
+        headers.addHeader("SOAPAction", serverURI + "/Usuario_Sel");
 
         soapMessage.saveChanges();
 
@@ -235,18 +236,18 @@ public class Login extends javax.swing.JFrame {
         transformer.transform(sourceContent, result);
     }
 
-    private static Cliente getSOAPResponse(SOAPMessage soapResponse) throws Exception {
-        Cliente cli = new Cliente();
+    private static Usuario getSOAPResponse(SOAPMessage soapResponse) throws Exception {
+        Usuario usu = new Usuario();
         SOAPBody sb = soapResponse.getSOAPBody();
         SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
-        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Autenticar");
+        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Usuario_Sel");
 
         Document XMLDoc = sb.extractContentAsDocument();
         XPath xpath = XPathFactory.newInstance().newXPath();
 //        XPathExpression expr = xpath.compile("//USER");
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
-        NodeList nodeList = (NodeList) xpath.compile("//USER").evaluate(XMLDoc, XPathConstants.NODESET);
+        NodeList nodeList = (NodeList) xpath.compile("//Usuarios").evaluate(XMLDoc, XPathConstants.NODESET);
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Node nNode = nodeList.item(i);
             System.out.println("\nCurrent Element :"
@@ -255,14 +256,17 @@ public class Login extends javax.swing.JFrame {
                 Element eElement = (Element) nNode;
                 System.out.println("Usuario : "
                         + eElement.getAttribute("diffgr:id"));
-                cli.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
-                cli.setDv(eElement.getElementsByTagName("DV").item(0).getTextContent().charAt(0));
-                cli.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
-                cli.setApellido(eElement.getElementsByTagName("APELLIDO").item(0).getTextContent());
-                cli.setSexo(eElement.getElementsByTagName("SEXO").item(0).getTextContent().charAt(0));
-                cli.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
-                cli.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
-                cli.setBloqueado(eElement.getElementsByTagName("BLOQUEADO").item(0).getTextContent().charAt(0));
+                  usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
+                  usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
+                  usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
+//                cli.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
+//                cli.setDv(eElement.getElementsByTagName("DV").item(0).getTextContent().charAt(0));
+//                cli.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
+//                cli.setApellido(eElement.getElementsByTagName("APELLIDO").item(0).getTextContent());
+//                cli.setSexo(eElement.getElementsByTagName("SEXO").item(0).getTextContent().charAt(0));
+//                cli.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
+//                cli.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
+//                cli.setBloqueado(eElement.getElementsByTagName("BLOQUEADO").item(0).getTextContent().charAt(0));
             }
 
 //        
@@ -277,9 +281,9 @@ public class Login extends javax.swing.JFrame {
 //            cli.setBloqueado(Integer.parseInt(sb.getAttribute("BLOQUEADO")));
 //            return cli;
 //        }
-            return cli;
+            return usu;
         }
-        return cli;
+        return usu;
     }
 
 
