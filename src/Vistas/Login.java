@@ -8,8 +8,10 @@ package Vistas;
 import Controller.LoginControlador;
 import DTO.Cliente;
 import DTO.Usuario;
+import java.io.UnsupportedEncodingException;
 import javax.xml.soap.*;
 import java.net.*;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import static java.util.Collections.list;
 import java.util.Iterator;
@@ -24,8 +26,6 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
-import localhost.webservice.AutenticarResponse;
-import localhost.webservice.RegionesResponse;
 import org.w3._2001.xmlschema.ObjectFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -77,6 +77,11 @@ public class Login extends javax.swing.JFrame {
         jLabel2.setText("CLAVE");
 
         txtRut.setName("txtRut"); // NOI18N
+        txtRut.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtRutKeyReleased(evt);
+            }
+        });
 
         pssClave.setName("pssClave"); // NOI18N
 
@@ -132,9 +137,7 @@ public class Login extends javax.swing.JFrame {
                                 .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                     .addComponent(btnIngresar)
                                     .addGap(73, 73, 73)
@@ -180,21 +183,26 @@ public class Login extends javax.swing.JFrame {
         //y luego abre la ventana correspondiente si el usuario es válido.
         String user = txtRut.getText().trim();
         String password = new String(pssClave.getPassword());
-
-//            Ventana_Principal vp = new Ventana_Principal();
-//            vp.setVisible(true);
-//            vp.setLocationRelativeTo(null);
         try {
-            // Create SOAP Connection
+            password = logc.hash(password);
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+        try {
+            // Crea SOAP Connection
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
-            // Send SOAP Message to SOAP Server
+            // Envía Mensaje SOAP a Servidor SOAP 
             String url = "http://localhost:49193/Service1.asmx";
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(user, password), url);
 
-            // Process the SOAP Response
-//            printSOAPResponse(soapResponse);
+ 
+            // Recibe la respuesta SOAP y la procesa.
             Usuario usu = getSOAPResponse(soapResponse);
             if (usu.getRut() != null) {
                 Ventana_Principal ventana = new Ventana_Principal(usu);
@@ -259,14 +267,14 @@ public class Login extends javax.swing.JFrame {
         return soapMessage;
     }
 
-    private static void printSOAPResponse(SOAPMessage soapResponse) throws Exception {
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        Source sourceContent = soapResponse.getSOAPPart().getContent();
-        System.out.print("\nResponse SOAP Message = ");
-        StreamResult result = new StreamResult(System.out);
-        transformer.transform(sourceContent, result);
-    }
+//    private static void printSOAPResponse(SOAPMessage soapResponse) throws Exception {
+//        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+//        Transformer transformer = transformerFactory.newTransformer();
+//        Source sourceContent = soapResponse.getSOAPPart().getContent();
+//        System.out.print("\nResponse SOAP Message = ");
+//        StreamResult result = new StreamResult(System.out);
+//        transformer.transform(sourceContent, result);
+//    }
 
     private static Usuario getSOAPResponse(SOAPMessage soapResponse) throws Exception {
         Usuario usu = new Usuario();
@@ -276,7 +284,7 @@ public class Login extends javax.swing.JFrame {
 
         Document XMLDoc = sb.extractContentAsDocument();
         XPath xpath = XPathFactory.newInstance().newXPath();
-//        XPathExpression expr = xpath.compile("//USER");
+//        XPathExpression expr = xpath.compile("//Usuario");
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
         NodeList nodeList = (NodeList) xpath.compile("//Usuarios").evaluate(XMLDoc, XPathConstants.NODESET);
@@ -288,9 +296,9 @@ public class Login extends javax.swing.JFrame {
                 Element eElement = (Element) nNode;
                 System.out.println("Usuario : "
                         + eElement.getAttribute("diffgr:id"));
-                  usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
-                  usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
-                  usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
+                usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
+                usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
+                usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
 //                cli.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
 //                cli.setDv(eElement.getElementsByTagName("DV").item(0).getTextContent().charAt(0));
 //                cli.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
@@ -300,19 +308,6 @@ public class Login extends javax.swing.JFrame {
 //                cli.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
 //                cli.setBloqueado(eElement.getElementsByTagName("BLOQUEADO").item(0).getTextContent().charAt(0));
             }
-
-//        
-//        if (sb.getChildElements()!= null) {
-//            cli.setRut(sb.getAttribute("RUT"));
-//            cli.setDv(sb.getAttribute("DV").charAt(0));
-//            cli.setNombre(sb.getAttribute("NOMBRE"));
-//            cli.setApellido(sb.getAttribute("APELLIDO"));
-//            cli.setSexo(sb.getAttribute("SEXO").charAt(0));
-//            cli.setCorreo(sb.getAttribute("CORREO"));
-//            cli.setTelefono(Integer.parseInt(sb.getAttribute("TELEFONO")));
-//            cli.setBloqueado(Integer.parseInt(sb.getAttribute("BLOQUEADO")));
-//            return cli;
-//        }
             return usu;
         }
         return usu;
@@ -320,8 +315,18 @@ public class Login extends javax.swing.JFrame {
 
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        System.exit(0);        // TODO add your handling code here:
+        System.exit(0);        // Cierra la aplicación:
     }//GEN-LAST:event_btnSalirActionPerformed
+
+    private void txtRutKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtRutKeyReleased
+        // Valida que campo de RUT sólo contenga números
+        int x;
+        try {
+            x = Integer.parseInt(txtRut.getText());
+        } catch (NumberFormatException nfe) {
+            txtRut.setText("");
+        }
+    }//GEN-LAST:event_txtRutKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

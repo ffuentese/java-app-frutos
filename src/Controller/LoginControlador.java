@@ -3,19 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Controller;
 
-import localhost.webservice.AutenticarResponse;
+import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 
 /**
  *
  * @author Francisco
  */
 public class LoginControlador {
-     public static AutenticarResponse.AutenticarResult autenticar(java.lang.String user, java.lang.String pas) {
-        localhost.webservice.WebServicePrueba service = new localhost.webservice.WebServicePrueba();
-        localhost.webservice.WebServicePruebaSoap port = service.getWebServicePruebaSoap();
-        return port.autenticar(user, pas);
+
+    public String hash(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+
+        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+        crypt.reset();
+        crypt.update(password.getBytes("UTF-8"));
+
+        return new BigInteger(1, crypt.digest()).toString(16);
     }
+
 }
