@@ -185,7 +185,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tahoma" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Feria Web Men&#xfa;"/>
+        <Property name="text" type="java.lang.String" value="LISTAR PRODUCTORES"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JComboBox" name="cmbListarproductores">

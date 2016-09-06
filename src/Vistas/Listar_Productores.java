@@ -5,7 +5,9 @@
  */
 package Vistas;
 
+import DTO.Productor;
 import DTO.Usuario;
+import java.util.ArrayList;
 
 /**
  *
@@ -16,8 +18,12 @@ public class Listar_Productores extends javax.swing.JFrame {
     /**
      * Creates new form Ventana_Principal
      */
-    public Listar_Productores(Usuario usu) {
+    
+    public Listar_Productores(ArrayList<Productor> arrpro) {
         initComponents();
+        for(int i=0;i<arrpro.size();i++){
+            cmbListarproductores.addItem(arrpro.get(i).getRut());
+        }
         
     }
 
@@ -65,7 +71,7 @@ public class Listar_Productores extends javax.swing.JFrame {
         });
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setText("Feria Web Menú");
+        jLabel1.setText("LISTAR PRODUCTORES");
 
         cmbListarproductores.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 

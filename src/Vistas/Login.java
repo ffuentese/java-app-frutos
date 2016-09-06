@@ -204,7 +204,7 @@ public class Login extends javax.swing.JFrame {
             // Recibe la respuesta SOAP y la procesa.
             Usuario usu = getSOAPResponse(soapResponse);
             if (usu.getRut() != null) {
-                Listar_Productores ventana = new Listar_Productores(usu);
+                Ventana_Principal ventana = new Ventana_Principal(usu);
                 ventana.setVisible(true);
                 ventana.setLocationRelativeTo(null);
             } else {
