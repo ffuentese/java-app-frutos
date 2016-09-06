@@ -18,7 +18,7 @@ public class Listar_Productores extends javax.swing.JFrame {
      */
     public Listar_Productores(Usuario usu) {
         initComponents();
-        lblUsuario.setText("Bienvenido usuario " + usu.getRut());
+        
     }
 
     /**
