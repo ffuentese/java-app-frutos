@@ -42,8 +42,8 @@ public class ProductorControlador {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
-            SOAPMessage soapResponse = soapConnection.call(createSOAPRequest());
+            //String url = "http://localhost:49193/Service1.asmx";
+            SOAPMessage soapResponse = soapConnection.get(getSOAPResponse(null));
 
  
             // Recibe la respuesta SOAP y la procesa.
@@ -114,18 +114,18 @@ public class ProductorControlador {
 //        XPathExpression expr = xpath.compile("//Usuario");
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
-        NodeList nodeList = (NodeList) xpath.compile("//Productor").evaluate(XMLDoc, XPathConstants.NODESET);
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            org.w3c.dom.Node nNode = nodeList.item(i);
-            System.out.println("\nCurrent Element :"
-                    + nNode.getNodeName());
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
-                System.out.println("Productor : "
-                        + eElement.getAttribute("diffgr:id"));
-                usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
-                usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
-                usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
+        //NodeList nodeList = (NodeList) xpath.compile("//Productor").evaluate(XMLDoc, XPathConstants.NODESET);
+        //for (int i = 0; i < nodeList.getLength(); i++) {
+          //  org.w3c.dom.Node nNode = nodeList.item(i);
+            //System.out.println("\nCurrent Element :"
+             //       + nNode.getNodeName());
+            //if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+              //  Element eElement = (Element) nNode;
+               // System.out.println("Productor : "
+                 //       + eElement.getAttribute("diffgr:id"));
+                //usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
+                //usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
+                //usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
 //                cli.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
 //                cli.setDv(eElement.getElementsByTagName("DV").item(0).getTextContent().charAt(0));
 //                cli.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
@@ -134,9 +134,9 @@ public class ProductorControlador {
 //                cli.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
 //                cli.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
 //                cli.setBloqueado(eElement.getElementsByTagName("BLOQUEADO").item(0).getTextContent().charAt(0));
-            }
-            return usu;
-        }
-        return usu;
+            //}
+            //return pro;
+        //}
+        return pro;
     }
 }
