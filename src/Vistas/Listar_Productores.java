@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import Controller.ProductorControlador;
 import DTO.Productor;
 import DTO.Usuario;
 import java.util.ArrayList;
@@ -15,14 +16,16 @@ import java.util.ArrayList;
  */
 public class Listar_Productores extends javax.swing.JFrame {
 
+    ProductorControlador prc = new ProductorControlador();
     /**
      * Creates new form Ventana_Principal
      */
     
-    public Listar_Productores(ArrayList<Productor> arrpro) {
+    public Listar_Productores() {
         initComponents();
+        ArrayList<Productor> arrpro = prc.listaProductores();
         for(int i=0;i<arrpro.size();i++){
-            cmbListarproductores.addItem(arrpro.get(i).getRut());
+            cmbListarproductores.addItem(arrpro.get(i));
         }
         
     }
@@ -73,7 +76,11 @@ public class Listar_Productores extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("LISTAR PRODUCTORES");
 
-        cmbListarproductores.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbListarproductores.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbListarproductoresActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("PRODUCTORES");
 
@@ -192,7 +199,6 @@ public class Listar_Productores extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -223,14 +229,13 @@ public class Listar_Productores extends javax.swing.JFrame {
                         .addComponent(btnModificar)
                         .addGap(36, 36, 36)
                         .addComponent(btnEliminar)
-                        .addGap(29, 29, 29)
-                        .addGap(16, 16, 16)
+                        .addGap(45, 45, 45)
                         .addComponent(btnVerStock)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txtDireccioncomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addComponent(btnVolver)
                 .addContainerGap())
         );
@@ -254,6 +259,27 @@ public class Listar_Productores extends javax.swing.JFrame {
     private void btnVerStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerStockActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnVerStockActionPerformed
+
+    private void cmbListarproductoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbListarproductoresActionPerformed
+        // TODO add your handling code here:
+        Productor pro = ((Productor)cmbListarproductores.getSelectedItem());
+        txtRut.setText(Integer.toString(pro.getRut()));
+        txtNombre.setText(pro.getNombre());
+        txtApellido.setText(pro.getApellido());
+        if(pro.getSexo() == 'M' || pro.getSexo() ==  'm'){
+        txtSexo.setText("Masculino");
+        }
+        else if(pro.getSexo() == 'F' || pro.getSexo() == 'f'){
+            txtSexo.setText("Femenino");
+        }
+        else {
+            txtSexo.setText(String.valueOf(pro.getSexo()));
+        }
+        txtDireccionparticular.setText(Integer.toString(pro.getId_direccion_particular()));
+        txtTelefono.setText(Integer.toString(pro.getTelefono()));
+        txtCorreo.setText(pro.getCorreo());
+        txtDireccioncomercial.setText(Integer.toString(pro.getId_direccion_negocio()));
+    }//GEN-LAST:event_cmbListarproductoresActionPerformed
 
     /**
      * @param args the command line arguments

@@ -117,5 +117,10 @@ public class Productor {
         this.misma_direccion = misma_direccion;
     }
 
+    @Override
+    public String toString() {
+        return nombre + " " + apellido;
+    }
+
     
 }

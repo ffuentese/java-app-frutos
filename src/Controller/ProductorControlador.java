@@ -35,33 +35,34 @@ public class ProductorControlador {
     
     ArrayList<Productor> arrproductor=new ArrayList<>();
     
-    private void conexion(){
+    public ArrayList<Productor> listaProductores(){
          try {
             // Crea SOAP Connection
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            //String url = "http://localhost:49193/Service1.asmx";
-            SOAPMessage soapResponse = soapConnection.get(getSOAPResponse(null));
+            String url = "http://localhost:49193/Service1.asmx";
+            SOAPMessage soapResponse = soapConnection.call(createSOAPRequestListaProd(), url);
 
  
             // Recibe la respuesta SOAP y la procesa.
-            for(int i=0;i<arrproductor.size();i++){
-                arrproductor.add(i,getSOAPResponse(soapResponse));
-            }
+            arrproductor = getSOAPResponseListaProd(soapResponse);
+            
             
             
 
             soapConnection.close();
+            return arrproductor;
         } catch (Exception e) {
             System.err.println("Error occurred while sending SOAP Request to Server");
             e.printStackTrace();
             //lblError.setText("Hubo un error en la conexión con el servidor");
         }
+         return null;
     }
     
-    private static SOAPMessage createSOAPRequest() throws Exception {
+    private SOAPMessage createSOAPRequestListaProd() throws Exception {
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
         SOAPPart soapPart = soapMessage.getSOAPPart();
@@ -103,8 +104,9 @@ public class ProductorControlador {
         return soapMessage;
     }
     
-    private static Productor getSOAPResponse(SOAPMessage soapResponse) throws Exception {
+    private ArrayList<Productor> getSOAPResponseListaProd(SOAPMessage soapResponse) throws Exception {
         Productor pro = new Productor();
+        ArrayList<Productor> arrpro = new ArrayList<>();
         SOAPBody sb = soapResponse.getSOAPBody();
         SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
         QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Productor_Sel_All");
@@ -114,18 +116,18 @@ public class ProductorControlador {
 //        XPathExpression expr = xpath.compile("//Usuario");
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
-        //NodeList nodeList = (NodeList) xpath.compile("//Productor").evaluate(XMLDoc, XPathConstants.NODESET);
-        //for (int i = 0; i < nodeList.getLength(); i++) {
-          //  org.w3c.dom.Node nNode = nodeList.item(i);
-            //System.out.println("\nCurrent Element :"
-             //       + nNode.getNodeName());
-            //if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-              //  Element eElement = (Element) nNode;
-               // System.out.println("Productor : "
-                 //       + eElement.getAttribute("diffgr:id"));
-                //usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
-                //usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
-                //usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
+        NodeList nodeList = (NodeList) xpath.compile("//Productor").evaluate(XMLDoc, XPathConstants.NODESET);
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            org.w3c.dom.Node nNode = nodeList.item(i);
+            System.out.println("\nCurrent Element :"
+                    + nNode.getNodeName());
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+                System.out.println("Productor : "
+                        + eElement.getAttribute("msdata:rowOrder"));
+//                usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
+//                usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
+//                usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
 //                cli.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
 //                cli.setDv(eElement.getElementsByTagName("DV").item(0).getTextContent().charAt(0));
 //                cli.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
@@ -134,9 +136,19 @@ public class ProductorControlador {
 //                cli.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
 //                cli.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
 //                cli.setBloqueado(eElement.getElementsByTagName("BLOQUEADO").item(0).getTextContent().charAt(0));
-            //}
-            //return pro;
-        //}
-        return pro;
+                pro.setRut(Integer.parseInt(eElement.getElementsByTagName("RUT").item(0).getTextContent()));
+                pro.setDv(eElement.getElementsByTagName("DV").item(0).getTextContent().charAt(0));
+                pro.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
+                pro.setApellido(eElement.getElementsByTagName("APELLIDO").item(0).getTextContent());
+                pro.setSexo(eElement.getElementsByTagName("SEXO").item(0).getTextContent().charAt(0));
+                pro.setId_direccion_particular(Integer.parseInt(eElement.getElementsByTagName("ID_DIRECCIONPARTICULAR").item(0).getTextContent()));
+                pro.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
+                pro.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
+                pro.setId_direccion_negocio(Integer.parseInt(eElement.getElementsByTagName("ID_DIRECCIONNEGOCIO").item(0).getTextContent()));
+                pro.setMisma_direccion(Integer.parseInt(eElement.getElementsByTagName("MISMADIRECCION").item(0).getTextContent()));
+            }
+             arrpro.add(pro);
+        }
+        return arrpro;
     }
 }
