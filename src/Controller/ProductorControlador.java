@@ -118,14 +118,14 @@ public class ProductorControlador {
 //        XPathExpression expr = xpath.compile("//Usuario");
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
-        NodeList nodeList = (NodeList) xpath.compile("//Productor").evaluate(XMLDoc, XPathConstants.NODESET);
+        NodeList nodeList = (NodeList) xpath.compile("//PRODUCTOR").evaluate(XMLDoc, XPathConstants.NODESET);
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Node nNode = nodeList.item(i);
             System.out.println("\nCurrent Element :"
                     + nNode.getNodeName());
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) nNode;
-                System.out.println("Productor : "
+                System.out.println("PRODUCTOR : "
                         + eElement.getAttribute("msdata:rowOrder"));
 //                usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
 //                usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
@@ -143,20 +143,46 @@ public class ProductorControlador {
                 pro.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
                 pro.setApellido(eElement.getElementsByTagName("APELLIDO").item(0).getTextContent());
                 pro.setSexo(eElement.getElementsByTagName("SEXO").item(0).getTextContent());
-                pro.setDireccion_particular(eElement.getElementsByTagName("ID_DIRECCIONPARTICULAR").item(0).getTextContent());
-                pro.setNumero_particular(eElement.getElementsByTagName("ID_DIRECCIONPARTICULAR").item(0).getTextContent());
-                pro.setComuna_particular(eElement.getElementsByTagName("ID_DIRECCIONPARTICULAR").item(0).getTextContent());
+                pro.setDireccion_particular(eElement.getElementsByTagName("NOMBREP").item(0).getTextContent());
+                pro.setNumero_particular(eElement.getElementsByTagName("NUMERO").item(0).getTextContent());
+                pro.setComuna_particular(eElement.getElementsByTagName("NOMBRE1").item(0).getTextContent());
                 pro.setTelefono(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent());
                 pro.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
-                pro.setDireccion_negocio(eElement.getElementsByTagName("ID_DIRECCIONNEGOCIO").item(0).getTextContent());
-                pro.setNumero_negocio(eElement.getElementsByTagName("ID_DIRECCIONNEGOCIO").item(0).getTextContent());
-                pro.setComuna_negocio(eElement.getElementsByTagName("ID_DIRECCIONNEGOCIO").item(0).getTextContent());
-                pro.setMisma_direccion(eElement.getElementsByTagName("MISMADIRECCION").item(0).getTextContent());
+                pro.setDireccion_negocio(eElement.getElementsByTagName("NOMBREN").item(0).getTextContent());
+                pro.setNumero_negocio(eElement.getElementsByTagName("NUMERO1").item(0).getTextContent());
+                pro.setComuna_negocio(eElement.getElementsByTagName("NOMBRE2").item(0).getTextContent());
+                //pro.setMisma_direccion(eElement.getElementsByTagName("MISMADIRECCION").item(0).getTextContent());
             }
              arrpro.add(pro);
         }
         return arrpro;
     }
+    
+    public void Update(Productor pro){
+        
+        
+        
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     private ArrayList<Direccion> getSOAPResponseListaDireccion(SOAPMessage soapResponse) throws Exception {
         Direccion dir = new Direccion();

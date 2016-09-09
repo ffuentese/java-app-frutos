@@ -203,8 +203,9 @@ public class Login extends javax.swing.JFrame {
  
             // Recibe la respuesta SOAP y la procesa.
             Usuario usu = getSOAPResponse(soapResponse);
-            
+            //valida el usuario
             if (usu.getRut() != null) {
+                //valida el tipo de usuario
                 if(usu.getId_tipo_perfil()==3){
                 Ventana_Principal ventana = new Ventana_Principal(usu);
                 ventana.setVisible(true);

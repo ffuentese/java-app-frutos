@@ -321,7 +321,11 @@ public class Listar_Productores extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+
+        if(btnModificar.getText()=="MODIFICAR"){
+        btnModificar.setText("GUARDAR");
         txtRut.setEnabled(true);
         txtDv.setEnabled(true);
         txtNombre.setEnabled(true);
@@ -336,7 +340,8 @@ public class Listar_Productores extends javax.swing.JFrame {
         rbnFemenino.setEnabled(true);
         rbnMasculino.setEnabled(true);
         txtTelefono.setEnabled(true);
-        
+        }else{
+        if(btnModificar.getText()=="GUARDAR"){
         String rut=txtRut.getText().trim();
         String dv=txtDv.getText().trim();
         String nombre=txtNombre.getText();
@@ -351,10 +356,10 @@ public class Listar_Productores extends javax.swing.JFrame {
         String sexo="";
         String mismaDireccion="";
         if (rbnMasculino.isSelected()){
-            sexo="m";
+            sexo="M";
         }else{
             if(rbnFemenino.isSelected()){
-                sexo="f";
+                sexo="F";
             }else{
                 JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR SEXO");
             }
@@ -367,8 +372,11 @@ public class Listar_Productores extends javax.swing.JFrame {
             mismaDireccion="0";
         }
         
-        Productor produc=new Productor(rut, dv, nombre, apellido, sexo, dirParticular, numeroParticular, comunaParticular, telefono, correo, dirComercial, numeroComercial, comunaComercial, mismaDireccion);
-        
+        Productor produc=new Productor(rut, dv, nombre, apellido, sexo, dirParticular, numeroParticular, comunaParticular, telefono, correo, dirComercial, numeroComercial, comunaComercial,mismaDireccion);
+        JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
+        }
+    }
+    
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnVerStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerStockActionPerformed
@@ -384,10 +392,10 @@ public class Listar_Productores extends javax.swing.JFrame {
         txtApellido.setText(pro.getApellido());
         try{
         if(pro.getSexo().compareToIgnoreCase("m")==0){
-        rbnMasculino.setEnabled(true);
+        rbnMasculino.setSelected(true);
         }
         else if(pro.getSexo().compareToIgnoreCase("f")==0){
-            rbnFemenino.setEnabled(true);
+            rbnFemenino.setSelected(true);
         }
        
     }catch(Exception e){
