@@ -89,11 +89,11 @@ public class ProductorControlador {
          */
         // SOAP Body
         SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem = soapBody.addChildElement("Productor_Sel_All", "web");
+        SOAPElement soapBodyElem = soapBody.addChildElement("Productos_Sel_All_Productor_Man", "web");
         
 
         MimeHeaders headers = soapMessage.getMimeHeaders();
-        headers.addHeader("SOAPAction", serverURI + "/Productor_Sel_All");
+        headers.addHeader("SOAPAction", serverURI + "/Productos_Sel_All_Productor_Man");
 
         soapMessage.saveChanges();
 
@@ -111,7 +111,7 @@ public class ProductorControlador {
         ArrayList<Productor> arrpro = new ArrayList<>();
         SOAPBody sb = soapResponse.getSOAPBody();
         SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
-        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Productor_Sel_All");
+        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Productos_Sel_All_Productor_Man");
 
         Document XMLDoc = sb.extractContentAsDocument();
         XPath xpath = XPathFactory.newInstance().newXPath();
@@ -138,16 +138,20 @@ public class ProductorControlador {
 //                cli.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
 //                cli.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
 //                cli.setBloqueado(eElement.getElementsByTagName("BLOQUEADO").item(0).getTextContent().charAt(0));
-                pro.setRut(Integer.parseInt(eElement.getElementsByTagName("RUT").item(0).getTextContent()));
-                pro.setDv(eElement.getElementsByTagName("DV").item(0).getTextContent().charAt(0));
+                pro.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
+                pro.setDv(eElement.getElementsByTagName("DV").item(0).getTextContent());
                 pro.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
                 pro.setApellido(eElement.getElementsByTagName("APELLIDO").item(0).getTextContent());
-                pro.setSexo(eElement.getElementsByTagName("SEXO").item(0).getTextContent().charAt(0));
-                pro.setId_direccion_particular(Integer.parseInt(eElement.getElementsByTagName("ID_DIRECCIONPARTICULAR").item(0).getTextContent()));
-                pro.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
+                pro.setSexo(eElement.getElementsByTagName("SEXO").item(0).getTextContent());
+                pro.setDireccion_particular(eElement.getElementsByTagName("ID_DIRECCIONPARTICULAR").item(0).getTextContent());
+                pro.setNumero_particular(eElement.getElementsByTagName("ID_DIRECCIONPARTICULAR").item(0).getTextContent());
+                pro.setComuna_particular(eElement.getElementsByTagName("ID_DIRECCIONPARTICULAR").item(0).getTextContent());
+                pro.setTelefono(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent());
                 pro.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
-                pro.setId_direccion_negocio(Integer.parseInt(eElement.getElementsByTagName("ID_DIRECCIONNEGOCIO").item(0).getTextContent()));
-                pro.setMisma_direccion(Integer.parseInt(eElement.getElementsByTagName("MISMADIRECCION").item(0).getTextContent()));
+                pro.setDireccion_negocio(eElement.getElementsByTagName("ID_DIRECCIONNEGOCIO").item(0).getTextContent());
+                pro.setNumero_negocio(eElement.getElementsByTagName("ID_DIRECCIONNEGOCIO").item(0).getTextContent());
+                pro.setComuna_negocio(eElement.getElementsByTagName("ID_DIRECCIONNEGOCIO").item(0).getTextContent());
+                pro.setMisma_direccion(eElement.getElementsByTagName("MISMADIRECCION").item(0).getTextContent());
             }
              arrpro.add(pro);
         }

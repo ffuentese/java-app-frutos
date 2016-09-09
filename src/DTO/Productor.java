@@ -10,46 +10,54 @@ package DTO;
  * @author Windows 7
  */
 public class Productor {
-    private int rut;
-    private char dv;
+    private String rut;
+    private String dv;
     private String nombre;
     private String apellido;
-    private char sexo;
-    private int id_direccion_particular;
-    private int telefono;
+    private String sexo;
+    private String direccion_particular;
+    private String numero_particular;
+    private String comuna_particular;
+    private String telefono;
     private String correo;
-    private int id_direccion_negocio;
-    private int misma_direccion;
+    private String direccion_negocio;
+    private String numero_negocio;
+    private String comuna_negocio;
+    private String misma_direccion;
 
     public Productor() {
     }
 
-    public Productor(int rut, char dv, String nombre, String apellido, char sexo, int id_direccion_particular, int telefono, String correo, int id_direccion_negocio, int misma_direccion) {
+    public Productor(String rut, String dv, String nombre, String apellido, String sexo, String direccion_particular, String numero_particular, String comuna_particular, String telefono, String correo, String direccion_negocio, String numero_negocio, String comuna_negocio, String misma_direccion) {
         this.rut = rut;
         this.dv = dv;
         this.nombre = nombre;
         this.apellido = apellido;
         this.sexo = sexo;
-        this.id_direccion_particular = id_direccion_particular;
+        this.direccion_particular = direccion_particular;
+        this.numero_particular = numero_particular;
+        this.comuna_particular = comuna_particular;
         this.telefono = telefono;
         this.correo = correo;
-        this.id_direccion_negocio = id_direccion_negocio;
+        this.direccion_negocio = direccion_negocio;
+        this.numero_negocio = numero_negocio;
+        this.comuna_negocio = comuna_negocio;
         this.misma_direccion = misma_direccion;
     }
 
-    public int getRut() {
+    public String getRut() {
         return rut;
     }
 
-    public void setRut(int rut) {
+    public void setRut(String rut) {
         this.rut = rut;
     }
 
-    public char getDv() {
+    public String getDv() {
         return dv;
     }
 
-    public void setDv(char dv) {
+    public void setDv(String dv) {
         this.dv = dv;
     }
 
@@ -69,27 +77,43 @@ public class Productor {
         this.apellido = apellido;
     }
 
-    public char getSexo() {
+    public String getSexo() {
         return sexo;
     }
 
-    public void setSexo(char sexo) {
+    public void setSexo(String sexo) {
         this.sexo = sexo;
     }
 
-    public int getId_direccion_particular() {
-        return id_direccion_particular;
+    public String getDireccion_particular() {
+        return direccion_particular;
     }
 
-    public void setId_direccion_particular(int id_direccion_particular) {
-        this.id_direccion_particular = id_direccion_particular;
+    public void setDireccion_particular(String direccion_particular) {
+        this.direccion_particular = direccion_particular;
     }
 
-    public int getTelefono() {
+    public String getNumero_particular() {
+        return numero_particular;
+    }
+
+    public void setNumero_particular(String numero_particular) {
+        this.numero_particular = numero_particular;
+    }
+
+    public String getComuna_particular() {
+        return comuna_particular;
+    }
+
+    public void setComuna_particular(String comuna_particular) {
+        this.comuna_particular = comuna_particular;
+    }
+
+    public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
@@ -101,21 +125,39 @@ public class Productor {
         this.correo = correo;
     }
 
-    public int getId_direccion_negocio() {
-        return id_direccion_negocio;
+    public String getDireccion_negocio() {
+        return direccion_negocio;
     }
 
-    public void setId_direccion_negocio(int id_direccion_negocio) {
-        this.id_direccion_negocio = id_direccion_negocio;
+    public void setDireccion_negocio(String direccion_negocio) {
+        this.direccion_negocio = direccion_negocio;
     }
 
-    public int getMisma_direccion() {
+    public String getNumero_negocio() {
+        return numero_negocio;
+    }
+
+    public void setNumero_negocio(String numero_negocio) {
+        this.numero_negocio = numero_negocio;
+    }
+
+    public String getComuna_negocio() {
+        return comuna_negocio;
+    }
+
+    public void setComuna_negocio(String comuna_negocio) {
+        this.comuna_negocio = comuna_negocio;
+    }
+
+    public String getMisma_direccion() {
         return misma_direccion;
     }
 
-    public void setMisma_direccion(int misma_direccion) {
+    public void setMisma_direccion(String misma_direccion) {
         this.misma_direccion = misma_direccion;
     }
+
+    
 
     @Override
     public String toString() {

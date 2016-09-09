@@ -203,13 +203,26 @@ public class Login extends javax.swing.JFrame {
  
             // Recibe la respuesta SOAP y la procesa.
             Usuario usu = getSOAPResponse(soapResponse);
+            
             if (usu.getRut() != null) {
+                if(usu.getId_tipo_perfil()==3){
                 Ventana_Principal ventana = new Ventana_Principal(usu);
                 ventana.setVisible(true);
                 ventana.setLocationRelativeTo(null);
+               
                 dispose();
-                
+                }else{
+                    if(usu.getId_tipo_perfil()==2){
+                        Ventana_Principal_Productor ventana_prod = new Ventana_Principal_Productor(usu);
+                        ventana_prod.setVisible(true);
+                        ventana_prod.setLocationRelativeTo(null);
+                    dispose();
+                    }else{
+                        lblError.setText("No tiene el perfil para usar la aplicaciòn");
+                    }
+                }
             } else {
+                 //mostrar.setText(password);
                 lblError.setText("La clave es incorrecta");
             }
 
