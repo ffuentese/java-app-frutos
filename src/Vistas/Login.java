@@ -6,7 +6,6 @@
 package Vistas;
 
 import Controller.LoginControlador;
-import DTO.Cliente;
 import DTO.Usuario;
 import java.io.UnsupportedEncodingException;
 import javax.xml.soap.*;
@@ -30,6 +29,7 @@ import org.w3._2001.xmlschema.ObjectFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import java.util.List;
+import javax.swing.JFrame;
 import org.w3c.dom.Element;
 
 /**
@@ -207,6 +207,8 @@ public class Login extends javax.swing.JFrame {
                 Ventana_Principal ventana = new Ventana_Principal(usu);
                 ventana.setVisible(true);
                 ventana.setLocationRelativeTo(null);
+                dispose();
+                
             } else {
                 lblError.setText("La clave es incorrecta");
             }

@@ -7,6 +7,7 @@ package Vistas;
 
 import DTO.Usuario;
 
+
 /**
  *
  * @author Jorge
@@ -18,7 +19,8 @@ public class Ventana_Principal extends javax.swing.JFrame {
      */
     public Ventana_Principal(Usuario usu) {
         initComponents();
-        lblUsuario.setText("Bienvenido usuario " + usu.getRut());
+        lblUsuario.setText("Bienvenido " + usu.getRut());
+        
     }
 
     /**
@@ -37,7 +39,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnVolver.setText("Volver");
+        btnVolver.setText("Salir");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverActionPerformed(evt);
@@ -66,7 +68,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
                             .addComponent(jLabel1)
                             .addComponent(lblUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(264, Short.MAX_VALUE)
+                        .addContainerGap(274, Short.MAX_VALUE)
                         .addComponent(btnVolver)))
                 .addGap(73, 73, 73))
             .addGroup(layout.createSequentialGroup()
@@ -94,6 +96,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // Cierra la ventana para volver al inicio de sesión:
         this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnListarProductoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProductoresActionPerformed

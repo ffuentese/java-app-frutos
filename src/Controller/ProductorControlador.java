@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DTO.Direccion;
 import DTO.Productor;
 import DTO.Usuario;
 import Vistas.Listar_Productores;
@@ -34,6 +35,7 @@ import org.w3c.dom.NodeList;
 public class ProductorControlador {
     
     ArrayList<Productor> arrproductor=new ArrayList<>();
+    ArrayList<Direccion> arrdireccion= new ArrayList<>();
     
     public ArrayList<Productor> listaProductores(){
          try {
@@ -150,5 +152,105 @@ public class ProductorControlador {
              arrpro.add(pro);
         }
         return arrpro;
+    }
+    
+    private ArrayList<Direccion> getSOAPResponseListaDireccion(SOAPMessage soapResponse) throws Exception {
+        Direccion dir = new Direccion();
+        ArrayList<Direccion> arrpro = new ArrayList<>();
+        SOAPBody sb = soapResponse.getSOAPBody();
+        SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
+        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Direcciones_Sel_All");
+
+        Document XMLDoc = sb.extractContentAsDocument();
+        XPath xpath = XPathFactory.newInstance().newXPath();
+//        XPathExpression expr = xpath.compile("//Usuario");
+//        String result = String.class.cast(expr.evaluate(XMLDoc,
+//                XPathConstants.STRING));
+        NodeList nodeList = (NodeList) xpath.compile("//Direcciones").evaluate(XMLDoc, XPathConstants.NODESET);
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            org.w3c.dom.Node nNode = nodeList.item(i);
+            System.out.println("\nCurrent Element :"
+                    + nNode.getNodeName());
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+                System.out.println("Direccion : "
+                        + eElement.getAttribute("msdata:rowOrder"));
+                dir.setId_direccion(Integer.parseInt(eElement.getElementsByTagName("ID_DIRECCION").item(0).getTextContent()));
+                dir.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
+                dir.setNumero(eElement.getElementsByTagName("NUMERO").item(0).getTextContent());
+                dir.setId_comuna(Integer.parseInt(eElement.getElementsByTagName("ID_COMUNA").item(0).getTextContent()));
+                dir.setCoordenadaX(eElement.getElementsByTagName("COORDENADA_X").item(0).getTextContent());
+                dir.setCoordenadaX(eElement.getElementsByTagName("CORRDENADA_Y").item(0).getTextContent());
+//                pro.setRut(Integer.parseInt(eElement.getElementsByTagName("RUT").item(0).getTextContent()));
+//                pro.setDv(eElement.getElementsByTagName("DV").item(0).getTextContent().charAt(0));
+//                pro.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
+//                pro.setApellido(eElement.getElementsByTagName("APELLIDO").item(0).getTextContent());
+//                pro.setSexo(eElement.getElementsByTagName("SEXO").item(0).getTextContent().charAt(0));
+//                pro.setId_direccion_particular(Integer.parseInt(eElement.getElementsByTagName("ID_DIRECCIONPARTICULAR").item(0).getTextContent()));
+//                pro.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
+//                pro.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
+//                pro.setId_direccion_negocio(Integer.parseInt(eElement.getElementsByTagName("ID_DIRECCIONNEGOCIO").item(0).getTextContent()));
+//                pro.setMisma_direccion(Integer.parseInt(eElement.getElementsByTagName("MISMADIRECCION").item(0).getTextContent()));
+            }
+             arrdireccion.add(dir);
+                     }
+        return arrdireccion;
+    }
+    
+    private SOAPMessage createSOAPRequestListaDireccion() throws Exception {
+        MessageFactory messageFactory = MessageFactory.newInstance();
+        SOAPMessage soapMessage = messageFactory.createMessage();
+        SOAPPart soapPart = soapMessage.getSOAPPart();
+
+        String serverURI = "http://localhost/WebService";
+
+        // SOAP Envelope
+        SOAPEnvelope envelope = soapPart.getEnvelope();
+        envelope.addNamespaceDeclaration("web", serverURI);
+
+        // SOAP Body
+        SOAPBody soapBody = envelope.getBody();
+        SOAPElement soapBodyElem = soapBody.addChildElement("Direcciones_Sel_All", "web");
+        
+
+        MimeHeaders headers = soapMessage.getMimeHeaders();
+        headers.addHeader("SOAPAction", serverURI + "/Direcciones_Sel_All");
+
+        soapMessage.saveChanges();
+
+        /* Print the request message */
+        System.out.print("Request SOAP Message = ");
+        soapMessage.writeTo(System.out);
+        String x = soapMessage.toString();
+        System.out.println();
+
+        return soapMessage;
+    }
+    
+    public ArrayList<Direccion> listaDirecciones(){
+         try {
+            // Crea SOAP Connection
+            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+
+            // Envía Mensaje SOAP a Servidor SOAP 
+            String url = "http://localhost:49193/Service1.asmx";
+            SOAPMessage soapResponse = soapConnection.call(createSOAPRequestListaDireccion(), url);
+
+ 
+            // Recibe la respuesta SOAP y la procesa.
+            arrdireccion = getSOAPResponseListaDireccion(soapResponse);
+            
+            
+            
+
+            soapConnection.close();
+            return arrdireccion;
+        } catch (Exception e) {
+            System.err.println("Error occurred while sending SOAP Request to Server");
+            e.printStackTrace();
+            //lblError.setText("Hubo un error en la conexión con el servidor");
+        }
+         return null;
     }
 }

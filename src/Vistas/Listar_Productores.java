@@ -28,6 +28,15 @@ public class Listar_Productores extends javax.swing.JFrame {
             cmbListarproductores.addItem(arrpro.get(i));
         }
         
+        txtRut.setEnabled(false);
+        txtDv.setEnabled(false);
+        txtNombre.setEnabled(false);
+        txtApellido.setEnabled(false);
+        txtCorreo.setEnabled(false);
+        txtDireccioncomercial.setEnabled(false);
+        txtDireccionparticular.setEnabled(false);
+        txtSexo.setEnabled(false);
+        txtTelefono.setEnabled(false);
     }
 
     /**
@@ -62,6 +71,8 @@ public class Listar_Productores extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnVerStock = new javax.swing.JButton();
+        jLabel11 = new javax.swing.JLabel();
+        txtDv = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -121,6 +132,9 @@ public class Listar_Productores extends javax.swing.JFrame {
             }
         });
 
+        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel11.setText("-");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -154,12 +168,18 @@ public class Listar_Productores extends javax.swing.JFrame {
                                     .addComponent(jLabel5))
                                 .addGap(132, 132, 132)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cmbListarproductores, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(txtRut)
                                     .addComponent(txtApellido)
-                                    .addComponent(txtNombre)))
+                                    .addComponent(txtNombre)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cmbListarproductores, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(txtDv, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel7)
@@ -191,7 +211,9 @@ public class Listar_Productores extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(txtDv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(1, 1, 1)
@@ -229,7 +251,7 @@ public class Listar_Productores extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txtDireccioncomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addComponent(btnVolver)
                 .addContainerGap())
         );
@@ -240,6 +262,7 @@ public class Listar_Productores extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
         this.dispose();
+        
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
@@ -247,7 +270,28 @@ public class Listar_Productores extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
+        txtRut.setEnabled(true);
+        txtDv.setEnabled(true);
+        txtNombre.setEnabled(true);
+        txtApellido.setEnabled(true);
+        txtCorreo.setEnabled(true);
+        txtDireccioncomercial.setEnabled(true);
+        txtDireccionparticular.setEnabled(true);
+        txtSexo.setEnabled(true);
+        txtTelefono.setEnabled(true);
+        
+        int rut=Integer.parseInt(txtRut.getText().trim());
+        char dv=txtDv.getText().trim().charAt(0);
+        String nombre=txtNombre.getText();
+        String apellido = txtApellido.getText();
+        String correo = txtCorreo.getText();
+        int dirComercial=Integer.parseInt(txtDireccioncomercial.getText());
+        int dirParticular=Integer.parseInt(txtDireccionparticular.getText());
+        char sexo=txtSexo.getText().trim().charAt(0);
+        int telefono = Integer.parseInt(txtTelefono.getText());
+        
+        Productor produc=new Productor(rut, dv, nombre, apellido, sexo, dirParticular, telefono, correo, dirComercial, dirParticular);
+        
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnVerStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerStockActionPerformed
@@ -258,6 +302,7 @@ public class Listar_Productores extends javax.swing.JFrame {
         // TODO add your handling code here:
         Productor pro = ((Productor)cmbListarproductores.getSelectedItem());
         txtRut.setText(Integer.toString(pro.getRut()));
+        txtDv.setText(Character.toString(pro.getDv()));
         txtNombre.setText(pro.getNombre());
         txtApellido.setText(pro.getApellido());
         if(pro.getSexo() == 'M' || pro.getSexo() ==  'm'){
@@ -288,6 +333,7 @@ public class Listar_Productores extends javax.swing.JFrame {
     private javax.swing.JComboBox cmbListarproductores;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -300,6 +346,7 @@ public class Listar_Productores extends javax.swing.JFrame {
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtDireccioncomercial;
     private javax.swing.JTextField txtDireccionparticular;
+    private javax.swing.JTextField txtDv;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtRut;
     private javax.swing.JTextField txtSexo;
