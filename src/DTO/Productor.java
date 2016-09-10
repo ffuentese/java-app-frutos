@@ -15,6 +15,8 @@ public class Productor {
     private String nombre;
     private String apellido;
     private String sexo;
+    private String id_direccion_negocio;
+    private String id_direccion_particular;
     private String direccion_particular;
     private String numero_particular;
     private String comuna_particular;
@@ -28,6 +30,25 @@ public class Productor {
     public Productor() {
     }
 
+    public Productor(String rut, String dv, String nombre, String apellido, String sexo, String id_direccion_negocio, String id_direccion_particular, String direccion_particular, String numero_particular, String comuna_particular, String telefono, String correo, String direccion_negocio, String numero_negocio, String comuna_negocio, String misma_direccion) {
+        this.rut = rut;
+        this.dv = dv;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.sexo = sexo;
+        this.id_direccion_negocio = id_direccion_negocio;
+        this.id_direccion_particular = id_direccion_particular;
+        this.direccion_particular = direccion_particular;
+        this.numero_particular = numero_particular;
+        this.comuna_particular = comuna_particular;
+        this.telefono = telefono;
+        this.correo = correo;
+        this.direccion_negocio = direccion_negocio;
+        this.numero_negocio = numero_negocio;
+        this.comuna_negocio = comuna_negocio;
+        this.misma_direccion = misma_direccion;
+    }
+    
     public Productor(String rut, String dv, String nombre, String apellido, String sexo, String direccion_particular, String numero_particular, String comuna_particular, String telefono, String correo, String direccion_negocio, String numero_negocio, String comuna_negocio, String misma_direccion) {
         this.rut = rut;
         this.dv = dv;
@@ -45,6 +66,22 @@ public class Productor {
         this.misma_direccion = misma_direccion;
     }
 
+    public String getId_direccion_particular() {
+        return id_direccion_particular;
+    }
+
+    public void setId_direccion_particular(String id_direccion_particular) {
+        this.id_direccion_particular = id_direccion_particular;
+    }
+    
+    public String getId_direccion_negocio() {
+        return id_direccion_negocio;
+    }
+
+    public void setId_direccion_negocio(String id_direccion_negocio) {
+        this.id_direccion_negocio = id_direccion_negocio;
+    }
+    
     public String getRut() {
         return rut;
     }

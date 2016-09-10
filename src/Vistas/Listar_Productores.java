@@ -371,9 +371,11 @@ public class Listar_Productores extends javax.swing.JFrame {
         }else{
             mismaDireccion="0";
         }
-        
-        Productor produc=new Productor(rut, dv, nombre, apellido, sexo, dirParticular, numeroParticular, comunaParticular, telefono, correo, dirComercial, numeroComercial, comunaComercial,mismaDireccion);
+        Productor pro = ((Productor)cmbListarproductores.getSelectedItem());
+        Productor produc=new Productor(rut, dv, nombre, apellido, sexo, pro.getId_direccion_negocio(), pro.getId_direccion_particular(), dirParticular, numeroParticular, comunaParticular, telefono, correo, dirComercial, numeroComercial, comunaComercial, mismaDireccion);
+        prc.Update(produc);
         JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
+        
         }
     }
     
