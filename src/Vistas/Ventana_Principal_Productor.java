@@ -6,6 +6,7 @@
 package Vistas;
 
 import DTO.Usuario;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Windows 7
@@ -111,10 +112,14 @@ public class Ventana_Principal_Productor extends javax.swing.JFrame {
 
     private void btnDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosActionPerformed
         // TODO add your handling code here:
+        DatosProductor dp = new DatosProductor();
+        dp.setVisible(true);
+        dp.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnDatosActionPerformed
 
     private void btnMantenedorProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMantenedorProductosActionPerformed
         // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Pronto");
     }//GEN-LAST:event_btnMantenedorProductosActionPerformed
 
     /**

@@ -5,10 +5,15 @@
  */
 package Vistas;
 
+import Controller.DatosProdControlador;
 import Controller.ProductorControlador;
+import DAO.ComunaDAO;
+import DTO.Comuna;
 import DTO.Productor;
 import DTO.Usuario;
 import java.util.ArrayList;
+import java.util.Arrays;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -17,14 +22,22 @@ import javax.swing.JOptionPane;
  */
 public class DatosProductor extends javax.swing.JFrame {
 
-    ProductorControlador prc = new ProductorControlador();
+    DatosProdControlador dpc = new DatosProdControlador();
+    ComunaDAO cdao = new ComunaDAO();
+
     /**
      * Creates new form Ventana_Principal
      */
-    
     public DatosProductor() {
         initComponents();
-        
+        ArrayList<Comuna> arrcomuna = cdao.listaComunas();
+        for (int i=0; i<arrcomuna.size();i++){
+            System.out.println(arrcomuna.get(i).getNombre());
+        }
+        DefaultComboBoxModel modelComunaCom = new DefaultComboBoxModel(cdao.listaComunas().toArray());
+        DefaultComboBoxModel modelComunaPar = new DefaultComboBoxModel(cdao.listaComunas().toArray());
+        cbComunaCom.setModel(modelComunaCom);
+        cbComunaPart.setModel(modelComunaPar);
         txtRut.setEnabled(false);
         txtDv.setEnabled(false);
         txtNombre.setEnabled(false);
@@ -139,10 +152,6 @@ public class DatosProductor extends javax.swing.JFrame {
         jLabel16.setText("NUEVA CONTRASEÑA:");
 
         jLabel17.setText("CONFIRMAR CONTRASEÑA:");
-
-        cbComunaPart.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        cbComunaCom.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -290,71 +299,76 @@ public class DatosProductor extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        
+
     }//GEN-LAST:event_btnVolverActionPerformed
 
-    
+
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
 
-        if(btnModificar.getText()=="MODIFICAR"){
-        btnModificar.setText("GUARDAR");
-        txtRut.setEnabled(true);
-        txtDv.setEnabled(true);
-        txtNombre.setEnabled(true);
-        txtApellido.setEnabled(true);
-        txtCorreo.setEnabled(true);
-        txtDireccioncomercial.setEnabled(true);
-        txtNumerocomercial.setEnabled(true);
-        txtComunacomercial.setEnabled(true);
-        txtDireccionparticular.setEnabled(true);
-        txtNumeroparticular.setEnabled(true);
-        txtComunaparticular.setEnabled(true);
-        rbnFemenino.setEnabled(true);
-        rbnMasculino.setEnabled(true);
-        txtTelefono.setEnabled(true);
-        }else{
-        if(btnModificar.getText()=="GUARDAR"){
-        String rut=txtRut.getText().trim();
-        String dv=txtDv.getText().trim();
-        String nombre=txtNombre.getText();
-        String apellido = txtApellido.getText();
-        String correo = txtCorreo.getText();
-        String dirComercial=txtDireccioncomercial.getText();
-        String numeroComercial=txtNumerocomercial.getText();
-        String comunaComercial=txtComunacomercial.getText();
-        String dirParticular=txtDireccionparticular.getText();
-        String numeroParticular=txtNumeroparticular.getText();
-        String comunaParticular=txtComunaparticular.getText();
-        String sexo="";
-        String mismaDireccion="";
-        if (rbnMasculino.isSelected()){
-            sexo="M";
-        }else{
-            if(rbnFemenino.isSelected()){
-                sexo="F";
-            }else{
-                JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR SEXO");
+        if (btnModificar.getText() == "MODIFICAR") {
+            btnModificar.setText("GUARDAR");
+            txtRut.setEnabled(true);
+            txtDv.setEnabled(true);
+            txtNombre.setEnabled(true);
+            txtApellido.setEnabled(true);
+            txtCorreo.setEnabled(true);
+            txtDireccioncomercial.setEnabled(true);
+            txtNumerocomercial.setEnabled(true);
+            txtDireccionparticular.setEnabled(true);
+            txtNumeroparticular.setEnabled(true);
+            rbnFemenino.setEnabled(true);
+            rbnMasculino.setEnabled(true);
+            txtTelefono.setEnabled(true);
+        } else {
+            if (btnModificar.getText() == "GUARDAR") {
+                String rut = txtRut.getText().trim();
+                String dv = txtDv.getText().trim();
+                String nombre = txtNombre.getText();
+                String apellido = txtApellido.getText();
+                String correo = txtCorreo.getText();
+                String dirComercial = txtDireccioncomercial.getText();
+                String numeroComercial = txtNumerocomercial.getText();
+                String comunaComercial = Integer.toString(((Comuna) cbComunaCom.getSelectedItem()).getId_comuna());
+                String dirParticular = txtDireccionparticular.getText();
+                String numeroParticular = txtNumeroparticular.getText();
+                String comunaParticular = Integer.toString(((Comuna) cbComunaPart.getSelectedItem()).getId_comuna());
+                String sexo = "";
+                String mismaDireccion = "";
+                if (rbnMasculino.isSelected()) {
+                    sexo = "M";
+                } else {
+                    if (rbnFemenino.isSelected()) {
+                        sexo = "F";
+                    } else {
+                        JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR SEXO");
+                    }
+                }
+                String telefono = txtTelefono.getText();
+                if (dirComercial.compareToIgnoreCase(dirParticular) == 0 & numeroComercial.compareToIgnoreCase(numeroParticular) == 0
+                        & comunaComercial.compareToIgnoreCase(comunaParticular) == 0) {
+                    mismaDireccion = "1";
+                } else {
+                    mismaDireccion = "0";
+                }
+
+                Productor produc = new Productor(rut, dv, nombre, apellido, sexo, dirParticular, numeroParticular, comunaParticular, telefono, correo, dirComercial, numeroComercial, comunaComercial, mismaDireccion);
+
+                if (txtPassword1.getPassword() != null) {
+                    if (!(Arrays.equals(txtPassword1.getPassword(), txtPassword2.getPassword()))) {
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "LAS CONTRASEÑAS NO COINCIDEN");
+                    }
+                }
+                JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
             }
         }
-        String telefono = txtTelefono.getText();
-        if(dirComercial.compareToIgnoreCase(dirParticular)==0&numeroComercial.compareToIgnoreCase(numeroParticular)==0
-                &comunaComercial.compareToIgnoreCase(comunaParticular)==0){
-            mismaDireccion="1";
-        }else{
-            mismaDireccion="0";
-        }
-        
-        Productor produc=new Productor(rut, dv, nombre, apellido, sexo, dirParticular, numeroParticular, comunaParticular, telefono, correo, dirComercial, numeroComercial, comunaComercial,mismaDireccion);
-        JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
-        }
-    }
-    
+
     }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnModificar;
