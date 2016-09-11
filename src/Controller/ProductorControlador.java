@@ -160,7 +160,7 @@ public class ProductorControlador {
         return arrpro;
     }
     
-    public String Update(Productor pro){
+    public void Update(Productor pro){
         try {
             // Crea SOAP Connection
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
@@ -173,15 +173,16 @@ public class ProductorControlador {
  
             // Recibe la respuesta SOAP y la procesa.
             //arrproductor = getSOAPResponseListaProd(soapResponse);
+            
           
             soapConnection.close();
-            //return arrproductor;
+            
         } catch (Exception e) {
             System.err.println("Error occurred while sending SOAP Request to Server");
             e.printStackTrace();
             //lblError.setText("Hubo un error en la conexión con el servidor");
         }
-         return null;
+         
     }
         
     private SOAPMessage createSOAPRequestupdprod(Productor p) throws Exception {
@@ -264,11 +265,11 @@ public class ProductorControlador {
 //                Element eElement = (Element) nNode;
 //                System.out.println("PRODUCTOR : "
 //                        + eElement.getAttribute("msdata:rowOrder"));
-//                pro.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
+//                pro.setRut(eElement.getElementsByTagName("").item(0).getTextContent());
 //            }
-//             arrpro.add(pro);
+//             
 //        }
-//        return ;
+//        return pro.getRut();
 //    }
         
         
