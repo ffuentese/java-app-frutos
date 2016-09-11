@@ -43,6 +43,8 @@ public class Listar_Productores extends javax.swing.JFrame {
         rbnFemenino.setEnabled(false);
         rbnMasculino.setEnabled(false);
         txtTelefono.setEnabled(false);
+        txtRegioncomercial.setEnabled(false);
+        txtRegionparticular.setEnabled(false);
     }
 
     /**
@@ -89,6 +91,10 @@ public class Listar_Productores extends javax.swing.JFrame {
         txtNumerocomercial = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         txtComunacomercial = new javax.swing.JTextField();
+        jLabel16 = new javax.swing.JLabel();
+        txtRegionparticular = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        txtRegioncomercial = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -165,6 +171,10 @@ public class Listar_Productores extends javax.swing.JFrame {
 
         jLabel15.setText("COMUNA:");
 
+        jLabel16.setText("REGION");
+
+        jLabel17.setText("REGION");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -203,7 +213,7 @@ public class Listar_Productores extends javax.swing.JFrame {
                                         .addComponent(jLabel5)
                                         .addGap(18, 18, 18)
                                         .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 44, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -231,24 +241,35 @@ public class Listar_Productores extends javax.swing.JFrame {
                                     .addGap(18, 18, 18)
                                     .addComponent(jLabel12)
                                     .addGap(18, 18, 18)
-                                    .addComponent(txtNumeroparticular, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jLabel13)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtComunaparticular, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtNumeroparticular, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jLabel6)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel10)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtDireccioncomercial, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel14)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtNumerocomercial, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jLabel15)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtComunacomercial, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(jLabel15)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtComunacomercial, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel17)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtRegioncomercial))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel13)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtComunaparticular, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel16)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtRegionparticular))
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jLabel10)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtDireccioncomercial, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                                            .addComponent(jLabel14)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(txtNumerocomercial, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGap(148, 148, 148))))
                         .addContainerGap(44, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -288,24 +309,34 @@ public class Listar_Productores extends javax.swing.JFrame {
                     .addComponent(jLabel7)
                     .addComponent(txtDireccionparticular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12)
-                    .addComponent(txtNumeroparticular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNumeroparticular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(txtComunaparticular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtComunaparticular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel16)
+                    .addComponent(txtRegionparticular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
                     .addComponent(txtDireccioncomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel14)
-                    .addComponent(txtNumerocomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15)
-                    .addComponent(txtComunacomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNumerocomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel17)
+                        .addComponent(txtRegioncomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel15)
+                        .addComponent(txtComunacomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVerStock)
                     .addComponent(btnModificar)
                     .addComponent(btnEliminar)
                     .addComponent(btnVolver))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addGap(23, 23, 23))
         );
 
         pack();
@@ -326,8 +357,6 @@ public class Listar_Productores extends javax.swing.JFrame {
 
         if(btnModificar.getText()=="MODIFICAR"){
         btnModificar.setText("GUARDAR");
-        txtRut.setEnabled(true);
-        txtDv.setEnabled(true);
         txtNombre.setEnabled(true);
         txtApellido.setEnabled(true);
         txtCorreo.setEnabled(true);
@@ -340,6 +369,8 @@ public class Listar_Productores extends javax.swing.JFrame {
         rbnFemenino.setEnabled(true);
         rbnMasculino.setEnabled(true);
         txtTelefono.setEnabled(true);
+        txtRegioncomercial.setEnabled(true);
+        txtRegionparticular.setEnabled(true);
         }else{
         if(btnModificar.getText()=="GUARDAR"){
         String rut=txtRut.getText().trim();
@@ -365,6 +396,8 @@ public class Listar_Productores extends javax.swing.JFrame {
             }
         }
         String telefono = txtTelefono.getText();
+        String regionparticular=txtRegionparticular.getText();
+        String regioncomercial=txtRegioncomercial.getText();
         if(dirComercial.compareToIgnoreCase(dirParticular)==0&numeroComercial.compareToIgnoreCase(numeroParticular)==0
                 &comunaComercial.compareToIgnoreCase(comunaParticular)==0){
             mismaDireccion="1";
@@ -372,7 +405,7 @@ public class Listar_Productores extends javax.swing.JFrame {
             mismaDireccion="0";
         }
         Productor pro = ((Productor)cmbListarproductores.getSelectedItem());
-        Productor produc=new Productor(rut, dv, nombre, apellido, sexo, pro.getId_direccion_negocio(), pro.getId_direccion_particular(), dirParticular, numeroParticular, comunaParticular, telefono, correo, dirComercial, numeroComercial, comunaComercial, mismaDireccion);
+        Productor produc=new Productor(rut, dv, nombre, apellido, sexo, pro.getId_direccion_negocio(), pro.getId_direccion_particular(), dirParticular, numeroParticular, comunaParticular, telefono, correo, regioncomercial, numeroComercial, comunaComercial, mismaDireccion, pro.getId_regioncomercial(), regioncomercial, pro.getId_regionparticular(), regionparticular);
         prc.Update(produc);
         
         JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
@@ -413,6 +446,8 @@ public class Listar_Productores extends javax.swing.JFrame {
         txtDireccioncomercial.setText(pro.getDireccion_negocio());
         txtNumerocomercial.setText(pro.getNumero_negocio());
         txtComunacomercial.setText(pro.getComuna_negocio());
+        txtRegioncomercial.setText(pro.getRegioncomercial());
+        txtRegionparticular.setText(pro.getRegionparticular());
         
         
     }//GEN-LAST:event_cmbListarproductoresActionPerformed
@@ -436,6 +471,8 @@ public class Listar_Productores extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -456,6 +493,8 @@ public class Listar_Productores extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNumerocomercial;
     private javax.swing.JTextField txtNumeroparticular;
+    private javax.swing.JTextField txtRegioncomercial;
+    private javax.swing.JTextField txtRegionparticular;
     private javax.swing.JTextField txtRut;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables
