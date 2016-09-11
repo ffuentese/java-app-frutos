@@ -153,6 +153,10 @@ public class ProductorControlador {
                 pro.setDireccion_negocio(eElement.getElementsByTagName("NOMBREN").item(0).getTextContent());
                 pro.setNumero_negocio(eElement.getElementsByTagName("NUMERO1").item(0).getTextContent());
                 pro.setComuna_negocio(eElement.getElementsByTagName("NOMBRE2").item(0).getTextContent());
+                pro.setId_regioncomercial(eElement.getElementsByTagName("ID_REG1").item(0).getTextContent());
+                pro.setId_regionparticular(eElement.getElementsByTagName("ID_REG").item(0).getTextContent());
+                pro.setRegioncomercial(eElement.getElementsByTagName("REGION1").item(0).getTextContent());
+                pro.setRegionparticular(eElement.getElementsByTagName("REGION").item(0).getTextContent());
                 //pro.setMisma_direccion(eElement.getElementsByTagName("MISMADIRECCION").item(0).getTextContent());
             }
              arrpro.add(pro);
@@ -216,19 +220,19 @@ public class ProductorControlador {
         SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("dv", "web");
         soapBodyElem2.addTextNode(p.getDv());
         SOAPElement soapBodyElem3 = soapBodyElem.addChildElement("nombre", "web");
-        soapBodyElem2.addTextNode(p.getNombre());
+        soapBodyElem3.addTextNode(p.getNombre());
         SOAPElement soapBodyElem4 = soapBodyElem.addChildElement("apellido", "web");
-        soapBodyElem2.addTextNode(p.getApellido());
+        soapBodyElem4.addTextNode(p.getApellido());
         SOAPElement soapBodyElem5 = soapBodyElem.addChildElement("sexo", "web");
-        soapBodyElem2.addTextNode(p.getSexo());
+        soapBodyElem5.addTextNode(p.getSexo());
         SOAPElement soapBodyElem6 = soapBodyElem.addChildElement("id_direccionparticular", "web");
-        soapBodyElem2.addTextNode(p.getId_direccion_particular());
+        soapBodyElem6.addTextNode(p.getId_direccion_particular());
         SOAPElement soapBodyElem7 = soapBodyElem.addChildElement("correo", "web");
-        soapBodyElem2.addTextNode(p.getCorreo());
+        soapBodyElem7.addTextNode(p.getCorreo());
         SOAPElement soapBodyElem8 = soapBodyElem.addChildElement("id_direccionnegocio", "web");
-        soapBodyElem2.addTextNode(p.getId_direccion_negocio());
+        soapBodyElem8.addTextNode(p.getId_direccion_negocio());
         SOAPElement soapBodyElem9 = soapBodyElem.addChildElement("mismadireccion", "web");
-        soapBodyElem2.addTextNode(p.getMisma_direccion());
+        soapBodyElem9.addTextNode(p.getMisma_direccion());
         
 
         MimeHeaders headers = soapMessage.getMimeHeaders();
