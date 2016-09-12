@@ -12,11 +12,12 @@ import javax.swing.JOptionPane;
  * @author Windows 7
  */
 public class Ventana_Principal_Productor extends javax.swing.JFrame {
-
+Usuario usuario = new Usuario();
     /**
      * Creates new form Ventana_Principal_Productor
      */
     public Ventana_Principal_Productor(Usuario usu) {
+        usuario = usu;
         initComponents();
         lblUsuario.setText("Bienvenido " + usu.getRut());
     }
@@ -112,7 +113,7 @@ public class Ventana_Principal_Productor extends javax.swing.JFrame {
 
     private void btnDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosActionPerformed
         // TODO add your handling code here:
-        DatosProductor dp = new DatosProductor();
+        DatosProductor dp = new DatosProductor(usuario);
         dp.setVisible(true);
         dp.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnDatosActionPerformed

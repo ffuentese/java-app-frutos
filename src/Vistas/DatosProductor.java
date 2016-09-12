@@ -24,32 +24,57 @@ public class DatosProductor extends javax.swing.JFrame {
 
     DatosProdControlador dpc = new DatosProdControlador();
     ComunaDAO cdao = new ComunaDAO();
+    Productor pro = new Productor();
 
     /**
      * Creates new form Ventana_Principal
+     *
+     * @param usu
      */
-    public DatosProductor() {
+    public DatosProductor(Usuario usu) {
         initComponents();
         ArrayList<Comuna> arrcomuna = cdao.listaComunas();
-        for (int i=0; i<arrcomuna.size();i++){
-            System.out.println(arrcomuna.get(i).getNombre());
-        }
-        DefaultComboBoxModel modelComunaCom = new DefaultComboBoxModel(cdao.listaComunas().toArray());
-        DefaultComboBoxModel modelComunaPar = new DefaultComboBoxModel(cdao.listaComunas().toArray());
+        pro = dpc.getProductor(usu.getRut());
+        DefaultComboBoxModel modelComunaCom = new DefaultComboBoxModel(arrcomuna.toArray());
+        DefaultComboBoxModel modelComunaPar = new DefaultComboBoxModel(arrcomuna.toArray());
         cbComunaCom.setModel(modelComunaCom);
         cbComunaPart.setModel(modelComunaPar);
+        txtRut.setText(pro.getRut());
         txtRut.setEnabled(false);
+        txtDv.setText(pro.getDv());
         txtDv.setEnabled(false);
+        txtNombre.setText(pro.getNombre());
         txtNombre.setEnabled(false);
+        txtApellido.setText(pro.getApellido());
         txtApellido.setEnabled(false);
+        txtCorreo.setText(pro.getCorreo());
         txtCorreo.setEnabled(false);
+        txtDireccioncomercial.setText(pro.getDireccion_negocio());
         txtDireccioncomercial.setEnabled(false);
+        txtNumerocomercial.setText(pro.getNumero_negocio());
         txtNumerocomercial.setEnabled(false);
+        txtDireccionparticular.setText(pro.getDireccion_particular());
         txtDireccionparticular.setEnabled(false);
+        txtNumeroparticular.setText(pro.getNumero_particular());
         txtNumeroparticular.setEnabled(false);
+        if (pro.getSexo().compareTo("M") == 0) {
+            rbnMasculino.setSelected(true);
+        }
+        if (pro.getSexo().compareTo("F") == 0) {
+            rbnFemenino.setSelected(true);
+        }
         rbnFemenino.setEnabled(false);
         rbnMasculino.setEnabled(false);
+        txtTelefono.setText(pro.getTelefono());
         txtTelefono.setEnabled(false);
+        Comuna comn = new Comuna();
+        comn.setNombre(pro.getComuna_negocio());
+        comn.setId_region(Integer.parseInt(pro.getId_regioncomercial()));
+        cbComunaCom.setSelectedItem(comn);
+        Comuna comp = new Comuna();
+        comp.setNombre(pro.getComuna_particular());
+        comp.setId_region(Integer.parseInt(pro.getId_regionparticular()));
+        cbComunaPart.setSelectedItem(comp);
     }
 
     /**
@@ -175,7 +200,7 @@ public class DatosProductor extends javax.swing.JFrame {
                                 .addComponent(jLabel5)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 18, Short.MAX_VALUE))
+                        .addGap(0, 92, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -234,7 +259,7 @@ public class DatosProductor extends javax.swing.JFrame {
                                     .addComponent(jLabel17)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(52, Short.MAX_VALUE))))
+                        .addContainerGap(126, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -290,7 +315,7 @@ public class DatosProductor extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificar)
                     .addComponent(btnVolver))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(65, Short.MAX_VALUE))
         );
 
         pack();
@@ -305,10 +330,10 @@ public class DatosProductor extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
 
-        if (btnModificar.getText() == "MODIFICAR") {
+        if (btnModificar.getText().compareTo("MODIFICAR") == 0) {
             btnModificar.setText("GUARDAR");
-            txtRut.setEnabled(true);
-            txtDv.setEnabled(true);
+//            txtRut.setEnabled(true);
+//            txtDv.setEnabled(true);
             txtNombre.setEnabled(true);
             txtApellido.setEnabled(true);
             txtCorreo.setEnabled(true);
@@ -320,7 +345,7 @@ public class DatosProductor extends javax.swing.JFrame {
             rbnMasculino.setEnabled(true);
             txtTelefono.setEnabled(true);
         } else {
-            if (btnModificar.getText() == "GUARDAR") {
+            if (btnModificar.getText().compareTo("GUARDAR") == 0) {
                 String rut = txtRut.getText().trim();
                 String dv = txtDv.getText().trim();
                 String nombre = txtNombre.getText();
@@ -351,16 +376,27 @@ public class DatosProductor extends javax.swing.JFrame {
                     mismaDireccion = "0";
                 }
 
-                Productor produc = new Productor(rut, dv, nombre, apellido, sexo, dirParticular, numeroParticular, comunaParticular, telefono, correo, dirComercial, numeroComercial, comunaComercial, mismaDireccion);
+                Productor produc=new Productor(rut, dv, nombre, apellido, sexo, 
+                        pro.getId_direccion_negocio(), pro.getId_direccion_particular(), 
+                        dirParticular, numeroParticular, comunaParticular, 
+                        telefono, correo, dirComercial, numeroComercial,
+                        comunaComercial, mismaDireccion, pro.getId_regioncomercial(),
+                        pro.getRegioncomercial(), pro.getId_regionparticular(), pro.getRegionparticular());
 
-                if (txtPassword1.getPassword() != null) {
+                if (dpc.Update(produc)) {
+                    JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
+                } else {
+                    JOptionPane.showMessageDialog(null, "HUBO UN PROBLEMA EN LA ACTUALIZACIÓN");
+                }
+                ;
+                if (txtPassword1.getPassword() != null && txtPassword2.getPassword() != null) {
                     if (!(Arrays.equals(txtPassword1.getPassword(), txtPassword2.getPassword()))) {
-
-                    } else {
                         JOptionPane.showMessageDialog(null, "LAS CONTRASEÑAS NO COINCIDEN");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "POR IMPLEMENTAR");
                     }
                 }
-                JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
+
             }
         }
 

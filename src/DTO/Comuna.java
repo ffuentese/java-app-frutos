@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package DTO;
+
+import java.util.Objects;
 
 /**
  *
  * @author Francisco
  */
 public class Comuna {
+
     private int id_comuna;
     private String nombre;
     private int id_region;
@@ -52,7 +54,22 @@ public class Comuna {
     public String toString() {
         return nombre;
     }
-    
-    
-    
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Comuna) {
+            if(((Comuna)o).nombre.compareTo(nombre) == 0){
+            return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.nombre);
+        return hash;
+    }
+
 }

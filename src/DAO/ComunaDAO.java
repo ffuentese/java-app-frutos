@@ -123,8 +123,8 @@ public class ComunaDAO {
 //                    + nNode.getNodeName());
             if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                 Element eElement = (Element) nNode;
-                System.out.println("COMUNA : "
-                        + eElement.getAttribute("msdata:rowOrder"));
+//                System.out.println("COMUNA : "
+//                        + eElement.getAttribute("msdata:rowOrder"));
                 int val = Integer.parseInt(eElement.getAttribute("msdata:rowOrder"));
                 Comuna com = new Comuna();
 //                usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
@@ -133,7 +133,6 @@ public class ComunaDAO {
                 com.setId_comuna(Integer.parseInt(eElement.getElementsByTagName("ID_COMUNA").item(0).getTextContent()));
                 com.setId_region(Integer.parseInt(eElement.getElementsByTagName("ID_REGION").item(0).getTextContent()));
                 com.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
-                System.out.println(com);
                 arrcom.add(com);
             }
              
