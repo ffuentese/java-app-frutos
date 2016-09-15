@@ -5,6 +5,7 @@
  */
 package Controller;
 
+import DTO.Direccion;
 import DTO.Productor;
 import DTO.Usuario;
 import Vistas.Ventana_Principal;
@@ -229,16 +230,100 @@ public class DatosProdControlador {
         soapBodyElem5.addTextNode(p.getSexo());
         SOAPElement soapBodyElem6 = soapBodyElem.addChildElement("id_direccionparticular", "web");
         soapBodyElem6.addTextNode(p.getId_direccion_particular());
-        SOAPElement soapBodyElem7 = soapBodyElem.addChildElement("correo", "web");
-        soapBodyElem7.addTextNode(p.getCorreo());
-        SOAPElement soapBodyElem8 = soapBodyElem.addChildElement("id_direccionnegocio", "web");
-        soapBodyElem8.addTextNode(p.getId_direccion_negocio());
-        SOAPElement soapBodyElem9 = soapBodyElem.addChildElement("mismadireccion", "web");
-        soapBodyElem9.addTextNode(p.getMisma_direccion());
+        SOAPElement soapBodyElem7 = soapBodyElem.addChildElement("telefono", "web");
+        soapBodyElem7.addTextNode(p.getTelefono());
+        SOAPElement soapBodyElem8 = soapBodyElem.addChildElement("correo", "web");
+        soapBodyElem8.addTextNode(p.getCorreo());
+        SOAPElement soapBodyElem9 = soapBodyElem.addChildElement("id_direccionnegocio", "web");
+        soapBodyElem9.addTextNode(p.getId_direccion_negocio());
+        SOAPElement soapBodyElem10 = soapBodyElem.addChildElement("mismadireccion", "web");
+        soapBodyElem10.addTextNode(p.getMisma_direccion());
         
 
         MimeHeaders headers = soapMessage.getMimeHeaders();
         headers.addHeader("SOAPAction", serverURI + "/Productor_upd");
+
+        soapMessage.saveChanges();
+
+        /* Print the request message */
+        System.out.print("Request SOAP Message = ");
+        soapMessage.writeTo(System.out);
+        String x = soapMessage.toString();
+        System.out.println();
+
+        return soapMessage;
+    }
+
+    
+    public boolean UpdateDireccion(Direccion dir){
+        try {
+            // Crea SOAP Connection
+            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+
+            // Envía Mensaje SOAP a Servidor SOAP 
+            String url = "http://localhost:49193/Service1.asmx";
+            SOAPMessage soapResponse = soapConnection.call(createSOAPRequestUpdDir(dir), url);
+
+ 
+            // Recibe la respuesta SOAP y la procesa.
+            //arrproductor = getSOAPResponseListaProd(soapResponse);
+            
+            
+            soapConnection.close();
+            return true;
+            
+        } catch (Exception e) {
+            System.err.println("Hubo un error en la conexión con el servidor");
+            e.printStackTrace();
+            return false;
+            //lblError.setText("Hubo un error en la conexión con el servidor");
+        }
+         
+    }
+        
+    private SOAPMessage createSOAPRequestUpdDir(Direccion d) throws Exception {
+        MessageFactory messageFactory = MessageFactory.newInstance();
+        SOAPMessage soapMessage = messageFactory.createMessage();
+        SOAPPart soapPart = soapMessage.getSOAPPart();
+
+        String serverURI = "http://localhost/WebService";
+
+        // SOAP Envelope
+        SOAPEnvelope envelope = soapPart.getEnvelope();
+        envelope.addNamespaceDeclaration("web", serverURI);
+
+        /*
+         Constructed SOAP Request Message:
+         <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:example="http://ws.cdyne.com/">
+         <SOAP-ENV:Header/>
+         <SOAP-ENV:Body>
+         <example:VerifyEmail>
+         <example:email>mutantninja@gmail.com</example:email>
+         <example:LicenseKey>123</example:LicenseKey>
+         </example:VerifyEmail>
+         </SOAP-ENV:Body>
+         </SOAP-ENV:Envelope>
+         */
+        // SOAP Body
+        SOAPBody soapBody = envelope.getBody();
+        SOAPElement soapBodyElem = soapBody.addChildElement("Direccion_upd", "web");
+        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("id_direccion", "web");
+        soapBodyElem1.addTextNode(Integer.toString(d.getId_direccion()));
+        SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("nombre", "web");
+        soapBodyElem2.addTextNode(d.getNombre());
+        SOAPElement soapBodyElem3 = soapBodyElem.addChildElement("numero", "web");
+        soapBodyElem3.addTextNode(d.getNumero());
+        SOAPElement soapBodyElem4 = soapBodyElem.addChildElement("id_comuna", "web");
+        soapBodyElem4.addTextNode(Integer.toString(d.getId_comuna()));
+        SOAPElement soapBodyElem5 = soapBodyElem.addChildElement("coordenadaX", "web");
+        soapBodyElem5.addTextNode(d.getCoordenadaX());
+        SOAPElement soapBodyElem6 = soapBodyElem.addChildElement("coordenadaY", "web");
+        soapBodyElem6.addTextNode(d.getCoordenadaY());
+        
+
+        MimeHeaders headers = soapMessage.getMimeHeaders();
+        headers.addHeader("SOAPAction", serverURI + "/Direccion_upd");
 
         soapMessage.saveChanges();
 
