@@ -26,15 +26,15 @@ public class Productor {
     private String numero_negocio;
     private String comuna_negocio;
     private String misma_direccion;
-    private String id_regionparticular;
+    private String id_comunaparticular;
     private String regionparticular;
-    private String id_regioncomercial;
+    private String id_comunanegocio;
     private String regioncomercial;
 
     public Productor() {
     }
 
-    public Productor(String rut, String dv, String nombre, String apellido, String sexo, String id_direccion_negocio, String id_direccion_particular, String direccion_particular, String numero_particular, String comuna_particular, String telefono, String correo, String direccion_negocio, String numero_negocio, String comuna_negocio, String misma_direccion, String id_regioncomercial, String regioncomercial,String id_regionparticular, String regionparticular) {
+    public Productor(String rut, String dv, String nombre, String apellido, String sexo, String id_direccion_negocio, String id_direccion_particular, String direccion_particular, String numero_particular, String comuna_particular, String telefono, String correo, String direccion_negocio, String numero_negocio, String comuna_negocio, String misma_direccion, String id_comunaparticular, String regionparticular, String id_comunanegocio, String regioncomercial) {
         this.rut = rut;
         this.dv = dv;
         this.nombre = nombre;
@@ -51,11 +51,13 @@ public class Productor {
         this.numero_negocio = numero_negocio;
         this.comuna_negocio = comuna_negocio;
         this.misma_direccion = misma_direccion;
-        this.id_regionparticular = id_regionparticular;
+        this.id_comunaparticular = id_comunaparticular;
         this.regionparticular = regionparticular;
-        this.id_regioncomercial = id_regioncomercial;
+        this.id_comunanegocio = id_comunanegocio;
         this.regioncomercial = regioncomercial;
     }
+
+    
 
     
     
@@ -95,28 +97,12 @@ public class Productor {
         this.misma_direccion = misma_direccion;
     }
 
-    public String getId_regionparticular() {
-        return id_regionparticular;
-    }
-
-    public void setId_regionparticular(String id_regionparticular) {
-        this.id_regionparticular = id_regionparticular;
-    }
-
     public String getRegionparticular() {
         return regionparticular;
     }
 
     public void setRegionparticular(String regionparticular) {
         this.regionparticular = regionparticular;
-    }
-
-    public String getId_regioncomercial() {
-        return id_regioncomercial;
-    }
-
-    public void setId_regioncomercial(String id_regioncomercial) {
-        this.id_regioncomercial = id_regioncomercial;
     }
 
     public String getRegioncomercial() {
@@ -253,6 +239,22 @@ public class Productor {
 
     public void setMisma_direccion(String misma_direccion) {
         this.misma_direccion = misma_direccion;
+    }
+
+    public String getId_comunaparticular() {
+        return id_comunaparticular;
+    }
+
+    public void setId_comunaparticular(String id_comunaparticular) {
+        this.id_comunaparticular = id_comunaparticular;
+    }
+
+    public String getId_comunanegocio() {
+        return id_comunanegocio;
+    }
+
+    public void setId_comunanegocio(String id_comunanegocio) {
+        this.id_comunanegocio = id_comunanegocio;
     }
 
     

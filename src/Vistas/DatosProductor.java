@@ -70,11 +70,11 @@ public class DatosProductor extends javax.swing.JFrame {
         txtTelefono.setEnabled(false);
         Comuna comn = new Comuna();
         comn.setNombre(pro.getComuna_negocio());
-        comn.setId_region(Integer.parseInt(pro.getId_regioncomercial()));
+        comn.setId_comuna(Integer.parseInt(pro.getId_comunanegocio()));
         cbComunaCom.setSelectedItem(comn);
         Comuna comp = new Comuna();
         comp.setNombre(pro.getComuna_particular());
-        comp.setId_region(Integer.parseInt(pro.getId_regionparticular()));
+        comp.setId_comuna(Integer.parseInt(pro.getId_comunaparticular()));
         cbComunaPart.setSelectedItem(comp);
     }
 
@@ -381,8 +381,8 @@ public class DatosProductor extends javax.swing.JFrame {
                         pro.getId_direccion_negocio(), pro.getId_direccion_particular(),
                         dirParticular, numeroParticular, comunaParticular,
                         telefono, correo, dirComercial, numeroComercial,
-                        comunaComercial, mismaDireccion, pro.getId_regioncomercial(),
-                        pro.getRegioncomercial(), pro.getId_regionparticular(), pro.getRegionparticular());
+                        comunaComercial, mismaDireccion, pro.getId_comunanegocio(),
+                        pro.getRegioncomercial(), pro.getId_comunaparticular(), pro.getRegionparticular());
 
                 Direccion dirPart = new Direccion();
                 Direccion dirCom = new Direccion();
