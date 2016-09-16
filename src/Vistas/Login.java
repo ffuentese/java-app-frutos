@@ -30,6 +30,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import java.util.List;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import org.w3c.dom.Element;
 
 /**
@@ -46,7 +49,21 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        try {
+            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Ventana_Principal_Productor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(Ventana_Principal_Productor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(Ventana_Principal_Productor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedLookAndFeelException ex) {
+            Logger.getLogger(Ventana_Principal_Productor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        SwingUtilities.updateComponentTreeUI(this);
         txtRut.requestFocus();
+
     }
 
     /**
@@ -190,7 +207,6 @@ public class Login extends javax.swing.JFrame {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
         try {
             // Crea SOAP Connection
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
@@ -200,30 +216,29 @@ public class Login extends javax.swing.JFrame {
             String url = "http://localhost:49193/Service1.asmx";
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(user, password), url);
 
- 
             // Recibe la respuesta SOAP y la procesa.
             Usuario usu = getSOAPResponse(soapResponse);
             //valida el usuario
             if (usu.getRut() != null) {
                 //valida el tipo de usuario 
-                if(usu.getId_tipo_perfil()==3){
-                Ventana_Principal ventana = new Ventana_Principal(usu);
-                ventana.setVisible(true);
-                ventana.setLocationRelativeTo(null);
-               
-                dispose();
-                }else{
-                    if(usu.getId_tipo_perfil()==2){
+                if (usu.getId_tipo_perfil() == 3) {
+                    Ventana_Principal ventana = new Ventana_Principal(usu);
+                    ventana.setVisible(true);
+                    ventana.setLocationRelativeTo(null);
+
+                    dispose();
+                } else {
+                    if (usu.getId_tipo_perfil() == 2) {
                         Ventana_Principal_Productor ventana_prod = new Ventana_Principal_Productor(usu);
                         ventana_prod.setVisible(true);
                         ventana_prod.setLocationRelativeTo(null);
-                    dispose();
-                    }else{
+                        dispose();
+                    } else {
                         lblError.setText("No tiene el perfil para usar la aplicaciòn");
                     }
                 }
             } else {
-                 //mostrar.setText(password);
+                //mostrar.setText(password);
                 lblError.setText("La clave es incorrecta");
             }
 
@@ -290,7 +305,6 @@ public class Login extends javax.swing.JFrame {
 //        StreamResult result = new StreamResult(System.out);
 //        transformer.transform(sourceContent, result);
 //    }
-
     private static Usuario getSOAPResponse(SOAPMessage soapResponse) throws Exception {
         Usuario usu = new Usuario();
         SOAPBody sb = soapResponse.getSOAPBody();

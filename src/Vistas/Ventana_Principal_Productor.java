@@ -6,7 +6,12 @@
 package Vistas;
 
 import DTO.Usuario;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 /**
  *
  * @author Windows 7
@@ -20,6 +25,8 @@ Usuario usuario = new Usuario();
         usuario = usu;
         initComponents();
         lblUsuario.setText("Bienvenido " + usu.getRut());
+
+
     }
 
     /**
@@ -36,6 +43,7 @@ Usuario usuario = new Usuario();
         btnVolver = new javax.swing.JButton();
         btnDatos = new javax.swing.JButton();
         btnMantenedorProductos = new javax.swing.JButton();
+        btnHistorial = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -63,6 +71,8 @@ Usuario usuario = new Usuario();
             }
         });
 
+        btnHistorial.setText("Ver historial de ventas");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -83,7 +93,8 @@ Usuario usuario = new Usuario();
                 .addGap(104, 104, 104)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnDatos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnMantenedorProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
+                    .addComponent(btnMantenedorProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(btnHistorial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -97,7 +108,9 @@ Usuario usuario = new Usuario();
                 .addComponent(btnDatos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnMantenedorProductos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnHistorial)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(btnVolver)
                 .addGap(42, 42, 42))
         );
@@ -108,7 +121,6 @@ Usuario usuario = new Usuario();
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // Cierra la ventana para volver al inicio de sesión:
         this.dispose();
-        System.exit(0);
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosActionPerformed
@@ -121,6 +133,9 @@ Usuario usuario = new Usuario();
     private void btnMantenedorProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMantenedorProductosActionPerformed
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(null, "Pronto");
+        ManProductosProductor mpp = new ManProductosProductor(usuario);
+        mpp.setVisible(true);
+        mpp.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnMantenedorProductosActionPerformed
 
     /**
@@ -130,6 +145,7 @@ Usuario usuario = new Usuario();
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDatos;
+    private javax.swing.JButton btnHistorial;
     private javax.swing.JButton btnMantenedorProductos;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;

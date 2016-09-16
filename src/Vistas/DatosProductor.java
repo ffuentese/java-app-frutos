@@ -9,6 +9,7 @@ import Controller.DatosProdControlador;
 import Controller.ProductorControlador;
 import DAO.ComunaDAO;
 import DTO.Comuna;
+import DTO.Direccion;
 import DTO.Productor;
 import DTO.Usuario;
 import java.util.ArrayList;
@@ -376,24 +377,41 @@ public class DatosProductor extends javax.swing.JFrame {
                     mismaDireccion = "0";
                 }
 
-                Productor produc=new Productor(rut, dv, nombre, apellido, sexo, 
-                        pro.getId_direccion_negocio(), pro.getId_direccion_particular(), 
-                        dirParticular, numeroParticular, comunaParticular, 
+                Productor produc = new Productor(rut, dv, nombre, apellido, sexo,
+                        pro.getId_direccion_negocio(), pro.getId_direccion_particular(),
+                        dirParticular, numeroParticular, comunaParticular,
                         telefono, correo, dirComercial, numeroComercial,
                         comunaComercial, mismaDireccion, pro.getId_regioncomercial(),
                         pro.getRegioncomercial(), pro.getId_regionparticular(), pro.getRegionparticular());
 
-                if (dpc.Update(produc)) {
+                Direccion dirPart = new Direccion();
+                Direccion dirCom = new Direccion();
+                //Actualizamos dirección particular
+                dirPart.setId_comuna(Integer.parseInt(comunaParticular));
+                dirPart.setNombre(dirParticular);
+                dirPart.setNumero(numeroParticular);
+                dirPart.setId_direccion(Integer.parseInt(pro.getId_direccion_particular()));
+                dirPart.setCoordenadaX("0");
+                dirPart.setCoordenadaY("0");
+                //Actualizamos dirección comercial
+                dirCom.setId_comuna(Integer.parseInt(comunaComercial));
+                dirCom.setNombre(dirComercial);
+                dirCom.setNumero(numeroComercial);
+                dirCom.setId_direccion(Integer.parseInt(pro.getId_direccion_negocio()));
+                dirCom.setCoordenadaX("0");
+                dirCom.setCoordenadaY("0");
+
+                if (dpc.Update(produc) && dpc.UpdateDireccion(dirPart) && dpc.UpdateDireccion(dirCom)) {
                     JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
                 } else {
                     JOptionPane.showMessageDialog(null, "HUBO UN PROBLEMA EN LA ACTUALIZACIÓN");
                 }
-                ;
-                if (txtPassword1.getPassword() != null && txtPassword2.getPassword() != null) {
+                
+                if (txtPassword1.getPassword().length > 0 && txtPassword2.getPassword().length > 0) {
                     if (!(Arrays.equals(txtPassword1.getPassword(), txtPassword2.getPassword()))) {
                         JOptionPane.showMessageDialog(null, "LAS CONTRASEÑAS NO COINCIDEN");
                     } else {
-                        JOptionPane.showMessageDialog(null, "POR IMPLEMENTAR");
+
                     }
                 }
 

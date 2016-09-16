@@ -44,6 +44,7 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="btnDatos" max="32767" attributes="0"/>
                   <Component id="btnMantenedorProductos" pref="146" max="32767" attributes="0"/>
+                  <Component id="btnHistorial" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -60,7 +61,9 @@
               <Component id="btnDatos" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btnMantenedorProductos" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="88" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="btnHistorial" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="54" max="32767" attributes="0"/>
               <Component id="btnVolver" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
           </Group>
@@ -101,6 +104,11 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMantenedorProductosActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnHistorial">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ver historial de ventas"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
