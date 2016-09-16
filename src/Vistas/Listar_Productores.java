@@ -405,7 +405,7 @@ public class Listar_Productores extends javax.swing.JFrame {
             mismaDireccion="0";
         }
         Productor pro = ((Productor)cmbListarproductores.getSelectedItem());
-        Productor produc=new Productor(rut, dv, nombre, apellido, sexo, pro.getId_direccion_negocio(), pro.getId_direccion_particular(), dirParticular, numeroParticular, comunaParticular, telefono, correo, regioncomercial, numeroComercial, comunaComercial, mismaDireccion, pro.getId_regioncomercial(), regioncomercial, pro.getId_regionparticular(), regionparticular);
+        Productor produc=new Productor(rut, dv, nombre, apellido, sexo, pro.getId_direccion_negocio(), pro.getId_direccion_particular(), dirParticular, numeroParticular, comunaParticular, telefono, correo, regioncomercial, numeroComercial, comunaComercial, mismaDireccion, comunaComercial, regioncomercial, comunaParticular, regionparticular);
         prc.Update(produc);
         
         JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
