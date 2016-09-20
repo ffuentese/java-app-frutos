@@ -109,8 +109,8 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="txtComunacomercial" min="-2" pref="56" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="cmbComunacomercial" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                           <Component id="jLabel17" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="txtRegioncomercial" max="32767" attributes="0"/>
@@ -118,8 +118,8 @@
                                       <Group type="102" attributes="0">
                                           <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="txtComunaparticular" min="-2" pref="56" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="cmbComunaparticular" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                           <Component id="jLabel16" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="txtRegionparticular" max="32767" attributes="0"/>
@@ -191,9 +191,9 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtComunaparticular" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtRegionparticular" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cmbComunaparticular" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -210,7 +210,7 @@
                   </Group>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel15" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="txtComunacomercial" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cmbComunacomercial" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace pref="15" max="32767" attributes="0"/>
@@ -375,8 +375,6 @@
         <Property name="text" type="java.lang.String" value="COMUNA:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtComunaparticular">
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel14">
       <Properties>
         <Property name="text" type="java.lang.String" value="N&#xda;MERO:"/>
@@ -388,8 +386,6 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="COMUNA:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="txtComunacomercial">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel16">
       <Properties>
@@ -404,6 +400,10 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtRegioncomercial">
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cmbComunaparticular">
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cmbComunacomercial">
     </Component>
   </SubComponents>
 </Form>

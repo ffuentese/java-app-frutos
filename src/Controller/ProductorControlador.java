@@ -233,7 +233,8 @@ public class ProductorControlador {
         soapBodyElem8.addTextNode(p.getId_direccion_negocio());
         SOAPElement soapBodyElem9 = soapBodyElem.addChildElement("mismadireccion", "web");
         soapBodyElem9.addTextNode(p.getMisma_direccion());
-        
+        SOAPElement soapBodyElem10 = soapBodyElem.addChildElement("telefono", "web");
+        soapBodyElem10.addTextNode(p.getTelefono());
 
         MimeHeaders headers = soapMessage.getMimeHeaders();
         headers.addHeader("SOAPAction", serverURI + "/Productor_upd");

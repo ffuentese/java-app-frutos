@@ -8,6 +8,10 @@ package Vistas;
 import Controller.ProductorControlador;
 import DTO.Productor;
 import DTO.Usuario;
+import DAO.ComunaDAO;
+import DAO.DireccionDAO;
+import DTO.Comuna;
+import DTO.Direccion;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -18,6 +22,10 @@ import javax.swing.JOptionPane;
 public class Listar_Productores extends javax.swing.JFrame {
 
     ProductorControlador prc = new ProductorControlador();
+    DireccionDAO dir=new DireccionDAO();
+    ComunaDAO comunas = new ComunaDAO();
+    ArrayList<Comuna> compart=comunas.listaComunas();
+        ArrayList<Comuna> comnego=comunas.listaComunas();
     /**
      * Creates new form Ventana_Principal
      */
@@ -25,9 +33,12 @@ public class Listar_Productores extends javax.swing.JFrame {
     public Listar_Productores() {
         initComponents();
         ArrayList<Productor> arrpro = prc.listaProductores();
+        
         for(int i=0;i<arrpro.size();i++){
             cmbListarproductores.addItem(arrpro.get(i));
         }
+        
+        
         
         txtRut.setEnabled(false);
         txtDv.setEnabled(false);
@@ -36,10 +47,10 @@ public class Listar_Productores extends javax.swing.JFrame {
         txtCorreo.setEnabled(false);
         txtDireccioncomercial.setEnabled(false);
         txtNumerocomercial.setEnabled(false);
-        txtComunacomercial.setEnabled(false);
+        cmbComunacomercial.setEnabled(false);
         txtDireccionparticular.setEnabled(false);
         txtNumeroparticular.setEnabled(false);
-        txtComunaparticular.setEnabled(false);
+        cmbComunaparticular.setEnabled(false);
         rbnFemenino.setEnabled(false);
         rbnMasculino.setEnabled(false);
         txtTelefono.setEnabled(false);
@@ -86,15 +97,15 @@ public class Listar_Productores extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         txtNumeroparticular = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
-        txtComunaparticular = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
         txtNumerocomercial = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        txtComunacomercial = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         txtRegionparticular = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
         txtRegioncomercial = new javax.swing.JTextField();
+        cmbComunaparticular = new javax.swing.JComboBox();
+        cmbComunacomercial = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -248,7 +259,7 @@ public class Listar_Productores extends javax.swing.JFrame {
                                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                             .addComponent(jLabel15)
                                             .addGap(18, 18, 18)
-                                            .addComponent(txtComunacomercial, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cmbComunacomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGap(18, 18, 18)
                                             .addComponent(jLabel17)
                                             .addGap(18, 18, 18)
@@ -256,7 +267,7 @@ public class Listar_Productores extends javax.swing.JFrame {
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel13)
                                             .addGap(18, 18, 18)
-                                            .addComponent(txtComunaparticular, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(cmbComunaparticular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGap(18, 18, 18)
                                             .addComponent(jLabel16)
                                             .addGap(18, 18, 18)
@@ -313,9 +324,9 @@ public class Listar_Productores extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(txtComunaparticular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel16)
-                    .addComponent(txtRegionparticular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtRegionparticular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbComunaparticular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -329,7 +340,7 @@ public class Listar_Productores extends javax.swing.JFrame {
                         .addComponent(txtRegioncomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel15)
-                        .addComponent(txtComunacomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cmbComunacomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnVerStock)
@@ -356,21 +367,24 @@ public class Listar_Productores extends javax.swing.JFrame {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
 
         if(btnModificar.getText()=="MODIFICAR"){
+            for (int i=0;i<compart.size();i++){
+            cmbComunacomercial.addItem(compart.get(i));
+            cmbComunaparticular.addItem(comnego.get(i));
+        }
         btnModificar.setText("GUARDAR");
         txtNombre.setEnabled(true);
         txtApellido.setEnabled(true);
         txtCorreo.setEnabled(true);
         txtDireccioncomercial.setEnabled(true);
         txtNumerocomercial.setEnabled(true);
-        txtComunacomercial.setEnabled(true);
+        cmbComunacomercial.setEnabled(true);
         txtDireccionparticular.setEnabled(true);
         txtNumeroparticular.setEnabled(true);
-        txtComunaparticular.setEnabled(true);
+        cmbComunaparticular.setEnabled(true);
         rbnFemenino.setEnabled(true);
         rbnMasculino.setEnabled(true);
         txtTelefono.setEnabled(true);
-        txtRegioncomercial.setEnabled(true);
-        txtRegionparticular.setEnabled(true);
+        
         }else{
         if(btnModificar.getText()=="GUARDAR"){
         String rut=txtRut.getText().trim();
@@ -380,10 +394,10 @@ public class Listar_Productores extends javax.swing.JFrame {
         String correo = txtCorreo.getText();
         String dirComercial=txtDireccioncomercial.getText();
         String numeroComercial=txtNumerocomercial.getText();
-        String comunaComercial=txtComunacomercial.getText();
+        Comuna comcomer=((Comuna)cmbComunacomercial.getSelectedItem());
         String dirParticular=txtDireccionparticular.getText();
         String numeroParticular=txtNumeroparticular.getText();
-        String comunaParticular=txtComunaparticular.getText();
+        Comuna compart=((Comuna)cmbComunaparticular.getSelectedItem());
         String sexo="";
         String mismaDireccion="";
         if (rbnMasculino.isSelected()){
@@ -399,15 +413,54 @@ public class Listar_Productores extends javax.swing.JFrame {
         String regionparticular=txtRegionparticular.getText();
         String regioncomercial=txtRegioncomercial.getText();
         if(dirComercial.compareToIgnoreCase(dirParticular)==0&numeroComercial.compareToIgnoreCase(numeroParticular)==0
-                &comunaComercial.compareToIgnoreCase(comunaParticular)==0){
+                &comcomer.getId_comuna()==compart.getId_comuna()){
             mismaDireccion="1";
         }else{
             mismaDireccion="0";
         }
         Productor pro = ((Productor)cmbListarproductores.getSelectedItem());
-        Productor produc=new Productor(rut, dv, nombre, apellido, sexo, pro.getId_direccion_negocio(), pro.getId_direccion_particular(), dirParticular, numeroParticular, comunaParticular, telefono, correo, regioncomercial, numeroComercial, comunaComercial, mismaDireccion, comunaComercial, regioncomercial, comunaParticular, regionparticular);
-        prc.Update(produc);
+        Productor produc=new Productor();
+        produc.setRut(rut);
+        produc.setDv(dv);
+        produc.setNombre(nombre);
+        produc.setApellido(apellido);
+        produc.setComuna_negocio(comcomer.getNombre());
+        produc.setComuna_particular(compart.getNombre());
+        produc.setCorreo(correo);
+        produc.setDireccion_negocio(dirComercial);
+        produc.setDireccion_particular(dirParticular);
+        produc.setId_comunanegocio(Integer.toString(comcomer.getId_comuna()));
+        produc.setId_comunaparticular(Integer.toString(compart.getId_comuna()));
+        produc.setId_direccion_negocio(pro.getId_direccion_negocio());
+        produc.setId_direccion_particular(pro.getId_direccion_particular());
+        produc.setMisma_direccion(mismaDireccion);
+        produc.setNumero_negocio(numeroComercial);
+        produc.setNumero_particular(numeroParticular);
+        produc.setRegioncomercial(regioncomercial);
+        produc.setRegionparticular(regionparticular);
+        produc.setSexo(sexo);
+        produc.setTelefono(telefono);
         
+        Direccion direccionparticular=new Direccion();
+        direccionparticular.setCoordenadaX("0");
+        direccionparticular.setCoordenadaY("0");
+        direccionparticular.setId_comuna(compart.getId_comuna());
+        direccionparticular.setId_direccion(Integer.parseInt(produc.getId_direccion_particular()));
+        direccionparticular.setNombre(dirParticular);
+        direccionparticular.setNumero(numeroParticular);
+        
+        Direccion direccionnegocio = new Direccion();
+        direccionnegocio.setCoordenadaX("0");
+        direccionnegocio.setCoordenadaY("0");
+        direccionnegocio.setId_comuna(comcomer.getId_comuna());
+        direccionnegocio.setId_direccion(Integer.parseInt(produc.getId_direccion_negocio()));
+        direccionnegocio.setNombre(dirComercial);
+        direccionnegocio.setNumero(numeroComercial);
+        
+        prc.Update(produc);
+        dir.Update(direccionnegocio);
+        dir.Update(direccionparticular);
+     
         JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
         
         }
@@ -422,6 +475,12 @@ public class Listar_Productores extends javax.swing.JFrame {
     private void cmbListarproductoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbListarproductoresActionPerformed
         // TODO add your handling code here:
         Productor pro = ((Productor)cmbListarproductores.getSelectedItem());
+        Comuna compart=new Comuna();
+        Comuna comneg=new Comuna();
+        compart.setId_comuna(Integer.parseInt(pro.getId_comunaparticular()));
+        compart.setNombre(pro.getComuna_particular());
+        comneg.setId_comuna(Integer.parseInt(pro.getId_comunanegocio()));
+        comneg.setNombre(pro.getComuna_negocio());
         txtRut.setText(pro.getRut());
         txtDv.setText(pro.getDv());
         txtNombre.setText(pro.getNombre());
@@ -429,6 +488,7 @@ public class Listar_Productores extends javax.swing.JFrame {
         try{
         if(pro.getSexo().compareToIgnoreCase("m")==0){
         rbnMasculino.setSelected(true);
+        
         }
         else if(pro.getSexo().compareToIgnoreCase("f")==0){
             rbnFemenino.setSelected(true);
@@ -440,12 +500,12 @@ public class Listar_Productores extends javax.swing.JFrame {
        
         txtDireccionparticular.setText(pro.getDireccion_particular());
         txtNumeroparticular.setText(pro.getNumero_particular());
-        txtComunaparticular.setText(pro.getComuna_particular());
+        cmbComunaparticular.addItem(compart);
         txtTelefono.setText(pro.getTelefono());
         txtCorreo.setText(pro.getCorreo());
         txtDireccioncomercial.setText(pro.getDireccion_negocio());
         txtNumerocomercial.setText(pro.getNumero_negocio());
-        txtComunacomercial.setText(pro.getComuna_negocio());
+        cmbComunacomercial.addItem(comneg);
         txtRegioncomercial.setText(pro.getRegioncomercial());
         txtRegionparticular.setText(pro.getRegionparticular());
         
@@ -463,6 +523,8 @@ public class Listar_Productores extends javax.swing.JFrame {
     private javax.swing.JButton btnVerStock;
     private javax.swing.JButton btnVolver;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox cmbComunacomercial;
+    private javax.swing.JComboBox cmbComunaparticular;
     private javax.swing.JComboBox cmbListarproductores;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -484,8 +546,6 @@ public class Listar_Productores extends javax.swing.JFrame {
     private javax.swing.JRadioButton rbnFemenino;
     private javax.swing.JRadioButton rbnMasculino;
     private javax.swing.JTextField txtApellido;
-    private javax.swing.JTextField txtComunacomercial;
-    private javax.swing.JTextField txtComunaparticular;
     private javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtDireccioncomercial;
     private javax.swing.JTextField txtDireccionparticular;
