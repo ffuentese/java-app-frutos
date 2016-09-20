@@ -41,7 +41,11 @@
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="118" max="-2" attributes="0"/>
-              <Component id="btnListarProductores" min="-2" pref="146" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="btnInformedeVentas1" min="-2" pref="146" max="-2" attributes="0"/>
+                  <Component id="btnInformedeVentas" min="-2" pref="146" max="-2" attributes="0"/>
+                  <Component id="btnListarProductores" min="-2" pref="146" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -55,7 +59,11 @@
               <Component id="lblUsuario" min="-2" pref="19" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="btnListarProductores" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="111" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnInformedeVentas" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="btnInformedeVentas1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="29" max="32767" attributes="0"/>
               <Component id="btnVolver" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
           </Group>
@@ -87,6 +95,22 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnListarProductoresActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnInformedeVentas">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ver Informe de Venta"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInformedeVentasActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnInformedeVentas1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Modificar Parametros"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInformedeVentas1ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

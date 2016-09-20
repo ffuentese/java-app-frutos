@@ -12,6 +12,7 @@ import DAO.ComunaDAO;
 import DAO.DireccionDAO;
 import DTO.Comuna;
 import DTO.Direccion;
+import DTO.Usuario;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -26,6 +27,7 @@ public class Listar_Productores extends javax.swing.JFrame {
     ComunaDAO comunas = new ComunaDAO();
     ArrayList<Comuna> compart=comunas.listaComunas();
         ArrayList<Comuna> comnego=comunas.listaComunas();
+        Usuario usu=new Usuario();
     /**
      * Creates new form Ventana_Principal
      */
@@ -469,7 +471,9 @@ public class Listar_Productores extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnVerStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerStockActionPerformed
-        // TODO add your handling code here:
+        ManProductosProductor mpp = new ManProductosProductor(usu);
+        mpp.setVisible(true);
+        mpp.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnVerStockActionPerformed
 
     private void cmbListarproductoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbListarproductoresActionPerformed
@@ -509,7 +513,7 @@ public class Listar_Productores extends javax.swing.JFrame {
         txtRegioncomercial.setText(pro.getRegioncomercial());
         txtRegionparticular.setText(pro.getRegionparticular());
         
-        
+        usu.setRut(pro.getRut());
     }//GEN-LAST:event_cmbListarproductoresActionPerformed
 
     /**

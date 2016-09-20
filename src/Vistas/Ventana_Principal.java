@@ -36,6 +36,8 @@ public class Ventana_Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblUsuario = new javax.swing.JLabel();
         btnListarProductores = new javax.swing.JButton();
+        btnInformedeVentas = new javax.swing.JButton();
+        btnInformedeVentas1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -56,6 +58,20 @@ public class Ventana_Principal extends javax.swing.JFrame {
             }
         });
 
+        btnInformedeVentas.setText("Ver Informe de Venta");
+        btnInformedeVentas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInformedeVentasActionPerformed(evt);
+            }
+        });
+
+        btnInformedeVentas1.setText("Modificar Parametros");
+        btnInformedeVentas1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInformedeVentas1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -73,7 +89,10 @@ public class Ventana_Principal extends javax.swing.JFrame {
                 .addGap(73, 73, 73))
             .addGroup(layout.createSequentialGroup()
                 .addGap(118, 118, 118)
-                .addComponent(btnListarProductores, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnInformedeVentas1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnInformedeVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnListarProductores, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -85,7 +104,11 @@ public class Ventana_Principal extends javax.swing.JFrame {
                 .addComponent(lblUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnListarProductores)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnInformedeVentas)
+                .addGap(18, 18, 18)
+                .addComponent(btnInformedeVentas1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(btnVolver)
                 .addGap(28, 28, 28))
         );
@@ -106,12 +129,22 @@ public class Ventana_Principal extends javax.swing.JFrame {
         lp.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnListarProductoresActionPerformed
 
+    private void btnInformedeVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformedeVentasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInformedeVentasActionPerformed
+
+    private void btnInformedeVentas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformedeVentas1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnInformedeVentas1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnInformedeVentas;
+    private javax.swing.JButton btnInformedeVentas1;
     private javax.swing.JButton btnListarProductores;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
