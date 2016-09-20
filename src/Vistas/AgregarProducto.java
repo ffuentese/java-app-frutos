@@ -12,12 +12,12 @@ import DTO.Producto;
  *
  * @author Francisco
  */
-public class EditorProducto extends javax.swing.JFrame {
+public class AgregarProducto extends javax.swing.JFrame {
 
     /**
      * Creates new form EditorProducto
      */
-    public EditorProducto(Producto prod) {
+    public AgregarProducto(Producto prod) {
         initComponents();
         this.txtRut_Productor.setEditable(false);
         this.txtId_Producto.setEditable(false);

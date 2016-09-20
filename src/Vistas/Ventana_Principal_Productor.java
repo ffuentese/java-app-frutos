@@ -132,7 +132,6 @@ Usuario usuario = new Usuario();
 
     private void btnMantenedorProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMantenedorProductosActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Pronto");
         ManProductosProductor mpp = new ManProductosProductor(usuario);
         mpp.setVisible(true);
         mpp.setLocationRelativeTo(null);

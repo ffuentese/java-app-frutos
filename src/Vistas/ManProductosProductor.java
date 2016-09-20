@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Vistas;
 
 import Controller.DatosProdControlador;
+import DAO.ProductoDAO;
+import DTO.Producto;
 import DTO.Productor;
 import DTO.Usuario;
 import java.awt.print.PrinterException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,16 +21,40 @@ import javax.swing.table.DefaultTableModel;
  * @author Francisco
  */
 public class ManProductosProductor extends javax.swing.JFrame {
+
     DatosProdControlador dpc = new DatosProdControlador();
     Productor pro = new Productor();
-    String col[] = {"Id", "Descripción", "Oferta", "Tipo Cultivo", "Tipo Unidad", "Precio U"};
+    String col[] = {"Id", "Producto", "Descripción", "Oferta", "Tipo Cultivo", "Tipo Unidad", "Precio U"};
     DefaultTableModel tablemodel = new DefaultTableModel(col, 0);
+    ProductoDAO pdao = new ProductoDAO();
+
     /**
      * Creates new form ManProductosProductor
      */
     public ManProductosProductor(Usuario usu) {
         initComponents();
         pro = dpc.getProductor(usu.getRut());
+        //Llamada a método que llena la tabla:
+        this.fillTable(Integer.parseInt(usu.getRut()));
+        //Sólo se puede seleccionar un valor de la tabla.
+        tbProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    }
+
+    private void fillTable(int rut) {
+        // Llena la tabla. Por ahora el contenido no incluye los nombres, sólo IDs.
+        if (pdao.listaProductosRUT(rut).size() > 0) {
+            for (int i = 0; i < pdao.listaProductosRUT(rut).size(); i++) {
+                Producto prod = pdao.listaProductosRUT(rut).get(i);
+                String[] linea = {Integer.toString(prod.getId_producto()),
+                    Integer.toString(prod.getId_tipo_producto()),
+                    prod.getDescripcion(),
+                    Integer.toString(prod.getOferta()), Integer.toString(prod.getId_tipo_cultivo()),
+                    Integer.toString(prod.getId_medida()), Integer.toString(prod.getPrecio())
+                };
+                tablemodel.addRow(linea);
+            }
+
+        }
     }
 
     /**
@@ -45,6 +71,7 @@ public class ManProductosProductor extends javax.swing.JFrame {
         btnModificar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,20 +94,24 @@ public class ManProductosProductor extends javax.swing.JFrame {
             }
         });
 
+        btnAgregar.setText("Agregar");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(77, 77, 77)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(62, 62, 62)
-                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57)
+                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 576, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(83, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -90,10 +121,12 @@ public class ManProductosProductor extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnModificar)
-                    .addComponent(btnVolver)
-                    .addComponent(btnImprimir))
-                .addContainerGap(56, Short.MAX_VALUE))
+                    .addComponent(btnImprimir)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnModificar))
+                .addGap(18, 18, 18)
+                .addComponent(btnVolver)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         pack();
@@ -117,8 +150,8 @@ public class ManProductosProductor extends javax.swing.JFrame {
      * @param args the command line arguments
      */
 
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVolver;
