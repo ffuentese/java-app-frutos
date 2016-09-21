@@ -42,6 +42,7 @@ public class EditorProducto extends javax.swing.JFrame {
     public EditorProducto(Producto producto) {
         initComponents();
         prod = producto;
+        this.setTitle("Detalles del producto");
         txtId_Producto.setText(Integer.toString(prod.getId_producto()));
         txtRut_Productor.setText(Integer.toString(prod.getRut_productor()));
         if (prod.getOferta() == 1) {
