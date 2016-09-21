@@ -27,6 +27,7 @@ public class ManProductosProductor extends javax.swing.JFrame {
     String col[] = {"Id", "Producto", "Descripción", "Oferta", "Tipo Cultivo", "Tipo Unidad", "Precio U"};
     DefaultTableModel tablemodel = new DefaultTableModel(col, 0);
     ProductoDAO pdao = new ProductoDAO();
+    Producto producto=new Producto();
 
     /**
      * Creates new form ManProductosProductor
@@ -39,6 +40,8 @@ public class ManProductosProductor extends javax.swing.JFrame {
         this.fillTable(Integer.parseInt(usu.getRut()));
         //Sólo se puede seleccionar un valor de la tabla.
         tbProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        producto.setRut_productor(Integer.parseInt(usu.getRut()));
     }
 
     private void fillTable(int rut) {
@@ -101,6 +104,11 @@ public class ManProductosProductor extends javax.swing.JFrame {
         });
 
         btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,6 +172,13 @@ public class ManProductosProductor extends javax.swing.JFrame {
         ep.setLocationRelativeTo(null);
         }
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        AgregarProducto ag = new AgregarProducto(producto);
+        ag.setVisible(true);
+        ag.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
     /**
      * @param args the command line arguments

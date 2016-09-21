@@ -87,11 +87,11 @@ public class TipoProductoDAO {
          */
         // SOAP Body
         SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem = soapBody.addChildElement("Tipo_Producto_Sel_All", "web");
+        SOAPElement soapBodyElem = soapBody.addChildElement("Tipo_producto_Sel_All", "web");
         
 
         MimeHeaders headers = soapMessage.getMimeHeaders();
-        headers.addHeader("SOAPAction", serverURI + "/Tipo_Producto_Sel_All");
+        headers.addHeader("SOAPAction", serverURI + "/Tipo_producto_Sel_All");
 
         soapMessage.saveChanges();
 
@@ -108,14 +108,14 @@ public class TipoProductoDAO {
         ArrayList<TipoProducto> arrtprod = new ArrayList<>();
         SOAPBody sb = soapResponse.getSOAPBody();
         SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
-        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Tipo_Producto_Sel_All");
+        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Tipo_producto_Sel_All");
 
         Document XMLDoc = sb.extractContentAsDocument();
         XPath xpath = XPathFactory.newInstance().newXPath();
 //        XPathExpression expr = xpath.compile("//Usuario");
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
-        NodeList nodeList = (NodeList) xpath.compile("//TipoProducto").evaluate(XMLDoc, XPathConstants.NODESET);
+        NodeList nodeList = (NodeList) xpath.compile("//tipo_producto").evaluate(XMLDoc, XPathConstants.NODESET);
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Node nNode = nodeList.item(i);
 //            System.out.println("\nCurrent Element :"
