@@ -37,7 +37,6 @@ public class Ventana_Principal extends javax.swing.JFrame {
         lblUsuario = new javax.swing.JLabel();
         btnListarProductores = new javax.swing.JButton();
         btnInformedeVentas = new javax.swing.JButton();
-        btnInformedeVentas1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,17 +57,10 @@ public class Ventana_Principal extends javax.swing.JFrame {
             }
         });
 
-        btnInformedeVentas.setText("Ver Informe de Venta");
+        btnInformedeVentas.setText("Ver Historial de Venta");
         btnInformedeVentas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnInformedeVentasActionPerformed(evt);
-            }
-        });
-
-        btnInformedeVentas1.setText("Modificar Parametros");
-        btnInformedeVentas1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInformedeVentas1ActionPerformed(evt);
             }
         });
 
@@ -90,7 +82,6 @@ public class Ventana_Principal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(118, 118, 118)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnInformedeVentas1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnInformedeVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnListarProductores, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -106,9 +97,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
                 .addComponent(btnListarProductores)
                 .addGap(18, 18, 18)
                 .addComponent(btnInformedeVentas)
-                .addGap(18, 18, 18)
-                .addComponent(btnInformedeVentas1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addComponent(btnVolver)
                 .addGap(28, 28, 28))
         );
@@ -131,11 +120,10 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
     private void btnInformedeVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformedeVentasActionPerformed
         // TODO add your handling code here:
+        Historialventas hventas=new Historialventas();
+        hventas.setVisible(true);
+        hventas.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnInformedeVentasActionPerformed
-
-    private void btnInformedeVentas1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformedeVentas1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnInformedeVentas1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -144,7 +132,6 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInformedeVentas;
-    private javax.swing.JButton btnInformedeVentas1;
     private javax.swing.JButton btnListarProductores;
     private javax.swing.JButton btnVolver;
     private javax.swing.JLabel jLabel1;
