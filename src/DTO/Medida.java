@@ -37,6 +37,29 @@ public class Medida {
     public String toString() {
         return nombre;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + this.id_medida;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Medida other = (Medida) obj;
+        if (this.id_medida != other.id_medida) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
 }

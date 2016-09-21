@@ -32,7 +32,7 @@ import org.w3c.dom.NodeList;
  * @author Francisco
  */
 public class TipoCultivoDAO {
-    public ArrayList<TipoCultivo> listaMedidas(){
+    public ArrayList<TipoCultivo> listaTipoCultivo(){
         ArrayList<TipoCultivo> arrcultivos = new ArrayList<>();
         
          try {

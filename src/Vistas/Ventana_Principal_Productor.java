@@ -24,6 +24,7 @@ Usuario usuario = new Usuario();
     public Ventana_Principal_Productor(Usuario usu) {
         usuario = usu;
         initComponents();
+        this.setTitle("Menú");
         lblUsuario.setText("Bienvenido " + usu.getRut());
 
 

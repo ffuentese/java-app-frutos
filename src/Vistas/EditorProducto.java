@@ -3,10 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Vistas;
 
+import DAO.MedidaDAO;
+import DAO.ProductoDAO;
+import DAO.TipoCultivoDAO;
+import DAO.TipoProductoDAO;
+import DTO.Medida;
 import DTO.Producto;
+import DTO.TipoCultivo;
+import DTO.TipoProducto;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,14 +23,56 @@ import DTO.Producto;
  */
 public class EditorProducto extends javax.swing.JFrame {
 
+    TipoCultivoDAO tcudao = new TipoCultivoDAO();
+    MedidaDAO meddao = new MedidaDAO();
+    TipoProductoDAO tprdao = new TipoProductoDAO();
+    ProductoDAO pdao = new ProductoDAO();
+    ArrayList<TipoCultivo> arrtcu = tcudao.listaTipoCultivo();
+    ArrayList<Medida> arrmed = meddao.listaMedidas();
+    ArrayList<TipoProducto> arrtpr = tprdao.listaTipoProducto();
+    DefaultComboBoxModel modelTipoProducto = new DefaultComboBoxModel(arrtpr.toArray());
+    DefaultComboBoxModel modelTipoCultivo = new DefaultComboBoxModel(arrtcu.toArray());
+    DefaultComboBoxModel modelTipoMedida = new DefaultComboBoxModel(arrmed.toArray());
+    Producto prod = new Producto();
     /**
      * Creates new form EditorProducto
+     *
+     * @param producto
      */
-    public EditorProducto(Producto prod) {
+    public EditorProducto(Producto producto) {
         initComponents();
-        this.txtRut_Productor.setEditable(false);
-        this.txtId_Producto.setEditable(false);
-        
+        prod = producto;
+        this.setTitle("Detalles del producto");
+        txtId_Producto.setText(Integer.toString(prod.getId_producto()));
+        txtRut_Productor.setText(Integer.toString(prod.getRut_productor()));
+        if (prod.getOferta() == 1) {
+            rbOfertaSi.setSelected(true);
+        } else {
+            rbOfertaNo.setSelected(true);
+        }
+        if (prod.getActivo() == 1) {
+            rbActivoSi.setSelected(true);
+        } else {
+            rbActivoNo.setSelected(true);
+        }
+        txtDescripcion.setText(prod.getDescripcion());
+        txtZonaDeCultivo.setText(prod.getZona_cultivo());
+        spStock.setValue(Integer.valueOf(prod.getStock()));
+        txtPrecioUnitario.setText(Integer.toString(prod.getPrecio()));
+        txtRut_Productor.setEditable(false);
+        txtId_Producto.setEditable(false);
+        TipoCultivo tc = new TipoCultivo();
+        tc.setId_tipo_cultivo(prod.getId_tipo_cultivo());
+        cbTipoCultivo.setSelectedItem(tc);
+        TipoProducto tp = new TipoProducto();
+        cbTipoProducto.setSelectedItem(tp);
+        Medida me = new Medida();
+        cbMedida.setSelectedItem(me);
+        //Bloquear campos restantes 
+        txtDescripcion.setEditable(false);
+        txtZonaDeCultivo.setEditable(false);
+        txtPrecioUnitario.setEditable(false);
+
     }
 
     /**
@@ -46,25 +97,25 @@ public class EditorProducto extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtDescripcion = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtZonaDeCultivo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        spStock = new javax.swing.JSpinner();
         jLabel7 = new javax.swing.JLabel();
         cbMedida = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtPrecioUnitario = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        rbOfertaSi1 = new javax.swing.JRadioButton();
+        rbActivoSi = new javax.swing.JRadioButton();
         jLabel10 = new javax.swing.JLabel();
-        rbOfertaNo1 = new javax.swing.JRadioButton();
+        rbActivoNo = new javax.swing.JRadioButton();
         btnModificar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox();
+        cbTipoCultivo = new javax.swing.JComboBox();
         jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        cbTipoProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbTipoProducto.setModel(modelTipoProducto);
 
         bgOferta.add(rbOfertaSi);
         rbOfertaSi.setText("Sí");
@@ -92,23 +143,33 @@ public class EditorProducto extends javax.swing.JFrame {
 
         jLabel7.setText("Stock");
 
-        cbMedida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbMedida.setModel(modelTipoMedida);
 
         jLabel8.setText("Medida");
 
-        jTextField2.setText(" ");
+        txtPrecioUnitario.setText(" ");
+        txtPrecioUnitario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtPrecioUnitarioKeyReleased(evt);
+            }
+        });
 
         jLabel9.setText("Precio Unitario");
 
-        bgActivo.add(rbOfertaSi1);
-        rbOfertaSi1.setText("Sí");
+        bgActivo.add(rbActivoSi);
+        rbActivoSi.setText("Sí");
 
         jLabel10.setText("Activo");
 
-        bgActivo.add(rbOfertaNo1);
-        rbOfertaNo1.setText("No");
+        bgActivo.add(rbActivoNo);
+        rbActivoNo.setText("No");
 
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -117,7 +178,7 @@ public class EditorProducto extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbTipoCultivo.setModel(modelTipoCultivo);
 
         jLabel11.setText("Tipo de cultivo");
 
@@ -157,14 +218,14 @@ public class EditorProducto extends javax.swing.JFrame {
                                 .addGap(45, 45, 45)
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(48, 48, 48)
                                 .addComponent(jLabel10))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel6)
                                 .addGap(41, 41, 41)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtZonaDeCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(63, 63, 63)
                                 .addComponent(jLabel11)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,12 +233,12 @@ public class EditorProducto extends javax.swing.JFrame {
                                 .addGap(102, 102, 102)
                                 .addComponent(jLabel7)
                                 .addGap(18, 18, 18)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbOfertaSi1)
+                                .addComponent(rbActivoSi)
                                 .addGap(18, 18, 18)
-                                .addComponent(rbOfertaNo1)
+                                .addComponent(rbActivoNo)
                                 .addGap(8, 8, 8))))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
@@ -190,7 +251,7 @@ public class EditorProducto extends javax.swing.JFrame {
                         .addGap(155, 155, 155)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(cbTipoCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -218,21 +279,21 @@ public class EditorProducto extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtZonaDeCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbTipoCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(rbOfertaSi1)
+                    .addComponent(rbActivoSi)
                     .addComponent(jLabel10)
-                    .addComponent(rbOfertaNo1))
+                    .addComponent(rbActivoNo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificar)
@@ -252,10 +313,72 @@ public class EditorProducto extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
+    private void txtPrecioUnitarioKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioUnitarioKeyReleased
+        // Validación para evitar que se inserten valores no numéricos:
+        int x;
+        try {
+            x = Integer.parseInt(txtPrecioUnitario.getText());
+        } catch (NumberFormatException nfe) {
+            txtPrecioUnitario.setText("");
+        }
+    }//GEN-LAST:event_txtPrecioUnitarioKeyReleased
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        if (btnModificar.getText() == "Modificar") {
+            txtDescripcion.setEditable(true);
+            txtZonaDeCultivo.setEditable(true);
+            txtPrecioUnitario.setEditable(true);
+            btnModificar.setText("Guardar");
+        } else {
+            if(btnModificar.getText() == "Guardar"){
+                if(
+                        !txtDescripcion.getText().isEmpty() && 
+                        !txtZonaDeCultivo.getText().isEmpty() &&
+                        !txtPrecioUnitario.getText().isEmpty()
+                        
+                        ) {
+                prod.setId_producto(Integer.parseInt(txtId_Producto.getText()));
+                prod.setRut_productor(Integer.parseInt(txtRut_Productor.getText()));
+                prod.setDescripcion(txtDescripcion.getText());
+                prod.setZona_cultivo(txtZonaDeCultivo.getText());
+                prod.setPrecio(Integer.parseInt(txtPrecioUnitario.getText()));
+                prod.setId_tipo_producto(((TipoProducto)cbTipoProducto.getSelectedItem()).getId_tipo_producto());
+                prod.setId_medida(((Medida)cbMedida.getSelectedItem()).getId_medida());
+                prod.setId_tipo_cultivo(((TipoCultivo)cbTipoCultivo.getSelectedItem()).getId_tipo_cultivo());
+                int stock = (Integer) spStock.getValue();
+                prod.setStock(stock);
+                if(rbOfertaSi.isSelected()){
+                    prod.setOferta(1);
+                } else if(rbOfertaNo.isSelected()){
+                    prod.setOferta(0);
+                } else {
+                    return;
+                }
+                if(rbActivoSi.isSelected()){
+                    prod.setActivo(1);
+                } else if(rbOfertaNo.isSelected()){
+                    prod.setActivo(0);
+                } else {
+                    return;
+                }
+                
+                if(pdao.Update(prod)){
+                    JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
+                } else {
+                    JOptionPane.showMessageDialog(null, "HUBO UN PROBLEMA AL REALIZAR LA OPERACIÓN");
+                }
+                
+                } else {
+                    return;
+                }
+            }
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgActivo;
@@ -263,8 +386,8 @@ public class EditorProducto extends javax.swing.JFrame {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox cbMedida;
+    private javax.swing.JComboBox cbTipoCultivo;
     private javax.swing.JComboBox cbTipoProducto;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -276,15 +399,15 @@ public class EditorProducto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JRadioButton rbActivoNo;
+    private javax.swing.JRadioButton rbActivoSi;
     private javax.swing.JRadioButton rbOfertaNo;
-    private javax.swing.JRadioButton rbOfertaNo1;
     private javax.swing.JRadioButton rbOfertaSi;
-    private javax.swing.JRadioButton rbOfertaSi1;
+    private javax.swing.JSpinner spStock;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtId_Producto;
+    private javax.swing.JTextField txtPrecioUnitario;
     private javax.swing.JTextField txtRut_Productor;
+    private javax.swing.JTextField txtZonaDeCultivo;
     // End of variables declaration//GEN-END:variables
 }

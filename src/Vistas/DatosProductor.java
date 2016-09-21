@@ -34,6 +34,7 @@ public class DatosProductor extends javax.swing.JFrame {
      */
     public DatosProductor(Usuario usu) {
         initComponents();
+        this.setTitle("Editar datos personales");
         ArrayList<Comuna> arrcomuna = cdao.listaComunas();
         pro = dpc.getProductor(usu.getRut());
         DefaultComboBoxModel modelComunaCom = new DefaultComboBoxModel(arrcomuna.toArray());
