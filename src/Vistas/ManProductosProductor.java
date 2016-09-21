@@ -78,7 +78,12 @@ public class ManProductosProductor extends javax.swing.JFrame {
         tbProductos.setModel(tablemodel);
         jScrollPane1.setViewportView(tbProductos);
 
-        btnModificar.setText("Modificar");
+        btnModificar.setText("Ver Detalles/Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnVolver.setText("Volver");
         btnVolver.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +150,16 @@ public class ManProductosProductor extends javax.swing.JFrame {
             Logger.getLogger(ManProductosProductor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnImprimirActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // Pasa el objeto producto a la ventana de edición:
+        int id = tbProductos.getSelectedRow();
+        int val = Integer.parseInt(tbProductos.getModel().getValueAt(id, 0).toString());
+        Producto prod = pdao.getProducto(val);
+        EditorProducto ep = new EditorProducto(prod);
+        ep.setVisible(true);
+        ep.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
      * @param args the command line arguments

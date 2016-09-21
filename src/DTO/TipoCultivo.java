@@ -37,6 +37,29 @@ public class TipoCultivo {
     public String toString() {
         return nombre;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 31 * hash + this.id_tipo_cultivo;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TipoCultivo other = (TipoCultivo) obj;
+        if (this.id_tipo_cultivo != other.id_tipo_cultivo) {
+            return false;
+        }
+        return true;
+    }
+    
     
     
 }

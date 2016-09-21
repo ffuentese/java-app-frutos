@@ -37,6 +37,28 @@ public class TipoProducto {
     public String toString() {
         return nombre;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + this.id_tipo_producto;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TipoProducto other = (TipoProducto) obj;
+        if (this.id_tipo_producto != other.id_tipo_producto) {
+            return false;
+        }
+        return true;
+    }
     
     
 }
