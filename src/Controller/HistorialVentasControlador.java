@@ -105,7 +105,7 @@ public class HistorialVentasControlador {
     }
     
     private ArrayList<Historial_ventas> getSOAPResponseListaVentas(SOAPMessage soapResponse) throws Exception {
-        Historial_ventas ventas=new Historial_ventas();
+
         ArrayList<Historial_ventas> arrventas = new ArrayList<>();
         SOAPBody sb = soapResponse.getSOAPBody();
         SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
@@ -136,6 +136,7 @@ public class HistorialVentasControlador {
 //                cli.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
 //                cli.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
 //                cli.setBloqueado(eElement.getElementsByTagName("BLOQUEADO").item(0).getTextContent().charAt(0));
+                        Historial_ventas ventas=new Historial_ventas();
                 ventas.setCantidad(eElement.getElementsByTagName("CANTIDAD").item(0).getTextContent());
                 ventas.setNombre_cliente(eElement.getElementsByTagName("NOMBRE_CLIENTE").item(0).getTextContent());
                 ventas.setNombre_producto(eElement.getElementsByTagName("NOMBRE_PRODUCTO").item(0).getTextContent());
@@ -145,8 +146,9 @@ public class HistorialVentasControlador {
                 ventas.setTipo_producto(eElement.getElementsByTagName("TIPO_PRODUCTO").item(0).getTextContent());
                 ventas.setTipo_unidad(eElement.getElementsByTagName("TIPO_UNIDAD").item(0).getTextContent());
                 //pro.setMisma_direccion(eElement.getElementsByTagName("MISMADIRECCION").item(0).getTextContent());
+                  arrventas.add(ventas);
             }
-             arrventas.add(ventas);
+           
         }
         return arrventas;
     }

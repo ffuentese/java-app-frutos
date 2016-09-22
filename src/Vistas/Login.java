@@ -200,7 +200,7 @@ public class Login extends javax.swing.JFrame {
         String user = txtRut.getText().trim();
         String password = new String(pssClave.getPassword());
         try {
-            password = logc.hash(password);
+            password = logc.hash(password).toUpperCase();
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedEncodingException ex) {

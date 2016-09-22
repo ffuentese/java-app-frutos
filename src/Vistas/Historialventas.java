@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import DTO.Historial_ventas;
+import javax.swing.DefaultComboBoxModel;
 
 
 /**
@@ -24,17 +25,21 @@ public class Historialventas extends javax.swing.JFrame {
 
     ProductorControlador prc = new ProductorControlador();
     HistorialVentasControlador hvc = new HistorialVentasControlador();
-    /**
+    DefaultComboBoxModel modelListaProductores = new DefaultComboBoxModel(prc.listaProductores().toArray());
+    /**DefaultComboBoxModel modelListaProductores = new DefaultComboBoxModel(prc.listaProductores().toArray());
      * Creates new form Historial_ventas
      */
     public Historialventas() {
         initComponents();
         
       ArrayList<Productor> arrpro = prc.listaProductores();
-      for(int i =0;i<arrpro.size();i++){
-          cmbListarproductores.addItem(arrpro.get(i));
-      }
-    }
+//      for(int i =0;i<arrpro.size();i++){
+//          cmbListarproductores.addItem(arrpro.get(i));
+//      }
+      
+        
+        
+    }   
 
 //    Nombre del producto
 //Tipo (Es el tipo de producto)
@@ -67,7 +72,7 @@ public class Historialventas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        cmbListarproductores.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione un productor" }));
+        cmbListarproductores.setModel(modelListaProductores);
         cmbListarproductores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbListarproductoresActionPerformed(evt);

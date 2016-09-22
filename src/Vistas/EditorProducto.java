@@ -52,7 +52,7 @@ public class EditorProducto extends javax.swing.JFrame {
         initComponents();
         prod = producto;
         this.setTitle("Detalles del producto");
-        ImageIcon ico = new ImageIcon(idao.ObtenerImagen("parking.jpg"));
+        ImageIcon ico = new ImageIcon(idao.ObtenerImagen("huelga.jpg"));
         Image ima = ico.getImage().getScaledInstance(250, 150,  java.awt.Image.SCALE_SMOOTH);
         jLabel12.setIcon(new ImageIcon(ima));
         txtId_Producto.setText(Integer.toString(prod.getId_producto()));

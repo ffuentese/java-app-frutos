@@ -107,7 +107,7 @@ public class ProductorControlador {
     }
     
     private ArrayList<Productor> getSOAPResponseListaProd(SOAPMessage soapResponse) throws Exception {
-        Productor pro = new Productor();
+       
         ArrayList<Productor> arrpro = new ArrayList<>();
         SOAPBody sb = soapResponse.getSOAPBody();
         SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
@@ -138,6 +138,7 @@ public class ProductorControlador {
 //                cli.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
 //                cli.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
 //                cli.setBloqueado(eElement.getElementsByTagName("BLOQUEADO").item(0).getTextContent().charAt(0));
+                 Productor pro = new Productor();
                 pro.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
                 pro.setDv(eElement.getElementsByTagName("DV").item(0).getTextContent());
                 pro.setNombre((eElement.getElementsByTagName("NOMBRE").item(0).getTextContent()));
@@ -158,8 +159,9 @@ public class ProductorControlador {
                 pro.setTelefono((eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
                 pro.setCorreo((eElement.getElementsByTagName("CORREO").item(0).getTextContent()));
                 //pro.setMisma_direccion(eElement.getElementsByTagName("MISMADIRECCION").item(0).getTextContent());
+                arrpro.add(pro);
             }
-             arrpro.add(pro);
+             
         }
         return arrpro;
     }
