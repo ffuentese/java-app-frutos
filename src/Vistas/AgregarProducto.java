@@ -8,12 +8,14 @@ package Vistas;
 
 import DTO.Producto;
 import DAO.MedidaDAO;
+import DAO.ProductoDAO;
 import DAO.TipoCultivoDAO;
 import DAO.TipoProductoDAO;
 import DTO.Medida;
 import DTO.TipoCultivo;
 import DTO.TipoProducto;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -76,15 +78,15 @@ public class AgregarProducto extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         txtZonacultivo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jSpinner1 = new javax.swing.JSpinner();
+        spStock = new javax.swing.JSpinner();
         jLabel7 = new javax.swing.JLabel();
         cbMedida = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
         txtPreciounitario = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        rbOfertaSi1 = new javax.swing.JRadioButton();
+        rbActivosi = new javax.swing.JRadioButton();
         jLabel10 = new javax.swing.JLabel();
-        rbOfertaNo1 = new javax.swing.JRadioButton();
+        rbActivono = new javax.swing.JRadioButton();
         btnModificar = new javax.swing.JButton();
         btnVolver = new javax.swing.JButton();
         cbTipocultivo = new javax.swing.JComboBox();
@@ -129,13 +131,13 @@ public class AgregarProducto extends javax.swing.JFrame {
 
         jLabel9.setText("Precio Unitario");
 
-        bgActivo.add(rbOfertaSi1);
-        rbOfertaSi1.setText("Sí");
+        bgActivo.add(rbActivosi);
+        rbActivosi.setText("Sí");
 
         jLabel10.setText("Activo");
 
-        bgActivo.add(rbOfertaNo1);
-        rbOfertaNo1.setText("No");
+        bgActivo.add(rbActivono);
+        rbActivono.setText("No");
 
         btnModificar.setText("Modificar");
 
@@ -151,66 +153,29 @@ public class AgregarProducto extends javax.swing.JFrame {
         jLabel11.setText("Tipo de cultivo");
 
         btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5)
-                        .addGap(60, 60, 60)
-                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(379, 379, 379)
-                        .addComponent(cbTipocultivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(29, 29, 29)
-                        .addComponent(txtId_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)
-                        .addComponent(jLabel4)
-                        .addGap(22, 22, 22)
-                        .addComponent(txtRut_Productor, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addGap(20, 20, 20)
-                        .addComponent(cbTipoProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rbOfertaNo)
-                            .addComponent(rbOfertaSi))
-                        .addGap(40, 40, 40))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(3, 3, 3)
-                                        .addComponent(jLabel6)
-                                        .addGap(41, 41, 41)
-                                        .addComponent(txtZonacultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(63, 63, 63)
-                                        .addComponent(jLabel11))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(25, 25, 25)
-                                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(87, 87, 87)
-                                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(163, 163, 163)
-                                .addComponent(jLabel7)
-                                .addGap(18, 18, 18)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 18, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(60, 60, 60)
+                                .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(369, 369, 369)
+                                .addComponent(cbTipocultivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel8)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -221,13 +186,51 @@ public class AgregarProducto extends javax.swing.JFrame {
                                 .addGap(48, 48, 48)
                                 .addComponent(jLabel10)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbOfertaSi1)
+                                .addComponent(rbActivosi)
                                 .addGap(18, 18, 18)
-                                .addComponent(rbOfertaNo1))
-                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(rbActivono))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(73, 73, 73))))
+                        .addGap(91, 91, 91))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(29, 29, 29)
+                        .addComponent(txtId_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57)
+                        .addComponent(jLabel4)
+                        .addGap(22, 22, 22)
+                        .addComponent(txtRut_Productor, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(20, 20, 20)
+                        .addComponent(cbTipoProducto, 0, 179, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(rbOfertaNo)
+                            .addComponent(rbOfertaSi))
+                        .addGap(40, 40, 40))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel6)
+                                .addGap(41, 41, 41)
+                                .addComponent(txtZonacultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(63, 63, 63)
+                                .addComponent(jLabel11))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(25, 25, 25)
+                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(87, 87, 87)
+                                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(163, 163, 163)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -256,7 +259,7 @@ public class AgregarProducto extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtZonacultivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(cbTipocultivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
@@ -266,9 +269,9 @@ public class AgregarProducto extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(txtPreciounitario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(rbOfertaSi1)
+                    .addComponent(rbActivosi)
                     .addComponent(jLabel10)
-                    .addComponent(rbOfertaNo1))
+                    .addComponent(rbActivono))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificar)
@@ -288,6 +291,70 @@ public class AgregarProducto extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
+
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+        // TODO add your handling code here:
+        TipoProducto tipoP=((TipoProducto)cbTipoProducto.getSelectedItem());
+        TipoCultivo tipoC=((TipoCultivo)cbTipocultivo.getSelectedItem());
+        Medida med=((Medida)cbMedida.getSelectedItem());
+        int oferta=3;
+        if(rbOfertaSi.isSelected()){
+            oferta=1;
+        }else{
+            if(rbOfertaNo.isSelected()){
+                oferta=0;
+            }else{
+                JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA OPCION");
+            }
+        }
+        int activo=3;
+        if(rbActivosi.isSelected()){
+            oferta=1;
+        }else{
+            if(rbActivono.isSelected()){
+                oferta=0;
+            }else{
+                JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA OPCION");
+            }
+        }
+        String descripcion=txtDescripcion.getText();
+        String zona_cultivo=txtZonacultivo.getText();
+        int precio=Integer.parseInt(txtPreciounitario.getText().trim());
+        int stock=Integer.parseInt(spStock.getValue().toString());
+        ProductoDAO pdao=new ProductoDAO();
+        ArrayList<Producto> listp=pdao.listaProductosRUT(Integer.parseInt(txtRut_Productor.getText()));
+        int mayor=0;
+        int id_direccion=0;
+        for(int i=0;i<listp.size();i++){
+            if(listp.get(i).getId_producto()>mayor){
+                mayor=listp.get(i).getId_producto();
+                id_direccion=listp.get(i).getId_direccion();
+            }
+        }
+        int id_producto=mayor+1;
+        Producto pr=new Producto();
+        
+        pr.setActivo(activo);
+        pr.setDescripcion(descripcion);
+        pr.setId_direccion(id_direccion);
+        pr.setId_medida(med.getId_medida());
+        pr.setId_producto(id_producto);
+        pr.setId_tipo_cultivo(tipoC.getId_tipo_cultivo());
+        pr.setId_tipo_producto(tipoP.getId_tipo_producto());
+        pr.setOferta(oferta);
+        pr.setPrecio(precio);
+        pr.setRut_productor(Integer.parseInt(txtRut_Productor.getText()));
+        pr.setStock(stock);
+        pr.setZona_cultivo(zona_cultivo);
+        
+        ProductoDAO prod = new ProductoDAO();
+        Boolean prueba=prod.agregar(pr);
+        if(prueba==true){
+        JOptionPane.showMessageDialog(null, "guardado");
+        }else{
+            JOptionPane.showMessageDialog(null, "error");
+        }
+    }//GEN-LAST:event_btnGuardarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -314,11 +381,11 @@ public class AgregarProducto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JRadioButton rbActivono;
+    private javax.swing.JRadioButton rbActivosi;
     private javax.swing.JRadioButton rbOfertaNo;
-    private javax.swing.JRadioButton rbOfertaNo1;
     private javax.swing.JRadioButton rbOfertaSi;
-    private javax.swing.JRadioButton rbOfertaSi1;
+    private javax.swing.JSpinner spStock;
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtId_Producto;
     private javax.swing.JTextField txtPreciounitario;

@@ -266,6 +266,95 @@ public class ProductoDAO {
         return prod;
     }
 
+    public boolean agregar(Producto pro){
+        try {
+            // Crea SOAP Connection
+            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+
+            // Envía Mensaje SOAP a Servidor SOAP 
+            String url = "http://localhost:49193/Service1.asmx";
+            SOAPMessage soapResponse = soapConnection.call(createSOAPRequestinsproducto(pro), url);
+
+            // Recibe la respuesta SOAP y la procesa.
+//            int result = getSOAPResponseUpdProducto(soapResponse);
+//            System.out.println("RESULT " + result);
+            soapConnection.close();
+            return true;
+
+        } catch (Exception e) {
+            System.err.println("Error occurred while sending SOAP Request to Server");
+            e.printStackTrace();
+            return false;
+            //lblError.setText("Hubo un error en la conexión con el servidor");
+        }
+    }
+    
+    private SOAPMessage createSOAPRequestinsproducto(Producto p) throws Exception {
+        MessageFactory messageFactory = MessageFactory.newInstance();
+        SOAPMessage soapMessage = messageFactory.createMessage();
+        SOAPPart soapPart = soapMessage.getSOAPPart();
+
+        String serverURI = "http://localhost/WebService";
+
+        // SOAP Envelope
+        SOAPEnvelope envelope = soapPart.getEnvelope();
+        envelope.addNamespaceDeclaration("web", serverURI);
+
+        /*
+         Constructed SOAP Request Message:
+         <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:example="http://ws.cdyne.com/">
+         <SOAP-ENV:Header/>
+         <SOAP-ENV:Body>
+         <example:VerifyEmail>
+         <example:email>mutantninja@gmail.com</example:email>
+         <example:LicenseKey>123</example:LicenseKey>
+         </example:VerifyEmail>
+         </SOAP-ENV:Body>
+         </SOAP-ENV:Envelope>
+         */
+        // SOAP Body
+        SOAPBody soapBody = envelope.getBody();
+        SOAPElement soapBodyElem = soapBody.addChildElement("Productos_ins", "web");
+        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("ID_PRODUCTO", "web");
+        soapBodyElem1.addTextNode(Integer.toString(p.getId_producto()));
+        SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("RUT_PRODUCTOR", "web");
+        soapBodyElem2.addTextNode(Integer.toString(p.getRut_productor()));
+        SOAPElement soapBodyElem3 = soapBodyElem.addChildElement("ID_TIPO_PRODUCTO", "web");
+        soapBodyElem3.addTextNode(Integer.toString((p.getId_tipo_producto())));
+        SOAPElement soapBodyElem4 = soapBodyElem.addChildElement("OFERTA", "web");
+        soapBodyElem4.addTextNode(Integer.toString(p.getOferta()));
+        SOAPElement soapBodyElem5 = soapBodyElem.addChildElement("DESCRIPCION_ELABORACION", "web");
+        soapBodyElem5.addTextNode(p.getDescripcion());
+        SOAPElement soapBodyElem6 = soapBodyElem.addChildElement("ID_DIRECCION", "web");
+        soapBodyElem6.addTextNode(Integer.toString(p.getId_direccion()));
+        SOAPElement soapBodyElem7 = soapBodyElem.addChildElement("ZONA_CULTIVO", "web");
+        soapBodyElem7.addTextNode(p.getZona_cultivo());
+        SOAPElement soapBodyElem8 = soapBodyElem.addChildElement("STOCK", "web");
+        soapBodyElem8.addTextNode(Integer.toString(p.getStock()));
+        SOAPElement soapBodyElem9 = soapBodyElem.addChildElement("PRECIO_UNITARIO", "web");
+        soapBodyElem9.addTextNode(Integer.toString(p.getPrecio()));
+        SOAPElement soapBodyElem10 = soapBodyElem.addChildElement("ID_MEDIDA", "web");
+        soapBodyElem10.addTextNode(Integer.toString(p.getId_medida()));
+        SOAPElement soapBodyElem11 = soapBodyElem.addChildElement("ID_TIPO_CULTIVO", "web");
+        soapBodyElem11.addTextNode(Integer.toString(p.getId_tipo_cultivo()));
+        SOAPElement soapBodyElem12 = soapBodyElem.addChildElement("ACTIVO", "web");
+        soapBodyElem12.addTextNode(Integer.toString(p.getActivo()));
+
+        MimeHeaders headers = soapMessage.getMimeHeaders();
+        headers.addHeader("SOAPAction", serverURI + "/Productos_ins");
+
+        soapMessage.saveChanges();
+
+        /* Print the request message */
+        System.out.print("Request SOAP Message = ");
+        soapMessage.writeTo(System.out);
+        String x = soapMessage.toString();
+        System.out.println();
+
+        return soapMessage;
+    }
+    
     public boolean Update(Producto pro) {
         try {
             // Crea SOAP Connection
