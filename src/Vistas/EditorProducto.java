@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import DAO.ImagenDAO;
 import DAO.MedidaDAO;
 import DAO.ProductoDAO;
 import DAO.TipoCultivoDAO;
@@ -13,8 +14,15 @@ import DTO.Medida;
 import DTO.Producto;
 import DTO.TipoCultivo;
 import DTO.TipoProducto;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import javax.activation.MimetypesFileTypeMap;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,6 +35,7 @@ public class EditorProducto extends javax.swing.JFrame {
     MedidaDAO meddao = new MedidaDAO();
     TipoProductoDAO tprdao = new TipoProductoDAO();
     ProductoDAO pdao = new ProductoDAO();
+    ImagenDAO idao = new ImagenDAO();
     ArrayList<TipoCultivo> arrtcu = tcudao.listaTipoCultivo();
     ArrayList<Medida> arrmed = meddao.listaMedidas();
     ArrayList<TipoProducto> arrtpr = tprdao.listaTipoProducto();
@@ -43,6 +52,9 @@ public class EditorProducto extends javax.swing.JFrame {
         initComponents();
         prod = producto;
         this.setTitle("Detalles del producto");
+        ImageIcon ico = new ImageIcon(idao.ObtenerImagen("parking.jpg"));
+        Image ima = ico.getImage().getScaledInstance(250, 150,  java.awt.Image.SCALE_SMOOTH);
+        jLabel12.setIcon(new ImageIcon(ima));
         txtId_Producto.setText(Integer.toString(prod.getId_producto()));
         txtRut_Productor.setText(Integer.toString(prod.getRut_productor()));
         if (prod.getOferta() == 1) {
@@ -63,6 +75,7 @@ public class EditorProducto extends javax.swing.JFrame {
         txtId_Producto.setEditable(false);
         TipoCultivo tc = new TipoCultivo();
         tc.setId_tipo_cultivo(prod.getId_tipo_cultivo());
+        cbTipoCultivo.setModel(modelTipoCultivo);
         cbTipoCultivo.setSelectedItem(tc);
         TipoProducto tp = new TipoProducto();
         cbTipoProducto.setSelectedItem(tp);
@@ -86,6 +99,7 @@ public class EditorProducto extends javax.swing.JFrame {
 
         bgOferta = new javax.swing.ButtonGroup();
         bgActivo = new javax.swing.ButtonGroup();
+        fileChooser = new javax.swing.JFileChooser();
         txtId_Producto = new javax.swing.JTextField();
         txtRut_Productor = new javax.swing.JTextField();
         cbTipoProducto = new javax.swing.JComboBox();
@@ -112,6 +126,8 @@ public class EditorProducto extends javax.swing.JFrame {
         btnVolver = new javax.swing.JButton();
         cbTipoCultivo = new javax.swing.JComboBox();
         jLabel11 = new javax.swing.JLabel();
+        btnImagen = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -182,52 +198,56 @@ public class EditorProducto extends javax.swing.JFrame {
 
         jLabel11.setText("Tipo de cultivo");
 
+        btnImagen.setText("Sel Imagen");
+        btnImagen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImagenActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2)
-                .addGap(29, 29, 29)
-                .addComponent(txtId_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
-                .addComponent(jLabel4)
-                .addGap(22, 22, 22)
-                .addComponent(txtRut_Productor, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel3)
-                .addGap(20, 20, 20)
-                .addComponent(cbTipoProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(46, 46, 46)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rbOfertaNo)
-                    .addComponent(rbOfertaSi))
-                .addGap(40, 40, 40))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
+                        .addComponent(jLabel5)
+                        .addGap(60, 60, 60)
+                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(379, 379, 379)
+                        .addComponent(cbTipoCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(45, 45, 45)
-                                .addComponent(jLabel9)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(48, 48, 48)
-                                .addComponent(jLabel10))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel6)
                                 .addGap(41, 41, 41)
                                 .addComponent(txtZonaDeCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(63, 63, 63)
-                                .addComponent(jLabel11)))
+                                .addComponent(jLabel11))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(69, 69, 69)
+                                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(cbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(45, 45, 45)
+                                                .addComponent(jLabel9)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(48, 48, 48)
+                                .addComponent(jLabel10)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(102, 102, 102)
@@ -239,20 +259,34 @@ public class EditorProducto extends javax.swing.JFrame {
                                 .addComponent(rbActivoSi)
                                 .addGap(18, 18, 18)
                                 .addComponent(rbActivoNo)
-                                .addGap(8, 8, 8))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5)
-                        .addGap(60, 60, 60)
-                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(155, 155, 155)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbTipoCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(8, 8, 8)))))
                 .addContainerGap(38, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(29, 29, 29)
+                        .addComponent(txtId_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(57, 57, 57)
+                        .addComponent(jLabel4)
+                        .addGap(22, 22, 22)
+                        .addComponent(txtRut_Productor, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel3)
+                        .addGap(20, 20, 20)
+                        .addComponent(cbTipoProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(46, 46, 46)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(rbOfertaNo)
+                    .addComponent(rbOfertaSi))
+                .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,7 +328,11 @@ public class EditorProducto extends javax.swing.JFrame {
                     .addComponent(rbActivoSi)
                     .addComponent(jLabel10)
                     .addComponent(rbActivoNo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addGap(74, 74, 74)
+                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(btnImagen)
+                .addGap(12, 12, 12)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificar)
                     .addComponent(btnVolver))
@@ -376,6 +414,35 @@ public class EditorProducto extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
+    private void btnImagenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenActionPerformed
+        // TODO add your handling code here:
+        OpenActionPerformed(evt);
+    }//GEN-LAST:event_btnImagenActionPerformed
+
+    private void OpenActionPerformed(java.awt.event.ActionEvent evt) {
+        
+    int returnVal = fileChooser.showOpenDialog(this);
+    if (returnVal == JFileChooser.APPROVE_OPTION) {
+        File file = fileChooser.getSelectedFile();
+        try {
+          // What to do with the file, e.g. display it in a TextArea
+//          String mimetype= new MimetypesFileTypeMap().getContentType(file);
+          String mimetype = URLConnection.guessContentTypeFromName(file.getPath());
+        String type = mimetype.split("/")[0];
+        if(type.equals("image")){
+            idao.SubirImagen(file, file.getName());
+            
+        }
+        else {
+            JOptionPane.showMessageDialog(this, "Este archivo no se reconoce como una imagen.");
+        }
+        } catch (Exception ex) {
+          System.out.println("problem accessing file"+file.getAbsolutePath());
+        }
+    } else {
+        System.out.println("File access cancelled by user.");
+    }
+} 
     /**
      * @param args the command line arguments
      */
@@ -383,14 +450,17 @@ public class EditorProducto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup bgActivo;
     private javax.swing.ButtonGroup bgOferta;
+    private javax.swing.JButton btnImagen;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVolver;
     private javax.swing.JComboBox cbMedida;
     private javax.swing.JComboBox cbTipoCultivo;
     private javax.swing.JComboBox cbTipoProducto;
+    private javax.swing.JFileChooser fileChooser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
