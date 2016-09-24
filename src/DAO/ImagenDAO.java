@@ -53,7 +53,7 @@ public class ImagenDAO {
             String result = getSOAPResponseSubirImagen(soapResponse);
 //            System.out.println("RESULT " + result);
             soapConnection.close();
-            if (result != null) {
+            if ("OK".equals(result)) {
                 return true;
             } else {
                 return false;
@@ -312,7 +312,7 @@ public class ImagenDAO {
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestInsImagen(img), url);
 
             // Recibe la respuesta SOAP y la procesa.
-            String result = getSOAPResponseUpdImagen(soapResponse);
+            String result = getSOAPResponseInsImagen(soapResponse);
 
             soapConnection.close();
             if (result != null) {
@@ -352,7 +352,7 @@ public class ImagenDAO {
          */
         // SOAP Body
          SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem = soapBody.addChildElement("Imagenes_ins", "web");
+        SOAPElement soapBodyElem = soapBody.addChildElement("Imagenes_Ins", "web");
         SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("id_producto", "web");
         soapBodyElem1.addTextNode(Integer.toString(p.getId_producto()));
         SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("nombre", "web");
@@ -364,11 +364,12 @@ public class ImagenDAO {
         SOAPElement soapBodyElem5 = soapBodyElem.addChildElement("fecha", "web");
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         String date = sdf.format(p.getFecha());
+        System.out.println(date);
         soapBodyElem5.addTextNode(date);
         SOAPElement soapBodyElem6 = soapBodyElem.addChildElement("ubicacion", "web");
         soapBodyElem6.addTextNode(p.getUbicacion());
         MimeHeaders headers = soapMessage.getMimeHeaders();
-        headers.addHeader("SOAPAction", serverURI + "/Imagenes_ins");
+        headers.addHeader("SOAPAction", serverURI + "/Imagenes_Ins");
 
         soapMessage.saveChanges();
 
@@ -384,13 +385,121 @@ public class ImagenDAO {
     private String getSOAPResponseInsImagen(SOAPMessage soapResponse) throws Exception {
         SOAPBody sb = soapResponse.getSOAPBody();
         SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
-        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Imagenes_ins");
+        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Imagenes_Ins");
         Document XMLDoc = sb.extractContentAsDocument();
         XPath xpath = XPathFactory.newInstance().newXPath();
 
-        NodeList nl = XMLDoc.getElementsByTagName("Imagenes_insResult");
+        NodeList nl = XMLDoc.getElementsByTagName("Imagenes_InsResult");
         String response = nl.item(0).getFirstChild().getNodeValue();
         return response;
+    }
+    
+    // Seleccionar imagen
+    
+     public ArrayList<Imagen> getImagen(int id_prod) {
+        try {
+            // Crea SOAP Connection
+            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
+            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
+
+            // Envía Mensaje SOAP a Servidor SOAP 
+            String url = "http://localhost:49193/Service1.asmx";
+            SOAPMessage soapResponse = soapConnection.call(createSOAPRequestGetImagen(id_prod), url);
+
+            // Recibe la respuesta SOAP y la procesa.
+            ArrayList<Imagen> arrimg = getSOAPResponseGetImagen(soapResponse);
+
+            soapConnection.close();
+            return arrimg;
+        } catch (Exception e) {
+            System.err.println("Hubo un error en la conexión con el webservice");
+            e.printStackTrace();
+            //lblError.setText("Hubo un error en la conexión con el servidor");
+        }
+        return null;
+    }
+
+    private SOAPMessage createSOAPRequestGetImagen(int id_prod) throws Exception {
+        MessageFactory messageFactory = MessageFactory.newInstance();
+        SOAPMessage soapMessage = messageFactory.createMessage();
+        SOAPPart soapPart = soapMessage.getSOAPPart();
+
+        String serverURI = "http://localhost/WebService";
+
+        // SOAP Envelope
+        SOAPEnvelope envelope = soapPart.getEnvelope();
+        envelope.addNamespaceDeclaration("web", serverURI);
+
+        /*
+         Constructed SOAP Request Message:
+         <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:example="http://ws.cdyne.com/">
+         <SOAP-ENV:Header/>
+         <SOAP-ENV:Body>
+         <example:VerifyEmail>
+         <example:email>mutantninja@gmail.com</example:email>
+         <example:LicenseKey>123</example:LicenseKey>
+         </example:VerifyEmail>
+         </SOAP-ENV:Body>
+         </SOAP-ENV:Envelope>
+         */
+        // SOAP Body
+        SOAPBody soapBody = envelope.getBody();
+        SOAPElement soapBodyElem = soapBody.addChildElement("Imagenes_Sel", "web");
+        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("id", "web");
+        soapBodyElem1.addTextNode(Integer.toString(id_prod));
+
+        MimeHeaders headers = soapMessage.getMimeHeaders();
+        headers.addHeader("SOAPAction", serverURI + "/Imagenes_Sel");
+
+        soapMessage.saveChanges();
+
+        /* Print the request message */
+        System.out.print("Request SOAP Message = ");
+        soapMessage.writeTo(System.out);
+        String x = soapMessage.toString();
+        System.out.println();
+
+        return soapMessage;
+    }
+
+    private ArrayList<Imagen> getSOAPResponseGetImagen(SOAPMessage soapResponse) throws Exception {
+        ArrayList<Imagen> arrimg = new ArrayList<>();
+        SOAPBody sb = soapResponse.getSOAPBody();
+        SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
+        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Imagenes_Sel");
+
+        Document XMLDoc = sb.extractContentAsDocument();
+        XPath xpath = XPathFactory.newInstance().newXPath();
+//        XPathExpression expr = xpath.compile("//Usuario");
+//        String result = String.class.cast(expr.evaluate(XMLDoc,
+//                XPathConstants.STRING));
+        NodeList nodeList = (NodeList) xpath.compile("//IMAGENES").evaluate(XMLDoc, XPathConstants.NODESET);
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            org.w3c.dom.Node nNode = nodeList.item(i);
+//            System.out.println("\nCurrent Element :"
+//                    + nNode.getNodeName());
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+//                System.out.println("COMUNA : "
+//                        + eElement.getAttribute("msdata:rowOrder"));
+                int val = Integer.parseInt(eElement.getAttribute("msdata:rowOrder"));
+//                usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
+//                usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
+//                usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
+                Imagen ima = new Imagen();
+                ima.setId_producto(Integer.parseInt(eElement.getElementsByTagName("ID_PRODUCTO").item(0).getTextContent()));
+                ima.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
+                ima.setDescripcion(eElement.getElementsByTagName("DESCRIPCION").item(0).getTextContent());
+                ima.setOrden(Integer.parseInt(eElement.getElementsByTagName("ORDEN").item(0).getTextContent()));
+                String fecha = (eElement.getElementsByTagName("FECHA").item(0).getTextContent());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                ima.setFecha(sdf.parse(fecha));
+                ima.setUbicacion(eElement.getElementsByTagName("UBICACION").item(0).getTextContent());
+                arrimg.add(ima);
+            }
+
+        }
+        return arrimg;
     }
 
 }

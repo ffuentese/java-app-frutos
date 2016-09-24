@@ -6,13 +6,18 @@
 package Vistas;
 
 import Controller.DatosProdControlador;
+import DAO.MedidaDAO;
 import DAO.ProductoDAO;
+import DAO.TipoCultivoDAO;
+import DAO.TipoProductoDAO;
 import DTO.Producto;
 import DTO.Productor;
 import DTO.Usuario;
 import java.awt.print.PrinterException;
+import java.text.MessageFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,7 +33,9 @@ public class ManProductosProductor extends javax.swing.JFrame {
     DefaultTableModel tablemodel = new DefaultTableModel(col, 0);
     ProductoDAO pdao = new ProductoDAO();
     Producto producto=new Producto();
-
+    TipoCultivoDAO tcdao = new TipoCultivoDAO();
+    TipoProductoDAO tprdao = new TipoProductoDAO();
+    MedidaDAO meddao = new MedidaDAO();
     /**
      * Creates new form ManProductosProductor
      */
@@ -49,11 +56,15 @@ public class ManProductosProductor extends javax.swing.JFrame {
         if (pdao.listaProductosRUT(rut).size() > 0) {
             for (int i = 0; i < pdao.listaProductosRUT(rut).size(); i++) {
                 Producto prod = pdao.listaProductosRUT(rut).get(i);
+                String tipoCultivo = tcdao.getTipoCultivo(prod.getId_tipo_cultivo()).getNombre();
+                String tipoProducto = tprdao.getTipoProducto(prod.getId_tipo_producto()).getNombre();
+                String tipoMedida = meddao.getTipoMedida(prod.getId_medida()).getNombre();
+                String oferta = ((prod.getOferta()==1) ? "Sí" : "No") ;
                 String[] linea = {Integer.toString(prod.getId_producto()),
-                    Integer.toString(prod.getId_tipo_producto()),
+                    tipoProducto,
                     prod.getDescripcion(),
-                    Integer.toString(prod.getOferta()), Integer.toString(prod.getId_tipo_cultivo()),
-                    Integer.toString(prod.getId_medida()), Integer.toString(prod.getPrecio())
+                    oferta, tipoCultivo,
+                    tipoMedida, Integer.toString(prod.getPrecio())
                 };
                 tablemodel.addRow(linea);
             }
@@ -154,7 +165,9 @@ public class ManProductosProductor extends javax.swing.JFrame {
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
         try {
             // Imprime la tabla:
-            tbProductos.print();
+            MessageFormat header = new MessageFormat("Productos");
+            MessageFormat footer = new MessageFormat("Page {0,number,integer}");
+            tbProductos.print(JTable.PrintMode.FIT_WIDTH, header, footer);
         } catch (PrinterException ex) {
             Logger.getLogger(ManProductosProductor.class.getName()).log(Level.SEVERE, null, ex);
         }

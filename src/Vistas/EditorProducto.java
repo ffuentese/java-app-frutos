@@ -10,6 +10,7 @@ import DAO.MedidaDAO;
 import DAO.ProductoDAO;
 import DAO.TipoCultivoDAO;
 import DAO.TipoProductoDAO;
+import DTO.Imagen;
 import DTO.Medida;
 import DTO.Producto;
 import DTO.TipoCultivo;
@@ -19,11 +20,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.activation.MimetypesFileTypeMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -43,6 +46,7 @@ public class EditorProducto extends javax.swing.JFrame {
     DefaultComboBoxModel modelTipoCultivo = new DefaultComboBoxModel(arrtcu.toArray());
     DefaultComboBoxModel modelTipoMedida = new DefaultComboBoxModel(arrmed.toArray());
     Producto prod = new Producto();
+    ImagenDAO imdao = new ImagenDAO();
     /**
      * Creates new form EditorProducto
      *
@@ -52,9 +56,12 @@ public class EditorProducto extends javax.swing.JFrame {
         initComponents();
         prod = producto;
         this.setTitle("Detalles del producto");
-        ImageIcon ico = new ImageIcon(idao.ObtenerImagen("huelga.jpg"));
+        ArrayList<Imagen> arrimg = imdao.getImagen(prod.getId_producto());
+        if(arrimg.size()>0){
+        ImageIcon ico = new ImageIcon(idao.ObtenerImagen(arrimg.get(0).getUbicacion()));
         Image ima = ico.getImage().getScaledInstance(250, 150,  java.awt.Image.SCALE_SMOOTH);
         jLabel12.setIcon(new ImageIcon(ima));
+        }
         txtId_Producto.setText(Integer.toString(prod.getId_producto()));
         txtRut_Productor.setText(Integer.toString(prod.getRut_productor()));
         if (prod.getOferta() == 1) {
@@ -429,8 +436,21 @@ public class EditorProducto extends javax.swing.JFrame {
 //          String mimetype= new MimetypesFileTypeMap().getContentType(file);
           String mimetype = URLConnection.guessContentTypeFromName(file.getPath());
         String type = mimetype.split("/")[0];
+        String ext = "."+this.getFileExtension(file);
         if(type.equals("image")){
-            idao.SubirImagen(file, file.getName());
+            Imagen im = new Imagen();
+            im.setNombre(file.getName());
+            im.setDescripcion(txtDescripcion.getText());
+            im.setOrden(1);
+            im.setId_producto(Integer.parseInt(txtId_Producto.getText()));
+            im.setFecha(new Date());
+            String filename = java.util.UUID.randomUUID().toString()+ext;
+            im.setUbicacion(filename);
+            if(idao.SubirImagen(file, im.getUbicacion())){
+                if(idao.create(im)){
+                    System.out.println("Imagen "+im.getUbicacion()+ " guardada."); 
+                }
+            };
             
         }
         else {
@@ -443,6 +463,14 @@ public class EditorProducto extends javax.swing.JFrame {
         System.out.println("File access cancelled by user.");
     }
 } 
+    private String getFileExtension(File file) {
+    String name = file.getName();
+    try {
+        return name.substring(name.lastIndexOf(".") + 1);
+    } catch (Exception e) {
+        return "";
+    }
+}
     /**
      * @param args the command line arguments
      */
