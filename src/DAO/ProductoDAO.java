@@ -315,34 +315,34 @@ public class ProductoDAO {
          */
         // SOAP Body
         SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem = soapBody.addChildElement("Productos_ins", "web");
-        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("ID_PRODUCTO", "web");
-        soapBodyElem1.addTextNode(Integer.toString(p.getId_producto()));
-        SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("RUT_PRODUCTOR", "web");
-        soapBodyElem2.addTextNode(Integer.toString(p.getRut_productor()));
-        SOAPElement soapBodyElem3 = soapBodyElem.addChildElement("ID_TIPO_PRODUCTO", "web");
-        soapBodyElem3.addTextNode(Integer.toString((p.getId_tipo_producto())));
-        SOAPElement soapBodyElem4 = soapBodyElem.addChildElement("OFERTA", "web");
-        soapBodyElem4.addTextNode(Integer.toString(p.getOferta()));
-        SOAPElement soapBodyElem5 = soapBodyElem.addChildElement("DESCRIPCION_ELABORACION", "web");
-        soapBodyElem5.addTextNode(p.getDescripcion());
-        SOAPElement soapBodyElem6 = soapBodyElem.addChildElement("ID_DIRECCION", "web");
-        soapBodyElem6.addTextNode(Integer.toString(p.getId_direccion()));
-        SOAPElement soapBodyElem7 = soapBodyElem.addChildElement("ZONA_CULTIVO", "web");
-        soapBodyElem7.addTextNode(p.getZona_cultivo());
-        SOAPElement soapBodyElem8 = soapBodyElem.addChildElement("STOCK", "web");
-        soapBodyElem8.addTextNode(Integer.toString(p.getStock()));
-        SOAPElement soapBodyElem9 = soapBodyElem.addChildElement("PRECIO_UNITARIO", "web");
-        soapBodyElem9.addTextNode(Integer.toString(p.getPrecio()));
-        SOAPElement soapBodyElem10 = soapBodyElem.addChildElement("ID_MEDIDA", "web");
-        soapBodyElem10.addTextNode(Integer.toString(p.getId_medida()));
-        SOAPElement soapBodyElem11 = soapBodyElem.addChildElement("ID_TIPO_CULTIVO", "web");
-        soapBodyElem11.addTextNode(Integer.toString(p.getId_tipo_cultivo()));
-        SOAPElement soapBodyElem12 = soapBodyElem.addChildElement("ACTIVO", "web");
-        soapBodyElem12.addTextNode(Integer.toString(p.getActivo()));
+        SOAPElement soapBodyElem = soapBody.addChildElement("Productos_Ins", "web");
+        //SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("ID_PRODUCTO", "web");
+        //soapBodyElem1.addTextNode(Integer.toString(p.getId_producto()));
+        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("rut_productor", "web");
+        soapBodyElem1.addTextNode(Integer.toString(p.getRut_productor()));
+        SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("id_tipo_producto", "web");
+        soapBodyElem2.addTextNode(Integer.toString((p.getId_tipo_producto())));
+        SOAPElement soapBodyElem3 = soapBodyElem.addChildElement("oferta", "web");
+        soapBodyElem3.addTextNode(Integer.toString(p.getOferta()));
+        SOAPElement soapBodyElem4 = soapBodyElem.addChildElement("descripcion_elaboracion", "web");
+        soapBodyElem4.addTextNode(p.getDescripcion());
+        SOAPElement soapBodyElem5 = soapBodyElem.addChildElement("id_direccion", "web");
+        soapBodyElem5.addTextNode(Integer.toString(p.getId_direccion()));
+        SOAPElement soapBodyElem6 = soapBodyElem.addChildElement("zona_cultivo", "web");
+        soapBodyElem6.addTextNode(p.getZona_cultivo());
+        SOAPElement soapBodyElem7 = soapBodyElem.addChildElement("stock", "web");
+        soapBodyElem7.addTextNode(Integer.toString(p.getStock()));
+        SOAPElement soapBodyElem8 = soapBodyElem.addChildElement("precio_unitario", "web");
+        soapBodyElem8.addTextNode(Integer.toString(p.getPrecio()));
+        SOAPElement soapBodyElem9 = soapBodyElem.addChildElement("id_medida", "web");
+        soapBodyElem9.addTextNode(Integer.toString(p.getId_medida()));
+        SOAPElement soapBodyElem10 = soapBodyElem.addChildElement("id_tipo_cultivo", "web");
+        soapBodyElem10.addTextNode(Integer.toString(p.getId_tipo_cultivo()));
+        SOAPElement soapBodyElem11 = soapBodyElem.addChildElement("activo", "web");
+        soapBodyElem11.addTextNode(Integer.toString(p.getActivo()));
 
         MimeHeaders headers = soapMessage.getMimeHeaders();
-        headers.addHeader("SOAPAction", serverURI + "/Productos_ins");
+        headers.addHeader("SOAPAction", serverURI + "/Productos_Ins");
 
         soapMessage.saveChanges();
 

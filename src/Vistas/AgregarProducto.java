@@ -124,6 +124,11 @@ public class AgregarProducto extends javax.swing.JFrame {
         jLabel7.setText("Stock");
 
         cbMedida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione tipo Medida" }));
+        cbMedida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbMedidaActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Medida");
 
@@ -323,22 +328,16 @@ public class AgregarProducto extends javax.swing.JFrame {
         int stock=Integer.parseInt(spStock.getValue().toString());
         ProductoDAO pdao=new ProductoDAO();
         ArrayList<Producto> listp=pdao.listaProductosRUT(Integer.parseInt(txtRut_Productor.getText()));
-        int mayor=0;
         int id_direccion=0;
         for(int i=0;i<listp.size();i++){
-            if(listp.get(i).getId_producto()>mayor){
-                mayor=listp.get(i).getId_producto();
-                id_direccion=listp.get(i).getId_direccion();
-            }
+                id_direccion=listp.get(i).getId_direccion();    
         }
-        int id_producto=mayor+1;
-        Producto pr=new Producto();
         
+        Producto pr=new Producto();
         pr.setActivo(activo);
         pr.setDescripcion(descripcion);
         pr.setId_direccion(id_direccion);
         pr.setId_medida(med.getId_medida());
-        pr.setId_producto(id_producto);
         pr.setId_tipo_cultivo(tipoC.getId_tipo_cultivo());
         pr.setId_tipo_producto(tipoP.getId_tipo_producto());
         pr.setOferta(oferta);
@@ -355,6 +354,10 @@ public class AgregarProducto extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "error");
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
+
+    private void cbMedidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbMedidaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbMedidaActionPerformed
 
     /**
      * @param args the command line arguments
