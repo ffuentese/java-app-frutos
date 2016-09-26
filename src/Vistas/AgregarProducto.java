@@ -314,10 +314,10 @@ public class AgregarProducto extends javax.swing.JFrame {
         }
         int activo=3;
         if(rbActivosi.isSelected()){
-            oferta=1;
+            activo=1;
         }else{
             if(rbActivono.isSelected()){
-                oferta=0;
+                activo=0;
             }else{
                 JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR UNA OPCION");
             }

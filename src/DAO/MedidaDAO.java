@@ -114,7 +114,7 @@ public class MedidaDAO {
 //        XPathExpression expr = xpath.compile("//Usuario");
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
-        NodeList nodeList = (NodeList) xpath.compile("//Tipo_Medidas").evaluate(XMLDoc, XPathConstants.NODESET);
+        NodeList nodeList = (NodeList) xpath.compile("//TipoMedida").evaluate(XMLDoc, XPathConstants.NODESET);
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Node nNode = nodeList.item(i);
 //            System.out.println("\nCurrent Element :"
@@ -216,7 +216,7 @@ public class MedidaDAO {
 //        XPathExpression expr = xpath.compile("//Usuario");
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
-        NodeList nodeList = (NodeList) xpath.compile("//Tipo_Medidas").evaluate(XMLDoc, XPathConstants.NODESET);
+        NodeList nodeList = (NodeList) xpath.compile("//TipoMedida").evaluate(XMLDoc, XPathConstants.NODESET);
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Node nNode = nodeList.item(i);
 //            System.out.println("\nCurrent Element :"

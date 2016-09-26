@@ -14,7 +14,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import DTO.Historial_ventas;
+import java.text.MessageFormat;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JTable;
 
 
 /**
@@ -156,12 +158,15 @@ public class Historialventas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        try {
+       try {
             // Imprime la tabla:
-            tbVentas.print();
+            MessageFormat header = new MessageFormat("Ventas");
+            MessageFormat footer = new MessageFormat("Page {0,number,integer}");
+            tbVentas.print(JTable.PrintMode.FIT_WIDTH, header, footer);
         } catch (PrinterException ex) {
-            Logger.getLogger(Historialventas.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ManProductosProductor.class.getName()).log(Level.SEVERE, null, ex);
         }
+    
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void fillTable(String rut) {
