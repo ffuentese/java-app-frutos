@@ -63,7 +63,7 @@ public class Login extends javax.swing.JFrame {
 
         SwingUtilities.updateComponentTreeUI(this);
         txtRut.requestFocus();
-
+        
     }
 
     /**

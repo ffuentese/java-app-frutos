@@ -5,8 +5,12 @@
  */
 package Vistas;
 
+import DTO.InactivityListener;
 import DTO.Usuario;
-
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JFrame;
 
 /**
  *
@@ -14,14 +18,28 @@ import DTO.Usuario;
  */
 public class Ventana_Principal extends javax.swing.JFrame {
 
+    InactivityListener listener;
+
     /**
      * Creates new form Ventana_Principal
      */
     public Ventana_Principal(Usuario usu) {
         initComponents();
         lblUsuario.setText("Bienvenido " + usu.getRut());
-        
+        listener = new InactivityListener(this, logout, 1);
+        listener.start();
+
     }
+
+    Action logout = new AbstractAction() {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            JFrame frame = (JFrame) ae.getSource();
+            System.exit(0);
+
+        }
+    };
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -120,7 +138,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
 
     private void btnInformedeVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformedeVentasActionPerformed
         // TODO add your handling code here:
-        Historialventas hventas=new Historialventas();
+        Historialventas hventas = new Historialventas();
         hventas.setVisible(true);
         hventas.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnInformedeVentasActionPerformed
@@ -128,7 +146,6 @@ public class Ventana_Principal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInformedeVentas;

@@ -5,9 +5,14 @@
  */
 package Vistas;
 
+import DTO.InactivityListener;
 import DTO.Usuario;
+import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -18,6 +23,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  */
 public class Ventana_Principal_Productor extends javax.swing.JFrame {
 Usuario usuario = new Usuario();
+InactivityListener listener;
     /**
      * Creates new form Ventana_Principal_Productor
      */
@@ -26,10 +32,20 @@ Usuario usuario = new Usuario();
         initComponents();
         this.setTitle("Menú");
         lblUsuario.setText("Bienvenido " + usu.getRut());
-
+        listener = new InactivityListener(this, logout, 1);
+        listener.start();
 
     }
 
+       Action logout = new AbstractAction() {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            JFrame frame = (JFrame) ae.getSource();
+            System.exit(0);
+
+        }
+    };
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
