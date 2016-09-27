@@ -5,8 +5,10 @@
  */
 package Vistas;
 
+import Controller.DatosProdControlador;
 import Controller.HistorialVentasControlador;
 import Controller.ProductorControlador;
+import DAO.ProductorDAO;
 import DTO.Productor;
 import java.awt.print.PrinterException;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import DTO.Historial_ventas;
+import DTO.Usuario;
 import java.text.MessageFormat;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
@@ -21,25 +24,32 @@ import javax.swing.JTable;
 
 /**
  *
- * @author Windows 7
+ * @author Francisco
  */
-public class Historialventas extends javax.swing.JFrame {
+public class HistorialVentasProd extends javax.swing.JFrame {
 
     ProductorControlador prc = new ProductorControlador();
+    DatosProdControlador dpc = new DatosProdControlador();
     HistorialVentasControlador hvc = new HistorialVentasControlador();
     DefaultComboBoxModel modelListaProductores = new DefaultComboBoxModel(prc.listaProductores().toArray());
+    Productor prod = new Productor();
+
+    
     /**DefaultComboBoxModel modelListaProductores = new DefaultComboBoxModel(prc.listaProductores().toArray());
      * Creates new form Historial_ventas
+     * @param usu
      */
-    public Historialventas() {
+    public HistorialVentasProd(Usuario usu) {
         initComponents();
         
       ArrayList<Productor> arrpro = prc.listaProductores();
 //      for(int i =0;i<arrpro.size();i++){
 //          cmbListarproductores.addItem(arrpro.get(i));
 //      }
-      
-        
+      prod = dpc.getProductor(usu.getRut());
+        this.fillTable(prod.getRut());
+        this.setTitle("HISTORIAL DE VENTAS "+ prod.getNombre()+ " "+prod.getApellido());
+        lblNombre.setText(prod.getNombre()+ " "+prod.getApellido());
         tbVentas.setAutoCreateRowSorter(true);
         tbVentas.getTableHeader().setReorderingAllowed(false);
     }   
@@ -66,23 +76,16 @@ public class Historialventas extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cmbListarproductores = new javax.swing.JComboBox();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbVentas = new javax.swing.JTable();
         btnVolver = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
+        lblNombre = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        cmbListarproductores.setModel(modelListaProductores);
-        cmbListarproductores.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbListarproductoresActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("PRODUCTORES");
+        jLabel2.setText("VENTAS");
 
         tbVentas.setModel(tablemodel);
         jScrollPane1.setViewportView(tbVentas);
@@ -108,16 +111,16 @@ public class Historialventas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(244, 244, 244)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cmbListarproductores, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(204, 204, 204)
+                        .addGap(212, 212, 212)
                         .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(61, 61, 61)
-                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(252, Short.MAX_VALUE))
+                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(271, 271, 271)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(244, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -129,29 +132,22 @@ public class Historialventas extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbListarproductores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 418, Short.MAX_VALUE)
+                    .addComponent(jLabel2)
+                    .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 424, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnImprimir)
                     .addComponent(btnVolver))
-                .addGap(30, 30, 30))
+                .addGap(28, 28, 28))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(53, 53, 53)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(81, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(103, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cmbListarproductoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbListarproductoresActionPerformed
-        // TODO add your handling code here:
-        Productor pro = ((Productor)cmbListarproductores.getSelectedItem());
-        this.fillTable(pro.getRut());
-       
-    }//GEN-LAST:event_cmbListarproductoresActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // Cierra la ventana y vuelve al menú:
@@ -161,7 +157,7 @@ public class Historialventas extends javax.swing.JFrame {
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
        try {
             // Imprime la tabla:
-            MessageFormat header = new MessageFormat("Ventas");
+            MessageFormat header = new MessageFormat("Ventas "+ prod.getNombre()+ " " +prod.getApellido());
             MessageFormat footer = new MessageFormat("Page {0,number,integer}");
             tbVentas.print(JTable.PrintMode.FIT_WIDTH, header, footer);
         } catch (PrinterException ex) {
@@ -191,45 +187,13 @@ public class Historialventas extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Historialventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Historialventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Historialventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Historialventas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Historialventas().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JComboBox cmbListarproductores;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNombre;
     private javax.swing.JTable tbVentas;
     // End of variables declaration//GEN-END:variables
 }

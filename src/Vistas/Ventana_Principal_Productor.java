@@ -93,6 +93,11 @@ DatosProdControlador dpc = new DatosProdControlador();
         });
 
         btnHistorial.setText("Ver historial de ventas");
+        btnHistorial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHistorialActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,6 +162,13 @@ DatosProdControlador dpc = new DatosProdControlador();
         mpp.setVisible(true);
         mpp.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnMantenedorProductosActionPerformed
+
+    private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
+        // TODO add your handling code here:
+        HistorialVentasProd hv = new HistorialVentasProd(usuario);
+        hv.setVisible(true);
+        hv.setLocationRelativeTo(null);
+    }//GEN-LAST:event_btnHistorialActionPerformed
 
     /**
      * @param args the command line arguments

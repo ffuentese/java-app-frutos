@@ -50,6 +50,9 @@ public class ManProductosProductor extends javax.swing.JFrame {
         
         producto.setRut_productor(Integer.parseInt(usu.getRut()));
         producto.setId_direccion(Integer.parseInt(pro.getId_direccion_negocio()));
+        tbProductos.setAutoCreateRowSorter(true);
+        tbProductos.getTableHeader().setReorderingAllowed(false);
+        
     }
 
     private void fillTable(int rut) {
@@ -69,7 +72,6 @@ public class ManProductosProductor extends javax.swing.JFrame {
                 };
                 tablemodel.addRow(linea);
             }
-
         }
     }
 
