@@ -49,6 +49,7 @@ public class ManProductosProductor extends javax.swing.JFrame {
         tbProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         producto.setRut_productor(Integer.parseInt(usu.getRut()));
+        producto.setId_direccion(Integer.parseInt(pro.getId_direccion_negocio()));
     }
 
     private void fillTable(int rut) {
@@ -183,14 +184,16 @@ public class ManProductosProductor extends javax.swing.JFrame {
         EditorProducto ep = new EditorProducto(prod);
         ep.setVisible(true);
         ep.setLocationRelativeTo(null);
+        dispose();
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        AgregarProducto ag = new AgregarProducto(producto);
+        EditorProducto ag = new EditorProducto(producto);
         ag.setVisible(true);
         ag.setLocationRelativeTo(null);
+        dispose();
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     /**

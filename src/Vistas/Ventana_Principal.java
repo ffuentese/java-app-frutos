@@ -19,12 +19,13 @@ import javax.swing.JFrame;
 public class Ventana_Principal extends javax.swing.JFrame {
 
     InactivityListener listener;
-
+    
     /**
      * Creates new form Ventana_Principal
      */
     public Ventana_Principal(Usuario usu) {
         initComponents();
+        
         lblUsuario.setText("Bienvenido " + usu.getRut());
         listener = new InactivityListener(this, logout, 1);
         listener.start();

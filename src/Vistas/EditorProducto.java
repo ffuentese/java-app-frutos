@@ -15,6 +15,7 @@ import DTO.Medida;
 import DTO.Producto;
 import DTO.TipoCultivo;
 import DTO.TipoProducto;
+import DTO.Usuario;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -42,11 +43,13 @@ public class EditorProducto extends javax.swing.JFrame {
     ArrayList<TipoCultivo> arrtcu = tcudao.listaTipoCultivo();
     ArrayList<Medida> arrmed = meddao.listaMedidas();
     ArrayList<TipoProducto> arrtpr = tprdao.listaTipoProducto();
-    DefaultComboBoxModel modelTipoProducto = new DefaultComboBoxModel(arrtpr.toArray());
-    DefaultComboBoxModel modelTipoCultivo = new DefaultComboBoxModel(arrtcu.toArray());
-    DefaultComboBoxModel modelTipoMedida = new DefaultComboBoxModel(arrmed.toArray());
+//    DefaultComboBoxModel modelTipoProducto = new DefaultComboBoxModel(arrtpr.toArray());
+//    DefaultComboBoxModel modelTipoCultivo = new DefaultComboBoxModel(arrtcu.toArray());
+//    DefaultComboBoxModel modelTipoMedida = new DefaultComboBoxModel(arrmed.toArray());
     Producto prod = new Producto();
     ImagenDAO imdao = new ImagenDAO();
+        
+        
     /**
      * Creates new form EditorProducto
      *
@@ -54,8 +57,20 @@ public class EditorProducto extends javax.swing.JFrame {
      */
     public EditorProducto(Producto producto) {
         initComponents();
+        for(int i=0;i<arrmed.size();i++){
+            cbMedida.addItem(arrmed.get(i));
+        }
+        
+        for(int i=0;i<arrtpr.size();i++){
+            cbTipoProducto.addItem(arrtpr.get(i));
+        }
+        
+        for(int i =0;i<arrtcu.size();i++){
+            cbTipoCultivo.addItem(arrtcu.get(i));
+        }
         prod = producto;
         this.setTitle("Detalles del producto");
+        if(prod.getId_producto()!=0){
         ArrayList<Imagen> arrimg = imdao.getImagen(prod.getId_producto());
         if(arrimg.size()>0){
         ImageIcon ico = new ImageIcon(idao.ObtenerImagen(arrimg.get(0).getUbicacion()));
@@ -82,7 +97,7 @@ public class EditorProducto extends javax.swing.JFrame {
         txtId_Producto.setEditable(false);
         TipoCultivo tc = new TipoCultivo();
         tc.setId_tipo_cultivo(prod.getId_tipo_cultivo());
-        cbTipoCultivo.setModel(modelTipoCultivo);
+        
         cbTipoCultivo.setSelectedItem(tc);
         TipoProducto tp = new TipoProducto();
         cbTipoProducto.setSelectedItem(tp);
@@ -92,7 +107,17 @@ public class EditorProducto extends javax.swing.JFrame {
         txtDescripcion.setEditable(false);
         txtZonaDeCultivo.setEditable(false);
         txtPrecioUnitario.setEditable(false);
-
+        }
+        else{
+        
+        txtId_Producto.setEditable(false);
+        txtRut_Productor.setEditable(false);
+        txtRut_Productor.setText(Integer.toString(prod.getRut_productor()));
+         txtDescripcion.setEditable(true);
+            txtZonaDeCultivo.setEditable(true);
+            txtPrecioUnitario.setEditable(true);
+            btnModificar.setText("Guardar");
+        }
     }
 
     /**
@@ -138,7 +163,7 @@ public class EditorProducto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        cbTipoProducto.setModel(modelTipoProducto);
+        cbTipoProducto.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
 
         bgOferta.add(rbOfertaSi);
         rbOfertaSi.setText("Sí");
@@ -166,7 +191,7 @@ public class EditorProducto extends javax.swing.JFrame {
 
         jLabel7.setText("Stock");
 
-        cbMedida.setModel(modelTipoMedida);
+        cbMedida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
 
         jLabel8.setText("Medida");
 
@@ -201,7 +226,7 @@ public class EditorProducto extends javax.swing.JFrame {
             }
         });
 
-        cbTipoCultivo.setModel(modelTipoCultivo);
+        cbTipoCultivo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
 
         jLabel11.setText("Tipo de cultivo");
 
@@ -216,27 +241,23 @@ public class EditorProducto extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel5)
-                        .addGap(60, 60, 60)
-                        .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(379, 379, 379)
-                        .addComponent(cbTipoCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel6)
-                                .addGap(41, 41, 41)
-                                .addComponent(txtZonaDeCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(63, 63, 63)
-                                .addComponent(jLabel11))
+                                .addContainerGap()
+                                .addComponent(jLabel5)
+                                .addGap(60, 60, 60)
+                                .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(379, 379, 379)
+                                .addComponent(cbTipoCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(57, 57, 57))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -253,46 +274,46 @@ public class EditorProducto extends javax.swing.JFrame {
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(txtPrecioUnitario, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(48, 48, 48)
-                                .addComponent(jLabel10)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(102, 102, 102)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(48, 48, 48)
+                                        .addComponent(jLabel10)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rbActivoSi)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(rbActivoNo))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(56, 56, 56)
+                                        .addComponent(btnImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 3, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel6)
+                                .addGap(41, 41, 41)
+                                .addComponent(txtZonaDeCultivo, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(63, 63, 63)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel7)
                                 .addGap(18, 18, 18)
-                                .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rbActivoSi)
+                                .addComponent(spStock, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(29, 29, 29)
+                                .addComponent(txtId_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(57, 57, 57)
+                                .addComponent(jLabel4)
+                                .addGap(22, 22, 22)
+                                .addComponent(txtRut_Productor, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(rbActivoNo)
-                                .addGap(8, 8, 8)))))
-                .addContainerGap(38, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(29, 29, 29)
-                        .addComponent(txtId_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)
-                        .addComponent(jLabel4)
-                        .addGap(22, 22, 22)
-                        .addComponent(txtRut_Productor, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addGap(20, 20, 20)
-                        .addComponent(cbTipoProducto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(46, 46, 46)
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(6, 6, 6)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(rbOfertaNo)
-                    .addComponent(rbOfertaSi))
+                                .addComponent(jLabel3)
+                                .addGap(20, 20, 20)
+                                .addComponent(cbTipoProducto, 0, 98, Short.MAX_VALUE)
+                                .addGap(46, 46, 46)
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(rbOfertaNo)
+                                    .addComponent(rbOfertaSi))))))
                 .addGap(40, 40, 40))
         );
         layout.setVerticalGroup(
@@ -337,12 +358,11 @@ public class EditorProducto extends javax.swing.JFrame {
                     .addComponent(rbActivoNo))
                 .addGap(74, 74, 74)
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(btnImagen)
-                .addGap(12, 12, 12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnModificar)
-                    .addComponent(btnVolver))
+                    .addComponent(btnVolver)
+                    .addComponent(btnImagen))
                 .addGap(57, 57, 57))
         );
 
@@ -355,6 +375,12 @@ public class EditorProducto extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
+        
+        Usuario usu=new Usuario();
+        usu.setRut(txtRut_Productor.getText());
+        ManProductosProductor man=new ManProductosProductor(usu);
+        man.setVisible(true);
+        man.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
@@ -370,6 +396,7 @@ public class EditorProducto extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
+        
         if (btnModificar.getText() == "Modificar") {
             txtDescripcion.setEditable(true);
             txtZonaDeCultivo.setEditable(true);
@@ -380,17 +407,27 @@ public class EditorProducto extends javax.swing.JFrame {
                 if(
                         !txtDescripcion.getText().isEmpty() && 
                         !txtZonaDeCultivo.getText().isEmpty() &&
-                        !txtPrecioUnitario.getText().isEmpty()
-                        
+                        !txtPrecioUnitario.getText().isEmpty()&&
+                        cbMedida.getSelectedIndex()!=0 &&
+                        cbTipoCultivo.getSelectedIndex()!=0 &&
+                        cbTipoProducto.getSelectedIndex()!=0
                         ) {
+                  if(!txtId_Producto.getText().isEmpty()){  
                 prod.setId_producto(Integer.parseInt(txtId_Producto.getText()));
+                  }
                 prod.setRut_productor(Integer.parseInt(txtRut_Productor.getText()));
                 prod.setDescripcion(txtDescripcion.getText());
                 prod.setZona_cultivo(txtZonaDeCultivo.getText());
                 prod.setPrecio(Integer.parseInt(txtPrecioUnitario.getText()));
+                if(cbTipoProducto.getSelectedIndex()!=0){
                 prod.setId_tipo_producto(((TipoProducto)cbTipoProducto.getSelectedItem()).getId_tipo_producto());
+                }
+                if(cbMedida.getSelectedIndex()!=0){
                 prod.setId_medida(((Medida)cbMedida.getSelectedItem()).getId_medida());
+                }
+                if(cbTipoCultivo.getSelectedIndex()!=0){
                 prod.setId_tipo_cultivo(((TipoCultivo)cbTipoCultivo.getSelectedItem()).getId_tipo_cultivo());
+                }
                 int stock = (Integer) spStock.getValue();
                 prod.setStock(stock);
                 if(rbOfertaSi.isSelected()){
@@ -408,15 +445,20 @@ public class EditorProducto extends javax.swing.JFrame {
                     return;
                 }
                 
+                if(txtId_Producto.getText().isEmpty()){
+                    pdao.agregar(prod);
+                    JOptionPane.showMessageDialog(null, "PRODUCTO AGREGADO EXITOSAMENTE");
+                        }else{
                 if(pdao.Update(prod)){
                     JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
                 } else {
                     JOptionPane.showMessageDialog(null, "HUBO UN PROBLEMA AL REALIZAR LA OPERACIÓN");
                 }
-                
+                }
                 } else {
                     return;
                 }
+                
             }
         }
     }//GEN-LAST:event_btnModificarActionPerformed
@@ -470,6 +512,7 @@ public class EditorProducto extends javax.swing.JFrame {
     } catch (Exception e) {
         return "";
     }
+    
 }
     /**
      * @param args the command line arguments

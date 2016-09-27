@@ -5,7 +5,9 @@
  */
 package Vistas;
 
+import Controller.DatosProdControlador;
 import DTO.InactivityListener;
+import DTO.Productor;
 import DTO.Usuario;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
@@ -24,14 +26,16 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Ventana_Principal_Productor extends javax.swing.JFrame {
 Usuario usuario = new Usuario();
 InactivityListener listener;
+DatosProdControlador dpc = new DatosProdControlador();
     /**
      * Creates new form Ventana_Principal_Productor
      */
     public Ventana_Principal_Productor(Usuario usu) {
         usuario = usu;
         initComponents();
+        Productor p=dpc.getProductor(usu.getRut());
         this.setTitle("Menú");
-        lblUsuario.setText("Bienvenido " + usu.getRut());
+        lblUsuario.setText("Bienvenido " + p.getNombre() + " "+p.getApellido());
         listener = new InactivityListener(this, logout, 1);
         listener.start();
 
