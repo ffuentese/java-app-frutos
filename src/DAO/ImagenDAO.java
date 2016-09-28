@@ -396,7 +396,7 @@ public class ImagenDAO {
     
     // Seleccionar imagen
     
-     public ArrayList<Imagen> getImagen(int id_prod) {
+     public Imagen getImagen(int id_prod) {
         try {
             // Crea SOAP Connection
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
@@ -407,10 +407,10 @@ public class ImagenDAO {
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestGetImagen(id_prod), url);
 
             // Recibe la respuesta SOAP y la procesa.
-            ArrayList<Imagen> arrimg = getSOAPResponseGetImagen(soapResponse);
+            Imagen img = getSOAPResponseGetImagen(soapResponse);
 
             soapConnection.close();
-            return arrimg;
+            return img;
         } catch (Exception e) {
             System.err.println("Hubo un error en la conexión con el webservice");
             e.printStackTrace();
@@ -462,7 +462,7 @@ public class ImagenDAO {
         return soapMessage;
     }
 
-    private ArrayList<Imagen> getSOAPResponseGetImagen(SOAPMessage soapResponse) throws Exception {
+    private Imagen getSOAPResponseGetImagen(SOAPMessage soapResponse) throws Exception {
         ArrayList<Imagen> arrimg = new ArrayList<>();
         SOAPBody sb = soapResponse.getSOAPBody();
         SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
@@ -474,6 +474,7 @@ public class ImagenDAO {
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
         NodeList nodeList = (NodeList) xpath.compile("//IMAGENES").evaluate(XMLDoc, XPathConstants.NODESET);
+        Imagen ima = new Imagen();
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Node nNode = nodeList.item(i);
 //            System.out.println("\nCurrent Element :"
@@ -486,7 +487,7 @@ public class ImagenDAO {
 //                usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
 //                usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
 //                usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
-                Imagen ima = new Imagen();
+                
                 ima.setId_producto(Integer.parseInt(eElement.getElementsByTagName("ID_PRODUCTO").item(0).getTextContent()));
                 ima.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
                 ima.setDescripcion(eElement.getElementsByTagName("DESCRIPCION").item(0).getTextContent());
@@ -495,11 +496,11 @@ public class ImagenDAO {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 ima.setFecha(sdf.parse(fecha));
                 ima.setUbicacion(eElement.getElementsByTagName("UBICACION").item(0).getTextContent());
-                arrimg.add(ima);
+                
             }
 
         }
-        return arrimg;
+        return ima;
     }
 
 }

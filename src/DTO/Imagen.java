@@ -72,6 +72,13 @@ public class Imagen {
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
+
+    @Override
+    public String toString() {
+        return "Imagen{" + "id_producto=" + id_producto + ", nombre=" + nombre + ", descripcion=" + descripcion + ", orden=" + orden + ", fecha=" + fecha + ", ubicacion=" + ubicacion + '}';
+    }
+    
+    
     
     
 }

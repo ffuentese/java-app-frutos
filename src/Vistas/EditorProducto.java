@@ -28,7 +28,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
-
 /**
  *
  * @author Francisco
@@ -43,13 +42,9 @@ public class EditorProducto extends javax.swing.JFrame {
     ArrayList<TipoCultivo> arrtcu = tcudao.listaTipoCultivo();
     ArrayList<Medida> arrmed = meddao.listaMedidas();
     ArrayList<TipoProducto> arrtpr = tprdao.listaTipoProducto();
-//    DefaultComboBoxModel modelTipoProducto = new DefaultComboBoxModel(arrtpr.toArray());
-//    DefaultComboBoxModel modelTipoCultivo = new DefaultComboBoxModel(arrtcu.toArray());
-//    DefaultComboBoxModel modelTipoMedida = new DefaultComboBoxModel(arrmed.toArray());
     Producto prod = new Producto();
     ImagenDAO imdao = new ImagenDAO();
-        
-        
+
     /**
      * Creates new form EditorProducto
      *
@@ -57,63 +52,64 @@ public class EditorProducto extends javax.swing.JFrame {
      */
     public EditorProducto(Producto producto) {
         initComponents();
-        for(int i=0;i<arrmed.size();i++){
+        for (int i = 0; i < arrmed.size(); i++) {
             cbMedida.addItem(arrmed.get(i));
         }
-        
-        for(int i=0;i<arrtpr.size();i++){
+
+        for (int i = 0; i < arrtpr.size(); i++) {
             cbTipoProducto.addItem(arrtpr.get(i));
         }
-        
-        for(int i =0;i<arrtcu.size();i++){
+
+        for (int i = 0; i < arrtcu.size(); i++) {
             cbTipoCultivo.addItem(arrtcu.get(i));
         }
         prod = producto;
         this.setTitle("Detalles del producto");
-        if(prod.getId_producto()!=0){
-        ArrayList<Imagen> arrimg = imdao.getImagen(prod.getId_producto());
-        if(arrimg.size()>0){
-        ImageIcon ico = new ImageIcon(idao.ObtenerImagen(arrimg.get(0).getUbicacion()));
-        Image ima = ico.getImage().getScaledInstance(250, 150,  java.awt.Image.SCALE_SMOOTH);
-        jLabel12.setIcon(new ImageIcon(ima));
-        }
-        txtId_Producto.setText(Integer.toString(prod.getId_producto()));
-        txtRut_Productor.setText(Integer.toString(prod.getRut_productor()));
-        if (prod.getOferta() == 1) {
-            rbOfertaSi.setSelected(true);
+        if (prod.getId_producto() != 0) {
+            if (imdao.getImagen(prod.getId_producto()).getUbicacion() != null) {
+                Imagen img = imdao.getImagen(prod.getId_producto());
+                ImageIcon ico = new ImageIcon(idao.ObtenerImagen(img.getUbicacion()));
+                Image ima = ico.getImage().getScaledInstance(250, 150, java.awt.Image.SCALE_SMOOTH);
+                jLabel12.setIcon(new ImageIcon(ima));
+            }
+            txtId_Producto.setText(Integer.toString(prod.getId_producto()));
+            txtRut_Productor.setText(Integer.toString(prod.getRut_productor()));
+            if (prod.getOferta() == 1) {
+                rbOfertaSi.setSelected(true);
+            } else {
+                rbOfertaNo.setSelected(true);
+            }
+            if (prod.getActivo() == 1) {
+                rbActivoSi.setSelected(true);
+            } else {
+                rbActivoNo.setSelected(true);
+            }
+            txtDescripcion.setText(prod.getDescripcion());
+            txtZonaDeCultivo.setText(prod.getZona_cultivo());
+            spStock.setValue(Integer.valueOf(prod.getStock()));
+            txtPrecioUnitario.setText(Integer.toString(prod.getPrecio()));
+            txtRut_Productor.setEditable(false);
+            txtId_Producto.setEditable(false);
+            TipoCultivo tc = new TipoCultivo();
+            tc.setId_tipo_cultivo(prod.getId_tipo_cultivo());
+
+            cbTipoCultivo.setSelectedItem(tc);
+            TipoProducto tp = new TipoProducto();
+            tp.setId_tipo_producto(prod.getId_tipo_producto());
+            cbTipoProducto.setSelectedItem(tp);
+            Medida me = new Medida();
+            me.setId_medida(prod.getId_medida());
+            cbMedida.setSelectedItem(me);
+            //Bloquear campos restantes 
+            txtDescripcion.setEditable(false);
+            txtZonaDeCultivo.setEditable(false);
+            txtPrecioUnitario.setEditable(false);
         } else {
-            rbOfertaNo.setSelected(true);
-        }
-        if (prod.getActivo() == 1) {
-            rbActivoSi.setSelected(true);
-        } else {
-            rbActivoNo.setSelected(true);
-        }
-        txtDescripcion.setText(prod.getDescripcion());
-        txtZonaDeCultivo.setText(prod.getZona_cultivo());
-        spStock.setValue(Integer.valueOf(prod.getStock()));
-        txtPrecioUnitario.setText(Integer.toString(prod.getPrecio()));
-        txtRut_Productor.setEditable(false);
-        txtId_Producto.setEditable(false);
-        TipoCultivo tc = new TipoCultivo();
-        tc.setId_tipo_cultivo(prod.getId_tipo_cultivo());
-        
-        cbTipoCultivo.setSelectedItem(tc);
-        TipoProducto tp = new TipoProducto();
-        cbTipoProducto.setSelectedItem(tp);
-        Medida me = new Medida();
-        cbMedida.setSelectedItem(me);
-        //Bloquear campos restantes 
-        txtDescripcion.setEditable(false);
-        txtZonaDeCultivo.setEditable(false);
-        txtPrecioUnitario.setEditable(false);
-        }
-        else{
-        
-        txtId_Producto.setEditable(false);
-        txtRut_Productor.setEditable(false);
-        txtRut_Productor.setText(Integer.toString(prod.getRut_productor()));
-         txtDescripcion.setEditable(true);
+            btnImagen.setVisible(false);
+            txtId_Producto.setEditable(false);
+            txtRut_Productor.setEditable(false);
+            txtRut_Productor.setText(Integer.toString(prod.getRut_productor()));
+            txtDescripcion.setEditable(true);
             txtZonaDeCultivo.setEditable(true);
             txtPrecioUnitario.setEditable(true);
             btnModificar.setText("Guardar");
@@ -375,10 +371,10 @@ public class EditorProducto extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
-        
-        Usuario usu=new Usuario();
+
+        Usuario usu = new Usuario();
         usu.setRut(txtRut_Productor.getText());
-        ManProductosProductor man=new ManProductosProductor(usu);
+        ManProductosProductor man = new ManProductosProductor(usu);
         man.setVisible(true);
         man.setLocationRelativeTo(null);
         this.dispose();
@@ -396,69 +392,67 @@ public class EditorProducto extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        
+
         if (btnModificar.getText() == "Modificar") {
             txtDescripcion.setEditable(true);
             txtZonaDeCultivo.setEditable(true);
             txtPrecioUnitario.setEditable(true);
             btnModificar.setText("Guardar");
         } else {
-            if(btnModificar.getText() == "Guardar"){
-                if(
-                        !txtDescripcion.getText().isEmpty() && 
-                        !txtZonaDeCultivo.getText().isEmpty() &&
-                        !txtPrecioUnitario.getText().isEmpty()&&
-                        cbMedida.getSelectedIndex()!=0 &&
-                        cbTipoCultivo.getSelectedIndex()!=0 &&
-                        cbTipoProducto.getSelectedIndex()!=0
-                        ) {
-                  if(!txtId_Producto.getText().isEmpty()){  
-                prod.setId_producto(Integer.parseInt(txtId_Producto.getText()));
-                  }
-                prod.setRut_productor(Integer.parseInt(txtRut_Productor.getText()));
-                prod.setDescripcion(txtDescripcion.getText());
-                prod.setZona_cultivo(txtZonaDeCultivo.getText());
-                prod.setPrecio(Integer.parseInt(txtPrecioUnitario.getText()));
-                if(cbTipoProducto.getSelectedIndex()!=0){
-                prod.setId_tipo_producto(((TipoProducto)cbTipoProducto.getSelectedItem()).getId_tipo_producto());
-                }
-                if(cbMedida.getSelectedIndex()!=0){
-                prod.setId_medida(((Medida)cbMedida.getSelectedItem()).getId_medida());
-                }
-                if(cbTipoCultivo.getSelectedIndex()!=0){
-                prod.setId_tipo_cultivo(((TipoCultivo)cbTipoCultivo.getSelectedItem()).getId_tipo_cultivo());
-                }
-                int stock = (Integer) spStock.getValue();
-                prod.setStock(stock);
-                if(rbOfertaSi.isSelected()){
-                    prod.setOferta(1);
-                } else if(rbOfertaNo.isSelected()){
-                    prod.setOferta(0);
+            if (btnModificar.getText() == "Guardar") {
+                if (!txtDescripcion.getText().isEmpty()
+                        && !txtZonaDeCultivo.getText().isEmpty()
+                        && !txtPrecioUnitario.getText().isEmpty()
+                        && cbMedida.getSelectedIndex() != 0
+                        && cbTipoCultivo.getSelectedIndex() != 0
+                        && cbTipoProducto.getSelectedIndex() != 0) {
+                    if (!txtId_Producto.getText().isEmpty()) {
+                        prod.setId_producto(Integer.parseInt(txtId_Producto.getText()));
+                    }
+                    prod.setRut_productor(Integer.parseInt(txtRut_Productor.getText()));
+                    prod.setDescripcion(txtDescripcion.getText());
+                    prod.setZona_cultivo(txtZonaDeCultivo.getText());
+                    prod.setPrecio(Integer.parseInt(txtPrecioUnitario.getText()));
+                    if (cbTipoProducto.getSelectedIndex() != 0) {
+                        prod.setId_tipo_producto(((TipoProducto) cbTipoProducto.getSelectedItem()).getId_tipo_producto());
+                    }
+                    if (cbMedida.getSelectedIndex() != 0) {
+                        prod.setId_medida(((Medida) cbMedida.getSelectedItem()).getId_medida());
+                    }
+                    if (cbTipoCultivo.getSelectedIndex() != 0) {
+                        prod.setId_tipo_cultivo(((TipoCultivo) cbTipoCultivo.getSelectedItem()).getId_tipo_cultivo());
+                    }
+                    int stock = (Integer) spStock.getValue();
+                    prod.setStock(stock);
+                    if (rbOfertaSi.isSelected()) {
+                        prod.setOferta(1);
+                    } else if (rbOfertaNo.isSelected()) {
+                        prod.setOferta(0);
+                    } else {
+                        return;
+                    }
+                    if (rbActivoSi.isSelected()) {
+                        prod.setActivo(1);
+                    } else if (rbOfertaNo.isSelected()) {
+                        prod.setActivo(0);
+                    } else {
+                        return;
+                    }
+
+                    if (txtId_Producto.getText().isEmpty()) {
+                        pdao.agregar(prod);
+                        JOptionPane.showMessageDialog(null, "PRODUCTO AGREGADO EXITOSAMENTE");
+                    } else {
+                        if (pdao.Update(prod)) {
+                            JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "HUBO UN PROBLEMA AL REALIZAR LA OPERACIÓN");
+                        }
+                    }
                 } else {
                     return;
                 }
-                if(rbActivoSi.isSelected()){
-                    prod.setActivo(1);
-                } else if(rbOfertaNo.isSelected()){
-                    prod.setActivo(0);
-                } else {
-                    return;
-                }
-                
-                if(txtId_Producto.getText().isEmpty()){
-                    pdao.agregar(prod);
-                    JOptionPane.showMessageDialog(null, "PRODUCTO AGREGADO EXITOSAMENTE");
-                        }else{
-                if(pdao.Update(prod)){
-                    JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
-                } else {
-                    JOptionPane.showMessageDialog(null, "HUBO UN PROBLEMA AL REALIZAR LA OPERACIÓN");
-                }
-                }
-                } else {
-                    return;
-                }
-                
+
             }
         }
     }//GEN-LAST:event_btnModificarActionPerformed
@@ -469,51 +463,59 @@ public class EditorProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnImagenActionPerformed
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {
-        
-    int returnVal = fileChooser.showOpenDialog(this);
-    if (returnVal == JFileChooser.APPROVE_OPTION) {
-        File file = fileChooser.getSelectedFile();
-        try {
-          // What to do with the file, e.g. display it in a TextArea
+
+        int returnVal = fileChooser.showOpenDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            try {
+                // What to do with the file, e.g. display it in a TextArea
 //          String mimetype= new MimetypesFileTypeMap().getContentType(file);
-          String mimetype = URLConnection.guessContentTypeFromName(file.getPath());
-        String type = mimetype.split("/")[0];
-        String ext = "."+this.getFileExtension(file);
-        if(type.equals("image")){
-            Imagen im = new Imagen();
-            im.setNombre(file.getName());
-            im.setDescripcion(txtDescripcion.getText());
-            im.setOrden(1);
-            im.setId_producto(Integer.parseInt(txtId_Producto.getText()));
-            im.setFecha(new Date());
-            String filename = java.util.UUID.randomUUID().toString()+ext;
-            im.setUbicacion(filename);
-            if(idao.SubirImagen(file, im.getUbicacion())){
-                if(idao.create(im)){
-                    System.out.println("Imagen "+im.getUbicacion()+ " guardada."); 
+                String mimetype = URLConnection.guessContentTypeFromName(file.getPath());
+                String type = mimetype.split("/")[0];
+                String ext = "." + this.getFileExtension(file);
+                if (type.equals("image")) {
+                    Imagen im = new Imagen();
+                    im.setNombre(file.getName());
+                    im.setDescripcion(txtDescripcion.getText());
+                    im.setOrden(1);
+                    if(!txtId_Producto.getText().isEmpty()){
+                    im.setId_producto(Integer.parseInt(txtId_Producto.getText()));
+                    }
+                    im.setFecha(new Date());
+                    String filename = java.util.UUID.randomUUID().toString() + ext;
+                    im.setUbicacion(filename);
+                    if (idao.SubirImagen(file, im.getUbicacion())) {
+                        if (idao.getImagen(prod.getId_producto()) != null) {
+                            if (idao.create(im)) {
+                                System.out.println("Imagen " + im.getUbicacion() + " guardada.");
+                            }
+                        } else {
+                            if (idao.Update(im)) {
+                                System.out.println("Imagen " + im.getUbicacion() + " guardada.");
+                            }
+                        };
+
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(this, "Este archivo no se reconoce como una imagen.");
                 }
-            };
-            
+
+            } catch (Exception ex) {
+                System.out.println("Problema accediendo al archivo " + file.getAbsolutePath());
+            }
+
         }
-        else {
-            JOptionPane.showMessageDialog(this, "Este archivo no se reconoce como una imagen.");
-        }
-        } catch (Exception ex) {
-          System.out.println("problem accessing file"+file.getAbsolutePath());
-        }
-    } else {
-        System.out.println("File access cancelled by user.");
     }
-} 
+
     private String getFileExtension(File file) {
-    String name = file.getName();
-    try {
-        return name.substring(name.lastIndexOf(".") + 1);
-    } catch (Exception e) {
-        return "";
+        String name = file.getName();
+        try {
+            return name.substring(name.lastIndexOf(".") + 1);
+        } catch (Exception e) {
+            return "";
+        }
+
     }
-    
-}
     /**
      * @param args the command line arguments
      */
