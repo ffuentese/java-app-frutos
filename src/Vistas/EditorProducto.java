@@ -444,6 +444,7 @@ public class EditorProducto extends javax.swing.JFrame {
                         if(id_producto!=0){
                         txtId_Producto.setText(Integer.toString(id_producto));
                         JOptionPane.showMessageDialog(null, "PRODUCTO AGREGADO EXITOSAMENTE");
+                        btnImagen.setVisible(true);
                         }else{
                             JOptionPane.showMessageDialog(null, "HUBO UN PROBLEMA AL REALIZAR LA OPERACIÓN");
                         }
