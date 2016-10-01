@@ -440,8 +440,13 @@ public class EditorProducto extends javax.swing.JFrame {
                     }
 
                     if (txtId_Producto.getText().isEmpty()) {
-                        pdao.agregar(prod);
+                        int id_producto=pdao.agregar(prod);
+                        if(id_producto!=0){
+                        txtId_Producto.setText(Integer.toString(id_producto));
                         JOptionPane.showMessageDialog(null, "PRODUCTO AGREGADO EXITOSAMENTE");
+                        }else{
+                            JOptionPane.showMessageDialog(null, "HUBO UN PROBLEMA AL REALIZAR LA OPERACIÓN");
+                        }
                     } else {
                         if (pdao.Update(prod)) {
                             JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");

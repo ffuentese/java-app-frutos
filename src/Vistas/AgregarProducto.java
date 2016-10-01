@@ -347,8 +347,8 @@ public class AgregarProducto extends javax.swing.JFrame {
         pr.setZona_cultivo(zona_cultivo);
         
         ProductoDAO prod = new ProductoDAO();
-        Boolean prueba=prod.agregar(pr);
-        if(prueba==true){
+        int prueba=prod.agregar(pr);
+        if(prueba!=0){
         JOptionPane.showMessageDialog(null, "guardado");
         }else{
             JOptionPane.showMessageDialog(null, "error");

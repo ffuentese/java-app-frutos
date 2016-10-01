@@ -266,7 +266,7 @@ public class ProductoDAO {
         return prod;
     }
 
-    public boolean agregar(Producto pro){
+    public int agregar(Producto pro){
         try {
             // Crea SOAP Connection
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
@@ -277,15 +277,15 @@ public class ProductoDAO {
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestinsproducto(pro), url);
 
             // Recibe la respuesta SOAP y la procesa.
-//            int result = getSOAPResponseUpdProducto(soapResponse);
+            int result = Integer.parseInt(getSOAPResponseinsProducto(soapResponse));
 //            System.out.println("RESULT " + result);
             soapConnection.close();
-            return true;
+            return result;
 
         } catch (Exception e) {
             System.err.println("Error occurred while sending SOAP Request to Server");
             e.printStackTrace();
-            return false;
+            return 0;
             //lblError.setText("Hubo un error en la conexión con el servidor");
         }
     }
@@ -353,6 +353,22 @@ public class ProductoDAO {
         System.out.println();
 
         return soapMessage;
+    }
+
+ private String getSOAPResponseinsProducto(SOAPMessage soapResponse) throws Exception {
+        int id_producto=0;
+        SOAPBody sb = soapResponse.getSOAPBody();
+        SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
+        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Productos_Ins");
+
+        Document XMLDoc = sb.extractContentAsDocument();
+        XPath xpath = XPathFactory.newInstance().newXPath();
+//        XPathExpression expr = xpath.compile("//Usuario");
+//        String result = String.class.cast(expr.evaluate(XMLDoc,
+//                XPathConstants.STRING));
+         NodeList nl = XMLDoc.getElementsByTagName("Productos_InsResult");
+        String response = nl.item(0).getFirstChild().getNodeValue();
+        return response;
     }
     
     public boolean Update(Producto pro) {

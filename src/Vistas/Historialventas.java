@@ -27,7 +27,7 @@ public class Historialventas extends javax.swing.JFrame {
 
     ProductorControlador prc = new ProductorControlador();
     HistorialVentasControlador hvc = new HistorialVentasControlador();
-    DefaultComboBoxModel modelListaProductores = new DefaultComboBoxModel(prc.listaProductores().toArray());
+    //DefaultComboBoxModel modelListaProductores = new DefaultComboBoxModel(prc.listaProductores().toArray());
     /**DefaultComboBoxModel modelListaProductores = new DefaultComboBoxModel(prc.listaProductores().toArray());
      * Creates new form Historial_ventas
      */
@@ -35,9 +35,9 @@ public class Historialventas extends javax.swing.JFrame {
         initComponents();
         
       ArrayList<Productor> arrpro = prc.listaProductores();
-//      for(int i =0;i<arrpro.size();i++){
-//          cmbListarproductores.addItem(arrpro.get(i));
-//      }
+      for(int i =0;i<arrpro.size();i++){
+          cmbListarproductores.addItem(arrpro.get(i));
+      }
       
         
         tbVentas.setAutoCreateRowSorter(true);
@@ -75,7 +75,7 @@ public class Historialventas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        cmbListarproductores.setModel(modelListaProductores);
+        cmbListarproductores.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccione" }));
         cmbListarproductores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbListarproductoresActionPerformed(evt);
