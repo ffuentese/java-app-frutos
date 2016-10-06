@@ -9,7 +9,9 @@ import DTO.Direccion;
 import DTO.Productor;
 import DTO.Usuario;
 import Vistas.Listar_Productores;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Properties;
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
@@ -44,7 +46,10 @@ public class ProductorControlador {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestListaProd(), url);
 
  

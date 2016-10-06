@@ -8,9 +8,11 @@ package DAO;
 import DTO.Medida;
 import DTO.Producto;
 import DTO.Productor;
+import java.io.FileInputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Properties;
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
@@ -52,7 +54,10 @@ public class ProductoDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestListaProductosRUT(rut), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -164,7 +169,10 @@ public class ProductoDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestGetProducto(id_prod), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -273,7 +281,10 @@ public class ProductoDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestinsproducto(pro), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -378,7 +389,10 @@ public class ProductoDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestupdproducto(pro), url);
 
             // Recibe la respuesta SOAP y la procesa.

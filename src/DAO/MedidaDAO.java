@@ -7,7 +7,9 @@
 package DAO;
 
 import DTO.Medida;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Properties;
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
@@ -40,7 +42,10 @@ public class MedidaDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestListaMedidas(), url);
 
  
@@ -145,7 +150,10 @@ public class MedidaDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestGetTipoMedida(id_tipo), url);
 
             // Recibe la respuesta SOAP y la procesa.

@@ -19,13 +19,13 @@ import javax.swing.JFrame;
 public class Ventana_Principal extends javax.swing.JFrame {
 
     InactivityListener listener;
-    
+
     /**
      * Creates new form Ventana_Principal
      */
     public Ventana_Principal(Usuario usu) {
         initComponents();
-        
+
         lblUsuario.setText("Bienvenido " + usu.getRut());
         listener = new InactivityListener(this, logout, 1);
         listener.start();
@@ -56,6 +56,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
         lblUsuario = new javax.swing.JLabel();
         btnListarProductores = new javax.swing.JButton();
         btnInformedeVentas = new javax.swing.JButton();
+        btnCerrar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -83,6 +84,13 @@ public class Ventana_Principal extends javax.swing.JFrame {
             }
         });
 
+        btnCerrar.setText("Cerrar Sesión");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -100,10 +108,11 @@ public class Ventana_Principal extends javax.swing.JFrame {
                 .addGap(73, 73, 73))
             .addGroup(layout.createSequentialGroup()
                 .addGap(118, 118, 118)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnInformedeVentas, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnListarProductores, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCerrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnInformedeVentas, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(btnListarProductores, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,7 +125,9 @@ public class Ventana_Principal extends javax.swing.JFrame {
                 .addComponent(btnListarProductores)
                 .addGap(18, 18, 18)
                 .addComponent(btnInformedeVentas)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnCerrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(btnVolver)
                 .addGap(28, 28, 28))
         );
@@ -144,11 +155,20 @@ public class Ventana_Principal extends javax.swing.JFrame {
         hventas.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnInformedeVentasActionPerformed
 
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        // TODO add your handling code here:
+        Login login = new Login();
+        login.setVisible(true);
+        login.setLocationRelativeTo(null);
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnInformedeVentas;
     private javax.swing.JButton btnListarProductores;
     private javax.swing.JButton btnVolver;

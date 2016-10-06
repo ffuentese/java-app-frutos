@@ -17,10 +17,21 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import DTO.Historial_ventas;
 import DTO.Usuario;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.text.MessageFormat;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
-
 
 /**
  *
@@ -34,25 +45,27 @@ public class HistorialVentasProd extends javax.swing.JFrame {
     DefaultComboBoxModel modelListaProductores = new DefaultComboBoxModel(prc.listaProductores().toArray());
     Productor prod = new Productor();
 
-    
-    /**DefaultComboBoxModel modelListaProductores = new DefaultComboBoxModel(prc.listaProductores().toArray());
-     * Creates new form Historial_ventas
+    /**
+     * DefaultComboBoxModel modelListaProductores = new
+     * DefaultComboBoxModel(prc.listaProductores().toArray()); Creates new form
+     * Historial_ventas
+     *
      * @param usu
      */
     public HistorialVentasProd(Usuario usu) {
         initComponents();
-        
-      ArrayList<Productor> arrpro = prc.listaProductores();
+
+        ArrayList<Productor> arrpro = prc.listaProductores();
 //      for(int i =0;i<arrpro.size();i++){
 //          cmbListarproductores.addItem(arrpro.get(i));
 //      }
-      prod = dpc.getProductor(usu.getRut());
+        prod = dpc.getProductor(usu.getRut());
         this.fillTable(prod.getRut());
-        this.setTitle("HISTORIAL DE VENTAS "+ prod.getNombre()+ " "+prod.getApellido());
-        lblNombre.setText(prod.getNombre()+ " "+prod.getApellido());
+        this.setTitle("HISTORIAL DE VENTAS " + prod.getNombre() + " " + prod.getApellido());
+        lblNombre.setText(prod.getNombre() + " " + prod.getApellido());
         tbVentas.setAutoCreateRowSorter(true);
         tbVentas.getTableHeader().setReorderingAllowed(false);
-    }   
+    }
 
 //    Nombre del producto
 //Tipo (Es el tipo de producto)
@@ -62,11 +75,9 @@ public class HistorialVentasProd extends javax.swing.JFrame {
 //Precio Final
 //N° de venta
 //Cliente
-
     String col[] = {"Nombre Producto", "Tipo de Producto", "Tipo de Unidad", "Precio Unitario", "Cantidad", "Total", "Nº Venta", "Cliente"};
     DefaultTableModel tablemodel = new DefaultTableModel(col, 0);
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -76,12 +87,14 @@ public class HistorialVentasProd extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        fileChooser = new javax.swing.JFileChooser();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbVentas = new javax.swing.JTable();
         btnVolver = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
         lblNombre = new javax.swing.JLabel();
+        btnPdf = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,23 +117,31 @@ public class HistorialVentasProd extends javax.swing.JFrame {
             }
         });
 
+        btnPdf.setText("Exportar a PDF");
+        btnPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPdfActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(90, 90, 90)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(212, 212, 212)
                         .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61)
-                        .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(79, 79, 79)
+                        .addComponent(btnPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(271, 271, 271)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(244, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(99, 99, 99))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -134,11 +155,12 @@ public class HistorialVentasProd extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 424, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 422, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnImprimir)
-                    .addComponent(btnVolver))
-                .addGap(28, 28, 28))
+                    .addComponent(btnVolver)
+                    .addComponent(btnPdf))
+                .addGap(30, 30, 30))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(53, 53, 53)
@@ -155,16 +177,57 @@ public class HistorialVentasProd extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-       try {
+        try {
             // Imprime la tabla:
-            MessageFormat header = new MessageFormat("Ventas "+ prod.getNombre()+ " " +prod.getApellido());
+            MessageFormat header = new MessageFormat("Ventas " + prod.getNombre() + " " + prod.getApellido());
             MessageFormat footer = new MessageFormat("Page {0,number,integer}");
             tbVentas.print(JTable.PrintMode.FIT_WIDTH, header, footer);
         } catch (PrinterException ex) {
             Logger.getLogger(ManProductosProductor.class.getName()).log(Level.SEVERE, null, ex);
         }
-    
+
     }//GEN-LAST:event_btnImprimirActionPerformed
+
+    private void btnPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfActionPerformed
+        // TODO add your handling code here:
+        try {
+            Document doc = new Document();
+            int returnVal = fileChooser.showSaveDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                if (!fileChooser.getSelectedFile().getAbsolutePath().endsWith("pdf")) {
+                    file = new File(fileChooser.getSelectedFile() + "." + "pdf");
+                }
+                PdfWriter.getInstance(doc, new FileOutputStream(file));
+                doc.open();
+                Font fontbold = FontFactory.getFont("Helvetica", 26, Font.BOLD);
+                Paragraph p = new Paragraph("Historial de ventas", fontbold);
+                p.setSpacingAfter(20);
+                p.setAlignment(1); // Center
+                doc.add(p);
+                PdfPTable pdfTable = new PdfPTable(tbVentas.getColumnCount());
+                //adding table headers
+                for (int i = 0; i < tbVentas.getColumnCount(); i++) {
+                    pdfTable.addCell(tbVentas.getColumnName(i));
+                }
+                //extracting data from the JTable and inserting it to PdfPTable
+                for (int rows = 0; rows < tbVentas.getRowCount() - 1; rows++) {
+                    for (int cols = 0; cols < tbVentas.getColumnCount(); cols++) {
+                        pdfTable.addCell(tbVentas.getModel().getValueAt(rows, cols).toString());
+
+                    }
+                }
+                doc.add(pdfTable);
+                doc.close();
+                JOptionPane.showMessageDialog(this, "PDF creado exitosamente");
+            }
+        } catch (DocumentException ex) {
+            Logger.getLogger(Historialventas.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Problema al crear documento: " + ex.getMessage());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Historialventas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btnPdfActionPerformed
 
     private void fillTable(String rut) {
         // Llena la tabla. Por ahora el contenido no incluye los nombres, sólo IDs.
@@ -183,14 +246,16 @@ public class HistorialVentasProd extends javax.swing.JFrame {
                 tablemodel.addRow(linea);
             }
         }
-        }
+    }
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnImprimir;
+    private javax.swing.JButton btnPdf;
     private javax.swing.JButton btnVolver;
+    private javax.swing.JFileChooser fileChooser;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblNombre;

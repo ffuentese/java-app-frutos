@@ -9,10 +9,12 @@ import DTO.Imagen;
 import DTO.Medida;
 import DTO.Producto;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Properties;
 import javax.xml.namespace.QName;
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.MimeHeaders;
@@ -46,7 +48,10 @@ public class ImagenDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestSubirImagen(f, filename), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -133,7 +138,10 @@ public class ImagenDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestObtenerImagen(filename), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -215,7 +223,10 @@ public class ImagenDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestUpdImagen(img), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -308,7 +319,10 @@ public class ImagenDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestInsImagen(img), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -403,7 +417,10 @@ public class ImagenDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestGetImagen(id_prod), url);
 
             // Recibe la respuesta SOAP y la procesa.
