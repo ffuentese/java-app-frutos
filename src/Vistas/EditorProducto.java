@@ -372,11 +372,11 @@ public class EditorProducto extends javax.swing.JFrame {
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
 
-        Usuario usu = new Usuario();
-        usu.setRut(txtRut_Productor.getText());
-        ManProductosProductor man = new ManProductosProductor(usu);
-        man.setVisible(true);
-        man.setLocationRelativeTo(null);
+//        Usuario usu = new Usuario();
+//        usu.setRut(txtRut_Productor.getText());
+//        ManProductosProductor man = new ManProductosProductor(usu);
+//        man.setVisible(true);
+//        man.setLocationRelativeTo(null);
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 

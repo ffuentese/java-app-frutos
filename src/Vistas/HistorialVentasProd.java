@@ -22,16 +22,20 @@ import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
 import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
 import com.lowagie.text.pdf.PdfPTable;
 import com.lowagie.text.pdf.PdfWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.MessageFormat;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -95,6 +99,7 @@ public class HistorialVentasProd extends javax.swing.JFrame {
         btnImprimir = new javax.swing.JButton();
         lblNombre = new javax.swing.JLabel();
         btnPdf = new javax.swing.JButton();
+        btnExcel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,24 +129,33 @@ public class HistorialVentasProd extends javax.swing.JFrame {
             }
         });
 
+        btnExcel.setText("Exportar a Excel");
+        btnExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExcelActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(79, 79, 79)
-                        .addComponent(btnPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addGap(271, 271, 271)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(327, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(btnImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(btnPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnExcel, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52)
                 .addComponent(btnVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(99, 99, 99))
+                .addGap(31, 31, 31))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addContainerGap()
@@ -159,7 +173,8 @@ public class HistorialVentasProd extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnImprimir)
                     .addComponent(btnVolver)
-                    .addComponent(btnPdf))
+                    .addComponent(btnPdf)
+                    .addComponent(btnExcel))
                 .addGap(30, 30, 30))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -211,9 +226,10 @@ public class HistorialVentasProd extends javax.swing.JFrame {
                     pdfTable.addCell(tbVentas.getColumnName(i));
                 }
                 //extracting data from the JTable and inserting it to PdfPTable
+                Font fontH1 = FontFactory.getFont("Helvetica", 10, Font.NORMAL);
                 for (int rows = 0; rows < tbVentas.getRowCount() - 1; rows++) {
                     for (int cols = 0; cols < tbVentas.getColumnCount(); cols++) {
-                        pdfTable.addCell(tbVentas.getModel().getValueAt(rows, cols).toString());
+                        pdfTable.addCell(new Phrase(tbVentas.getModel().getValueAt(rows, cols).toString(), fontH1));
 
                     }
                 }
@@ -226,8 +242,43 @@ public class HistorialVentasProd extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Problema al crear documento: " + ex.getMessage());
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Historialventas.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "El archivo se encuentra en uso.");
         }
     }//GEN-LAST:event_btnPdfActionPerformed
+
+    private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
+        // TODO add your handling code here:
+        try {
+            int returnVal = fileChooser.showSaveDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                if (!fileChooser.getSelectedFile().getAbsolutePath().endsWith("xls")) {
+                    file = new File(fileChooser.getSelectedFile() + "." + "xls");
+                }
+                TableModel model = tbVentas.getModel();
+                FileWriter excel = new FileWriter(file);
+
+                for (int i = 0; i < model.getColumnCount(); i++) {
+                    excel.write(model.getColumnName(i) + "\t");
+                }
+
+                excel.write("\n");
+
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    for (int j = 0; j < model.getColumnCount(); j++) {
+                        excel.write(model.getValueAt(i, j).toString() + "\t");
+                    }
+                    excel.write("\n");
+                }
+
+                excel.close();
+                JOptionPane.showMessageDialog(this, "Libro de Excel creado exitosamente");
+            }
+        } catch (IOException e) {
+            System.out.println(e);
+            JOptionPane.showMessageDialog(this, "Hubo un problema al crear documento: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnExcelActionPerformed
 
     private void fillTable(String rut) {
         // Llena la tabla. Por ahora el contenido no incluye los nombres, sólo IDs.
@@ -252,6 +303,7 @@ public class HistorialVentasProd extends javax.swing.JFrame {
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExcel;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnPdf;
     private javax.swing.JButton btnVolver;

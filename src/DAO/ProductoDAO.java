@@ -214,7 +214,7 @@ public class ProductoDAO {
         // SOAP Body
         SOAPBody soapBody = envelope.getBody();
         SOAPElement soapBodyElem = soapBody.addChildElement("Productos_Sel", "web");
-        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("id_producto", "web");
+        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("id", "web");
         soapBodyElem1.addTextNode(Integer.toString(id_prod));
 
         MimeHeaders headers = soapMessage.getMimeHeaders();
@@ -242,7 +242,7 @@ public class ProductoDAO {
 //        XPathExpression expr = xpath.compile("//Usuario");
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
-        NodeList nodeList = (NodeList) xpath.compile("//Productos").evaluate(XMLDoc, XPathConstants.NODESET);
+        NodeList nodeList = (NodeList) xpath.compile("//PRODUCTOS").evaluate(XMLDoc, XPathConstants.NODESET);
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Node nNode = nodeList.item(i);
 //            System.out.println("\nCurrent Element :"
@@ -267,7 +267,7 @@ public class ProductoDAO {
                 prod.setId_medida(Integer.parseInt(eElement.getElementsByTagName("ID_MEDIDA").item(0).getTextContent()));
                 prod.setId_tipo_cultivo(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_CULTIVO").item(0).getTextContent()));
                 prod.setActivo(Integer.parseInt(eElement.getElementsByTagName("ACTIVO").item(0).getTextContent()));
-
+                return prod;
             }
 
         }

@@ -224,7 +224,7 @@ public class MedidaDAO {
 //        XPathExpression expr = xpath.compile("//Usuario");
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
-        NodeList nodeList = (NodeList) xpath.compile("//TipoMedida").evaluate(XMLDoc, XPathConstants.NODESET);
+        NodeList nodeList = (NodeList) xpath.compile("//Tipo_Medida").evaluate(XMLDoc, XPathConstants.NODESET);
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Node nNode = nodeList.item(i);
 //            System.out.println("\nCurrent Element :"
@@ -240,10 +240,8 @@ public class MedidaDAO {
 //                usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
                 tpr.setId_medida(Integer.parseInt(eElement.getElementsByTagName("ID_MEDIDA").item(0).getTextContent()));
                 tpr.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
-//                return tcu;
-                
             }
-             
+             return tpr;
         }
         return tpr;
     }

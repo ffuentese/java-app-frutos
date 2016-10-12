@@ -270,7 +270,7 @@ public class ImagenDAO {
          */
         // SOAP Body
         SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem = soapBody.addChildElement("Imagen_upd", "web");
+        SOAPElement soapBodyElem = soapBody.addChildElement("Imagenes_Upd", "web");
         SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("id_producto", "web");
         soapBodyElem1.addTextNode(Integer.toString(p.getId_producto()));
         SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("nombre", "web");
@@ -286,7 +286,7 @@ public class ImagenDAO {
         SOAPElement soapBodyElem6 = soapBodyElem.addChildElement("ubicacion", "web");
         soapBodyElem6.addTextNode(p.getUbicacion());
         MimeHeaders headers = soapMessage.getMimeHeaders();
-        headers.addHeader("SOAPAction", serverURI + "/Imagen_upd");
+        headers.addHeader("SOAPAction", serverURI + "/Imagenes_Upd");
 
         soapMessage.saveChanges();
 
@@ -306,7 +306,7 @@ public class ImagenDAO {
         Document XMLDoc = sb.extractContentAsDocument();
         XPath xpath = XPathFactory.newInstance().newXPath();
 
-        NodeList nl = XMLDoc.getElementsByTagName("Imagen_updResult");
+        NodeList nl = XMLDoc.getElementsByTagName("Imagenes_UpdResult");
         String response = nl.item(0).getFirstChild().getNodeValue();
         return response;
     }

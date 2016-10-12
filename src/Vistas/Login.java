@@ -7,6 +7,7 @@ package Vistas;
 
 import Controller.LoginControlador;
 import DTO.Usuario;
+import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
 import javax.xml.soap.*;
 import java.net.*;
@@ -29,6 +30,7 @@ import org.w3._2001.xmlschema.ObjectFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import java.util.List;
+import java.util.Properties;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -63,7 +65,7 @@ public class Login extends javax.swing.JFrame {
 
         SwingUtilities.updateComponentTreeUI(this);
         txtRut.requestFocus();
-        
+
     }
 
     /**
@@ -213,7 +215,10 @@ public class Login extends javax.swing.JFrame {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+            Properties props = new Properties();
+            props.load(new FileInputStream("ws.properties"));
+
+            String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(user, password), url);
 
             // Recibe la respuesta SOAP y la procesa.

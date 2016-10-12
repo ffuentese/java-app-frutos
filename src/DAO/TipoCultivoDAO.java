@@ -151,7 +151,10 @@ public class TipoCultivoDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-            String url = "http://localhost:49193/Service1.asmx";
+             Properties props = new Properties();
+          props.load(new FileInputStream("ws.properties"));
+    
+        String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestGetTipoCultivo(id_tipo), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -238,8 +241,8 @@ public class TipoCultivoDAO {
 //                usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
                 tcu.setId_tipo_cultivo(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_CULTIVO").item(0).getTextContent()));
                 tcu.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
-                System.out.println("Valores TCU " + tcu.getId_tipo_cultivo() + " "+ tcu.getNombre());
-//                return tcu;
+                
+                return tcu;
                 
             }
              
