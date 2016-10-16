@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package DAO;
 
 import DTO.Medida;
+import DTO.Parametro;
 import java.io.FileInputStream;
 import java.util.Properties;
 import javax.xml.namespace.QName;
@@ -32,21 +32,24 @@ import org.w3c.dom.NodeList;
  * @author Francisco
  */
 public class ParametroDAO {
-     public Medida getTipoMedida(int id_tipo) {
+    
+    
+
+    public Parametro getParametro(int id) {
         try {
             //Crea SOAP Connection
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-             Properties props = new Properties();
-          props.load(new FileInputStream("ws.properties"));
-    
-        String url = props.getProperty("ws");
-            SOAPMessage soapResponse = soapConnection.call(createSOAPRequestGetParametros(id_tipo), url);
+            Properties props = new Properties();
+            props.load(new FileInputStream("ws.properties"));
+
+            String url = props.getProperty("ws");
+            SOAPMessage soapResponse = soapConnection.call(createSOAPRequestGetParametros(id), url);
 
             // Recibe la respuesta SOAP y la procesa.
-            Medida result = getSOAPResponseGetParametros(soapResponse);
+            Parametro result = getSOAPResponseGetParametros(soapResponse);
 
             soapConnection.close();
             return result;
@@ -58,7 +61,7 @@ public class ParametroDAO {
         }
     }
 
-    private SOAPMessage createSOAPRequestGetParametros(int id_tipo) throws Exception {
+    private SOAPMessage createSOAPRequestGetParametros(int id) throws Exception {
         MessageFactory messageFactory = MessageFactory.newInstance();
         SOAPMessage soapMessage = messageFactory.createMessage();
         SOAPPart soapPart = soapMessage.getSOAPPart();
@@ -81,15 +84,14 @@ public class ParametroDAO {
          </SOAP-ENV:Envelope>
          */
         // SOAP Body
-        Medida p = new Medida();
         SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem = soapBody.addChildElement("Tipo_Medida_Sel", "web");
+        SOAPElement soapBodyElem = soapBody.addChildElement("Parametro_Sel", "web");
         SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("id", "web");
-        soapBodyElem1.addTextNode(Integer.toString(id_tipo));
+        soapBodyElem1.addTextNode(Integer.toString(id));
 //        SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("NOMBRE", "web");
 //        soapBodyElem2.addTextNode(p.getNombre());
         MimeHeaders headers = soapMessage.getMimeHeaders();
-        headers.addHeader("SOAPAction", serverURI + "/Tipo_Medida_Sel");
+        headers.addHeader("SOAPAction", serverURI + "/Parametro_Sel");
 
         soapMessage.saveChanges();
 
@@ -102,18 +104,18 @@ public class ParametroDAO {
         return soapMessage;
     }
 
-    private Medida getSOAPResponseGetParametros(SOAPMessage soapResponse) throws Exception {
-        Medida tpr = new Medida();
+    private Parametro getSOAPResponseGetParametros(SOAPMessage soapResponse) throws Exception {
+        Parametro par = new Parametro();
         SOAPBody sb = soapResponse.getSOAPBody();
         SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
-        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Tipo_Medida_Sel");
+        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Parametro_Sel");
 
         Document XMLDoc = sb.extractContentAsDocument();
         XPath xpath = XPathFactory.newInstance().newXPath();
 //        XPathExpression expr = xpath.compile("//Usuario");
 //        String result = String.class.cast(expr.evaluate(XMLDoc,
 //                XPathConstants.STRING));
-        NodeList nodeList = (NodeList) xpath.compile("//Tipo_Medidas").evaluate(XMLDoc, XPathConstants.NODESET);
+        NodeList nodeList = (NodeList) xpath.compile("//PARAMETRO").evaluate(XMLDoc, XPathConstants.NODESET);
         for (int i = 0; i < nodeList.getLength(); i++) {
             org.w3c.dom.Node nNode = nodeList.item(i);
 //            System.out.println("\nCurrent Element :"
@@ -123,17 +125,19 @@ public class ParametroDAO {
 //                System.out.println("COMUNA : "
 //                        + eElement.getAttribute("msdata:rowOrder"));
                 int val = Integer.parseInt(eElement.getAttribute("msdata:rowOrder"));
-                
+
 //                usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
 //                usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
 //                usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
-                tpr.setId_medida(Integer.parseInt(eElement.getElementsByTagName("ID_MEDIDA").item(0).getTextContent()));
-                tpr.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
+                par.setId_parametro(Integer.parseInt(eElement.getElementsByTagName("ID_PARAMETRO").item(0).getTextContent()));
+                par.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
+                par.setValor1(eElement.getElementsByTagName("VALOR1").item(0).getTextContent());
+                par.setValor2(eElement.getElementsByTagName("VALOR2").item(0).getTextContent());
 //                return tcu;
-                
+
             }
-             
+
         }
-        return tpr;
+        return par;
     }
 }

@@ -5,6 +5,10 @@
  */
 package Controller;
 
+import DAO.UsuarioDAO;
+import DAO.UsuarioLoginDAO;
+import DTO.Usuario;
+import DTO.UsuarioLogin;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -16,6 +20,8 @@ import java.security.NoSuchAlgorithmException;
  * @author Francisco
  */
 public class LoginControlador {
+    UsuarioDAO udao = new UsuarioDAO();
+    UsuarioLoginDAO ulogdao = new UsuarioLoginDAO();
 
     public String hash(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 
@@ -24,6 +30,33 @@ public class LoginControlador {
         crypt.update(password.getBytes("UTF-8"));
 
         return new BigInteger(1, crypt.digest()).toString(16);
+    }
+    
+    public Usuario loginUsuario(String user, String password, int perfil){
+        
+        Usuario u = udao.LoginUsuario(user, password, perfil);
+        if(u!=null){
+            return u;
+        }
+        else {
+            return null;
+        }
+    }
+    
+    public boolean registrarLogin(UsuarioLogin ulog){
+        if(ulogdao.usuarioLogin_Ins(ulog)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+        public boolean validarSesiones(String rut){
+        if(ulogdao.usuarioLogin_cumpleSesionesMaxima(rut)){
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

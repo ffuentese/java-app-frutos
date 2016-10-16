@@ -6,7 +6,11 @@
 package Vistas;
 
 import Controller.LoginControlador;
+import DAO.ParametroDAO;
+import DAO.UsuarioLoginDAO;
+import DTO.Perfil;
 import DTO.Usuario;
+import DTO.UsuarioLogin;
 import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
 import javax.xml.soap.*;
@@ -14,6 +18,7 @@ import java.net.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import static java.util.Collections.list;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +36,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import java.util.List;
 import java.util.Properties;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -45,6 +52,8 @@ public class Login extends javax.swing.JFrame {
 
     LoginControlador logc = new LoginControlador();
     static MessageFactory messageFactory = null;
+    UsuarioLoginDAO ulogdao = new UsuarioLoginDAO();
+    ParametroDAO pardao = new ParametroDAO();
 
     /**
      * Creates new form Login
@@ -66,6 +75,26 @@ public class Login extends javax.swing.JFrame {
         SwingUtilities.updateComponentTreeUI(this);
         txtRut.requestFocus();
 
+        for (int i = 0; i < listaPerfiles().size(); i++) {
+            cbPerfil.addItem(listaPerfiles().get(i));
+        }
+        cbPerfil.setSelectedIndex(0);
+
+    }
+
+    private ArrayList<Perfil> listaPerfiles() {
+        // llena los perfiles del combobox
+        ArrayList<Perfil> arrperfiles = new ArrayList<>();
+        Perfil adm = new Perfil();
+        Perfil pro = new Perfil();
+        pro.setId_perfil(2);
+        pro.setNombre("PRODUCTOR");
+        arrperfiles.add(pro);
+        adm.setId_perfil(3);
+        adm.setNombre("ADMINISTRADOR");
+        arrperfiles.add(adm);
+
+        return arrperfiles;
     }
 
     /**
@@ -87,6 +116,8 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        cbPerfil = new javax.swing.JComboBox();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("FRUTOS FRESCOS");
@@ -129,6 +160,8 @@ public class Login extends javax.swing.JFrame {
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/login.jpg"))); // NOI18N
         jLabel5.setText("jLabel5");
 
+        jLabel6.setText("TIPO");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -136,21 +169,25 @@ public class Login extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel6))
+                        .addGap(26, 26, 26)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pssClave, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel4)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(26, 26, 26)
-                                .addComponent(pssClave))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel4)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addGap(35, 35, 35)
-                                    .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addComponent(jLabel1)
+                                .addGap(189, 189, 189))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(72, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblError, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -160,7 +197,8 @@ public class Login extends javax.swing.JFrame {
                                     .addGap(73, 73, 73)
                                     .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(87, 87, 87))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30))
         );
@@ -181,7 +219,11 @@ public class Login extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(pssClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(65, 65, 65)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(cbPerfil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnIngresar)
                             .addComponent(btnSalir))
@@ -199,153 +241,66 @@ public class Login extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         //Toma los datos ingresados y los envía al webservice para la autenticación 
         //y luego abre la ventana correspondiente si el usuario es válido.
-        String user = txtRut.getText().trim();
-        String password = new String(pssClave.getPassword());
-        try {
-            password = logc.hash(password).toUpperCase();
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (!txtRut.getText().isEmpty() && pssClave.getPassword().length > 0) {
 
-        try {
-            // Crea SOAP Connection
-            SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
-            SOAPConnection soapConnection = soapConnectionFactory.createConnection();
-
-            // Envía Mensaje SOAP a Servidor SOAP 
-            Properties props = new Properties();
-            props.load(new FileInputStream("ws.properties"));
-
-            String url = props.getProperty("ws");
-            SOAPMessage soapResponse = soapConnection.call(createSOAPRequest(user, password), url);
-
-            // Recibe la respuesta SOAP y la procesa.
-            Usuario usu = getSOAPResponse(soapResponse);
-            //valida el usuario
-            if (usu.getRut() != null) {
-                //valida el tipo de usuario 
-                if (usu.getId_tipo_perfil() == 3) {
-                    Ventana_Principal ventana = new Ventana_Principal(usu);
-                    ventana.setVisible(true);
-                    ventana.setLocationRelativeTo(null);
-
-                    dispose();
-                } else {
-                    if (usu.getId_tipo_perfil() == 2) {
-                        Ventana_Principal_Productor ventana_prod = new Ventana_Principal_Productor(usu);
-                        ventana_prod.setVisible(true);
-                        ventana_prod.setLocationRelativeTo(null);
-                        dispose();
-                    } else {
-                        lblError.setText("No tiene el perfil para usar la aplicaciòn");
-                    }
-                }
-            } else {
-                //mostrar.setText(password);
-                lblError.setText("La clave es incorrecta");
+            String user = txtRut.getText().trim();
+            String password = new String(pssClave.getPassword());
+            int perfil = ((Perfil) cbPerfil.getSelectedItem()).getId_perfil();
+            try {
+                password = logc.hash(password).toUpperCase();
+            } catch (NoSuchAlgorithmException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (UnsupportedEncodingException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            soapConnection.close();
-        } catch (Exception e) {
-            System.err.println("Error occurred while sending SOAP Request to Server");
-            e.printStackTrace();
-            lblError.setText("Hubo un error en la conexión con el servidor");
+            // Verifica si usuario puede loguearse en sistema 
+            if (logc.validarSesiones(user)) {
+                Usuario usu = logc.loginUsuario(user, password, perfil);
+                //valida el usuario
+                if (usu.getRut() != null) {
+                    //valida el tipo de usuario y registra el ingreso
+                    UsuarioLogin ulog = new UsuarioLogin();
+                    ulog.setRut(usu.getRut());
+                    ulog.setSistema("2");
+                    ulog.setFecha(new Date());
+                    ulog.setValor4(java.util.UUID.randomUUID().toString());
+                    if (logc.registrarLogin(ulog)) {
+                        if (usu.getId_tipo_perfil() == 3) {
+                            Ventana_Principal ventana = new Ventana_Principal(usu, ulog);
+                            ventana.setVisible(true);
+                            ventana.setLocationRelativeTo(null);
+
+                            dispose();
+                        } else {
+                            if (usu.getId_tipo_perfil() == 2) {
+                                Ventana_Principal_Productor ventana_prod = new Ventana_Principal_Productor(usu, ulog);
+                                ventana_prod.setVisible(true);
+                                ventana_prod.setLocationRelativeTo(null);
+                                dispose();
+                            } else {
+                                lblError.setText("No tiene el perfil para usar la aplicaciòn");
+                            }
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(this, "No se pudo guardar la sesión en el servidor.");
+                    }
+                } else {
+                    //mostrar.setText(password);
+                    lblError.setText("La clave es incorrecta");
+                }
+            } else {
+                lblError.setText("Máximo numero de sesiones activas");
+            }
+
+        } else {
+            // Si el usuario no llenó alguno de los campos
+            lblError.setText("No llenó los campos requeridos");
+            txtRut.requestFocus();
         }
 
 
     }//GEN-LAST:event_btnIngresarActionPerformed
-
-    private static SOAPMessage createSOAPRequest(String user, String password) throws Exception {
-        MessageFactory messageFactory = MessageFactory.newInstance();
-        SOAPMessage soapMessage = messageFactory.createMessage();
-        SOAPPart soapPart = soapMessage.getSOAPPart();
-
-        String serverURI = "http://localhost/WebService";
-
-        // SOAP Envelope
-        SOAPEnvelope envelope = soapPart.getEnvelope();
-        envelope.addNamespaceDeclaration("web", serverURI);
-
-        /*
-         Constructed SOAP Request Message:
-         <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:example="http://ws.cdyne.com/">
-         <SOAP-ENV:Header/>
-         <SOAP-ENV:Body>
-         <example:VerifyEmail>
-         <example:email>mutantninja@gmail.com</example:email>
-         <example:LicenseKey>123</example:LicenseKey>
-         </example:VerifyEmail>
-         </SOAP-ENV:Body>
-         </SOAP-ENV:Envelope>
-         */
-        // SOAP Body
-        SOAPBody soapBody = envelope.getBody();
-        SOAPElement soapBodyElem = soapBody.addChildElement("Usuario_Sel", "web");
-        SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("rut", "web");
-        soapBodyElem1.addTextNode(user);
-        SOAPElement soapBodyElem2 = soapBodyElem.addChildElement("pas", "web");
-        soapBodyElem2.addTextNode(password);
-
-        MimeHeaders headers = soapMessage.getMimeHeaders();
-        headers.addHeader("SOAPAction", serverURI + "/Usuario_Sel");
-
-        soapMessage.saveChanges();
-
-        /* Print the request message */
-        System.out.print("Request SOAP Message = ");
-        soapMessage.writeTo(System.out);
-        String x = soapMessage.toString();
-        System.out.println();
-
-        return soapMessage;
-    }
-
-//    private static void printSOAPResponse(SOAPMessage soapResponse) throws Exception {
-//        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-//        Transformer transformer = transformerFactory.newTransformer();
-//        Source sourceContent = soapResponse.getSOAPPart().getContent();
-//        System.out.print("\nResponse SOAP Message = ");
-//        StreamResult result = new StreamResult(System.out);
-//        transformer.transform(sourceContent, result);
-//    }
-    private static Usuario getSOAPResponse(SOAPMessage soapResponse) throws Exception {
-        Usuario usu = new Usuario();
-        SOAPBody sb = soapResponse.getSOAPBody();
-        SOAPEnvelope env = soapResponse.getSOAPPart().getEnvelope();
-        QName bodyName1 = new QName("http://localhost:49193/Service1.asmx", "Usuario_Sel");
-
-        Document XMLDoc = sb.extractContentAsDocument();
-        XPath xpath = XPathFactory.newInstance().newXPath();
-//        XPathExpression expr = xpath.compile("//Usuario");
-//        String result = String.class.cast(expr.evaluate(XMLDoc,
-//                XPathConstants.STRING));
-        NodeList nodeList = (NodeList) xpath.compile("//Usuarios").evaluate(XMLDoc, XPathConstants.NODESET);
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            org.w3c.dom.Node nNode = nodeList.item(i);
-            System.out.println("\nCurrent Element :"
-                    + nNode.getNodeName());
-            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                Element eElement = (Element) nNode;
-                System.out.println("Usuario : "
-                        + eElement.getAttribute("diffgr:id"));
-                usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
-                usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
-                usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
-//                cli.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
-//                cli.setDv(eElement.getElementsByTagName("DV").item(0).getTextContent().charAt(0));
-//                cli.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
-//                cli.setApellido(eElement.getElementsByTagName("APELLIDO").item(0).getTextContent());
-//                cli.setSexo(eElement.getElementsByTagName("SEXO").item(0).getTextContent().charAt(0));
-//                cli.setCorreo(eElement.getElementsByTagName("CORREO").item(0).getTextContent());
-//                cli.setTelefono(Integer.parseInt(eElement.getElementsByTagName("TELEFONO").item(0).getTextContent()));
-//                cli.setBloqueado(eElement.getElementsByTagName("BLOQUEADO").item(0).getTextContent().charAt(0));
-            }
-            return usu;
-        }
-        return usu;
-    }
 
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -366,11 +321,13 @@ public class Login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnIngresar;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JComboBox cbPerfil;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel lblError;
     private javax.swing.JPasswordField pssClave;
     private javax.swing.JTextField txtRut;

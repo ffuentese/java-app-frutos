@@ -5,8 +5,14 @@
  */
 package Vistas;
 
+import Controller.DatosProdControlador;
+import Controller.VentanaPrincipalControlador;
+import DAO.ParametroDAO;
 import DTO.InactivityListener;
+import DTO.Parametro;
+import DTO.Productor;
 import DTO.Usuario;
+import DTO.UsuarioLogin;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -19,15 +25,23 @@ import javax.swing.JFrame;
 public class Ventana_Principal extends javax.swing.JFrame {
 
     InactivityListener listener;
+    DatosProdControlador dpc = new DatosProdControlador();
+    VentanaPrincipalControlador vpc = new VentanaPrincipalControlador();
+    ParametroDAO pardao = new ParametroDAO();
+    Parametro timeout = pardao.getParametro(2);
+    UsuarioLogin ulog = new UsuarioLogin();
 
     /**
      * Creates new form Ventana_Principal
+     * @param usu Datos del usuario
+     * @param log Datos de la sesión
      */
-    public Ventana_Principal(Usuario usu) {
+    public Ventana_Principal(Usuario usu, UsuarioLogin log) {
         initComponents();
-
-        lblUsuario.setText("Bienvenido " + usu.getRut());
-        listener = new InactivityListener(this, logout, 1);
+        ulog = log;
+        Productor p = dpc.getProductor(usu.getRut());
+        lblUsuario.setText("Bienvenido " + p.getNombre() + " " + p.getApellido());
+        listener = new InactivityListener(this, logout, Integer.parseInt(timeout.getValor1()));
         listener.start();
 
     }
@@ -37,6 +51,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
         @Override
         public void actionPerformed(ActionEvent ae) {
             JFrame frame = (JFrame) ae.getSource();
+            vpc.borrarLogin(ulog);
             System.exit(0);
 
         }
@@ -136,21 +151,22 @@ public class Ventana_Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        // Cierra la ventana para volver al inicio de sesión:
+        // Cierra el programa
+        vpc.borrarLogin(ulog);
         this.dispose();
         System.exit(0);
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnListarProductoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarProductoresActionPerformed
         // Botón para ir a página de lista de productores
-        Listar_Productores lp = new Listar_Productores();
+        Listar_Productores lp = new Listar_Productores(ulog);
         lp.setVisible(true);
         lp.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnListarProductoresActionPerformed
 
     private void btnInformedeVentasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInformedeVentasActionPerformed
         // TODO add your handling code here:
-        Historialventas hventas = new Historialventas();
+        Historialventas hventas = new Historialventas(ulog);
         hventas.setVisible(true);
         hventas.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnInformedeVentasActionPerformed
@@ -160,6 +176,7 @@ public class Ventana_Principal extends javax.swing.JFrame {
         Login login = new Login();
         login.setVisible(true);
         login.setLocationRelativeTo(null);
+        vpc.borrarLogin(ulog);
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 

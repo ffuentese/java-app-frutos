@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import Controller.ActualizarLoginCon;
 import Controller.ProductorControlador;
 import DTO.Productor;
 import DTO.Usuario;
@@ -13,6 +14,7 @@ import DAO.DireccionDAO;
 import DTO.Comuna;
 import DTO.Direccion;
 import DTO.Usuario;
+import DTO.UsuarioLogin;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -22,26 +24,28 @@ import javax.swing.JOptionPane;
  */
 public class Listar_Productores extends javax.swing.JFrame {
 
+    ActualizarLoginCon alc = new ActualizarLoginCon();
+    UsuarioLogin ulog = new UsuarioLogin();
     ProductorControlador prc = new ProductorControlador();
-    DireccionDAO dir=new DireccionDAO();
+    DireccionDAO dir = new DireccionDAO();
     ComunaDAO comunas = new ComunaDAO();
-    ArrayList<Comuna> compart=comunas.listaComunas();
-        ArrayList<Comuna> comnego=comunas.listaComunas();
-        Usuario usu=new Usuario();
+    ArrayList<Comuna> compart = comunas.listaComunas();
+    ArrayList<Comuna> comnego = comunas.listaComunas();
+    Usuario usu = new Usuario();
+
     /**
      * Creates new form Ventana_Principal
      */
-    
-    public Listar_Productores() {
+    public Listar_Productores(UsuarioLogin log) {
+        ulog = log;
+        alc.actualizarLogin(ulog);
         initComponents();
         ArrayList<Productor> arrpro = prc.listaProductores();
-        
-        for(int i=0;i<arrpro.size();i++){
+
+        for (int i = 0; i < arrpro.size(); i++) {
             cmbListarproductores.addItem(arrpro.get(i));
         }
-        
-        
-        
+
         txtRut.setEnabled(false);
         txtDv.setEnabled(false);
         txtNombre.setEnabled(false);
@@ -89,9 +93,8 @@ public class Listar_Productores extends javax.swing.JFrame {
         txtDireccioncomercial = new javax.swing.JTextField();
         txtTelefono = new javax.swing.JTextField();
         txtCorreo = new javax.swing.JTextField();
-        btnEliminar = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
         btnVerStock = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         txtDv = new javax.swing.JTextField();
         rbnMasculino = new javax.swing.JRadioButton();
@@ -146,10 +149,10 @@ public class Listar_Productores extends javax.swing.JFrame {
 
         jLabel10.setText("DIRECCIÓN COMERCIAL:");
 
-        btnEliminar.setText("ELIMINAR");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+        btnVerStock.setText("VER STOCK");
+        btnVerStock.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
+                btnVerStockActionPerformed(evt);
             }
         });
 
@@ -157,13 +160,6 @@ public class Listar_Productores extends javax.swing.JFrame {
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModificarActionPerformed(evt);
-            }
-        });
-
-        btnVerStock.setText("VER STOCK");
-        btnVerStock.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerStockActionPerformed(evt);
             }
         });
 
@@ -231,12 +227,11 @@ public class Listar_Productores extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnVerStock)
-                                .addGap(63, 63, 63)
+                                .addGap(130, 130, 130)
                                 .addComponent(btnModificar)
-                                .addGap(68, 68, 68)
-                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(80, 80, 80)
-                                .addComponent(btnVolver))
+                                .addGap(123, 123, 123)
+                                .addComponent(btnVolver)
+                                .addGap(57, 57, 57))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel8)
@@ -343,13 +338,17 @@ public class Listar_Productores extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel15)
                         .addComponent(cmbComunacomercial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnVerStock)
-                    .addComponent(btnModificar)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnVolver))
-                .addGap(23, 23, 23))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnVerStock)
+                            .addComponent(btnVolver))
+                        .addGap(23, 23, 23))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(btnModificar)
+                        .addContainerGap(20, Short.MAX_VALUE))))
         );
 
         pack();
@@ -357,130 +356,129 @@ public class Listar_Productores extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
+        alc.actualizarLogin(ulog);
         this.dispose();
-        
+
     }//GEN-LAST:event_btnVolverActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
 
-    
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        alc.actualizarLogin(ulog);
+        if (btnModificar.getText() == "MODIFICAR") {
+            for (int i = 0; i < compart.size(); i++) {
+                cmbComunacomercial.addItem(compart.get(i));
+                cmbComunaparticular.addItem(comnego.get(i));
+            }
+            btnModificar.setText("GUARDAR");
+            txtNombre.setEnabled(true);
+            txtApellido.setEnabled(true);
+            txtCorreo.setEnabled(true);
+            txtDireccioncomercial.setEnabled(true);
+            txtNumerocomercial.setEnabled(true);
+            cmbComunacomercial.setEnabled(true);
+            txtDireccionparticular.setEnabled(true);
+            txtNumeroparticular.setEnabled(true);
+            cmbComunaparticular.setEnabled(true);
+            rbnFemenino.setEnabled(true);
+            rbnMasculino.setEnabled(true);
+            txtTelefono.setEnabled(true);
 
-        if(btnModificar.getText()=="MODIFICAR"){
-            for (int i=0;i<compart.size();i++){
-            cmbComunacomercial.addItem(compart.get(i));
-            cmbComunaparticular.addItem(comnego.get(i));
-        }
-        btnModificar.setText("GUARDAR");
-        txtNombre.setEnabled(true);
-        txtApellido.setEnabled(true);
-        txtCorreo.setEnabled(true);
-        txtDireccioncomercial.setEnabled(true);
-        txtNumerocomercial.setEnabled(true);
-        cmbComunacomercial.setEnabled(true);
-        txtDireccionparticular.setEnabled(true);
-        txtNumeroparticular.setEnabled(true);
-        cmbComunaparticular.setEnabled(true);
-        rbnFemenino.setEnabled(true);
-        rbnMasculino.setEnabled(true);
-        txtTelefono.setEnabled(true);
-        
-        }else{
-        if(btnModificar.getText()=="GUARDAR"){
-        String rut=txtRut.getText().trim();
-        String dv=txtDv.getText().trim();
-        String nombre=txtNombre.getText();
-        String apellido = txtApellido.getText();
-        String correo = txtCorreo.getText();
-        String dirComercial=txtDireccioncomercial.getText();
-        String numeroComercial=txtNumerocomercial.getText();
-        Comuna comcomer=((Comuna)cmbComunacomercial.getSelectedItem());
-        String dirParticular=txtDireccionparticular.getText();
-        String numeroParticular=txtNumeroparticular.getText();
-        Comuna compart=((Comuna)cmbComunaparticular.getSelectedItem());
-        String sexo="";
-        String mismaDireccion="";
-        if (rbnMasculino.isSelected()){
-            sexo="M";
-        }else{
-            if(rbnFemenino.isSelected()){
-                sexo="F";
-            }else{
-                JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR SEXO");
+        } else {
+            if (btnModificar.getText() == "GUARDAR") {
+                String rut = txtRut.getText().trim();
+                String dv = txtDv.getText().trim();
+                String nombre = txtNombre.getText();
+                String apellido = txtApellido.getText();
+                String correo = txtCorreo.getText();
+                String dirComercial = txtDireccioncomercial.getText();
+                String numeroComercial = txtNumerocomercial.getText();
+                Comuna comcomer = ((Comuna) cmbComunacomercial.getSelectedItem());
+                String dirParticular = txtDireccionparticular.getText();
+                String numeroParticular = txtNumeroparticular.getText();
+                Comuna compart = ((Comuna) cmbComunaparticular.getSelectedItem());
+                String sexo = "";
+                String mismaDireccion = "";
+                if (rbnMasculino.isSelected()) {
+                    sexo = "M";
+                } else {
+                    if (rbnFemenino.isSelected()) {
+                        sexo = "F";
+                    } else {
+                        JOptionPane.showMessageDialog(null, "DEBE SELECCIONAR SEXO");
+                    }
+                }
+                String telefono = txtTelefono.getText();
+                String regionparticular = txtRegionparticular.getText();
+                String regioncomercial = txtRegioncomercial.getText();
+                if (dirComercial.compareToIgnoreCase(dirParticular) == 0 & numeroComercial.compareToIgnoreCase(numeroParticular) == 0
+                        & comcomer.getId_comuna() == compart.getId_comuna()) {
+                    mismaDireccion = "1";
+                } else {
+                    mismaDireccion = "0";
+                }
+                Productor pro = ((Productor) cmbListarproductores.getSelectedItem());
+                Productor produc = new Productor();
+                produc.setRut(rut);
+                produc.setDv(dv);
+                produc.setNombre(nombre);
+                produc.setApellido(apellido);
+                produc.setComuna_negocio(comcomer.getNombre());
+                produc.setComuna_particular(compart.getNombre());
+                produc.setCorreo(correo);
+                produc.setDireccion_negocio(dirComercial);
+                produc.setDireccion_particular(dirParticular);
+                produc.setId_comunanegocio(Integer.toString(comcomer.getId_comuna()));
+                produc.setId_comunaparticular(Integer.toString(compart.getId_comuna()));
+                produc.setId_direccion_negocio(pro.getId_direccion_negocio());
+                produc.setId_direccion_particular(pro.getId_direccion_particular());
+                produc.setMisma_direccion(mismaDireccion);
+                produc.setNumero_negocio(numeroComercial);
+                produc.setNumero_particular(numeroParticular);
+                produc.setRegioncomercial(regioncomercial);
+                produc.setRegionparticular(regionparticular);
+                produc.setSexo(sexo);
+                produc.setTelefono(telefono);
+
+                Direccion direccionparticular = new Direccion();
+                direccionparticular.setCoordenadaX("0");
+                direccionparticular.setCoordenadaY("0");
+                direccionparticular.setId_comuna(compart.getId_comuna());
+                direccionparticular.setId_direccion(Integer.parseInt(produc.getId_direccion_particular()));
+                direccionparticular.setNombre(dirParticular);
+                direccionparticular.setNumero(numeroParticular);
+
+                Direccion direccionnegocio = new Direccion();
+                direccionnegocio.setCoordenadaX("0");
+                direccionnegocio.setCoordenadaY("0");
+                direccionnegocio.setId_comuna(comcomer.getId_comuna());
+                direccionnegocio.setId_direccion(Integer.parseInt(produc.getId_direccion_negocio()));
+                direccionnegocio.setNombre(dirComercial);
+                direccionnegocio.setNumero(numeroComercial);
+
+                prc.Update(produc);
+                dir.Update(direccionnegocio);
+                dir.Update(direccionparticular);
+
+                JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
+
             }
         }
-        String telefono = txtTelefono.getText();
-        String regionparticular=txtRegionparticular.getText();
-        String regioncomercial=txtRegioncomercial.getText();
-        if(dirComercial.compareToIgnoreCase(dirParticular)==0&numeroComercial.compareToIgnoreCase(numeroParticular)==0
-                &comcomer.getId_comuna()==compart.getId_comuna()){
-            mismaDireccion="1";
-        }else{
-            mismaDireccion="0";
-        }
-        Productor pro = ((Productor)cmbListarproductores.getSelectedItem());
-        Productor produc=new Productor();
-        produc.setRut(rut);
-        produc.setDv(dv);
-        produc.setNombre(nombre);
-        produc.setApellido(apellido);
-        produc.setComuna_negocio(comcomer.getNombre());
-        produc.setComuna_particular(compart.getNombre());
-        produc.setCorreo(correo);
-        produc.setDireccion_negocio(dirComercial);
-        produc.setDireccion_particular(dirParticular);
-        produc.setId_comunanegocio(Integer.toString(comcomer.getId_comuna()));
-        produc.setId_comunaparticular(Integer.toString(compart.getId_comuna()));
-        produc.setId_direccion_negocio(pro.getId_direccion_negocio());
-        produc.setId_direccion_particular(pro.getId_direccion_particular());
-        produc.setMisma_direccion(mismaDireccion);
-        produc.setNumero_negocio(numeroComercial);
-        produc.setNumero_particular(numeroParticular);
-        produc.setRegioncomercial(regioncomercial);
-        produc.setRegionparticular(regionparticular);
-        produc.setSexo(sexo);
-        produc.setTelefono(telefono);
-        
-        Direccion direccionparticular=new Direccion();
-        direccionparticular.setCoordenadaX("0");
-        direccionparticular.setCoordenadaY("0");
-        direccionparticular.setId_comuna(compart.getId_comuna());
-        direccionparticular.setId_direccion(Integer.parseInt(produc.getId_direccion_particular()));
-        direccionparticular.setNombre(dirParticular);
-        direccionparticular.setNumero(numeroParticular);
-        
-        Direccion direccionnegocio = new Direccion();
-        direccionnegocio.setCoordenadaX("0");
-        direccionnegocio.setCoordenadaY("0");
-        direccionnegocio.setId_comuna(comcomer.getId_comuna());
-        direccionnegocio.setId_direccion(Integer.parseInt(produc.getId_direccion_negocio()));
-        direccionnegocio.setNombre(dirComercial);
-        direccionnegocio.setNumero(numeroComercial);
-        
-        prc.Update(produc);
-        dir.Update(direccionnegocio);
-        dir.Update(direccionparticular);
-     
-        JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS EXITOSAMENTE");
-        
-        }
-    }
-    
+
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnVerStockActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerStockActionPerformed
-        ManProductosProductor mpp = new ManProductosProductor(usu);
+        alc.actualizarLogin(ulog);
+        ManProductosProductor mpp = new ManProductosProductor(usu, ulog);
         mpp.setVisible(true);
         mpp.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnVerStockActionPerformed
 
     private void cmbListarproductoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbListarproductoresActionPerformed
-        // TODO add your handling code here:
-        Productor pro = ((Productor)cmbListarproductores.getSelectedItem());
-        Comuna compart=new Comuna();
-        Comuna comneg=new Comuna();
+        // Llena los comboboxes con las comunas y llena los datos del productor:
+        alc.actualizarLogin(ulog);
+        Productor pro = ((Productor) cmbListarproductores.getSelectedItem());
+        Comuna compart = new Comuna();
+        Comuna comneg = new Comuna();
         compart.setId_comuna(Integer.parseInt(pro.getId_comunaparticular()));
         compart.setNombre(pro.getComuna_particular());
         comneg.setId_comuna(Integer.parseInt(pro.getId_comunanegocio()));
@@ -489,19 +487,18 @@ public class Listar_Productores extends javax.swing.JFrame {
         txtDv.setText(pro.getDv());
         txtNombre.setText(pro.getNombre());
         txtApellido.setText(pro.getApellido());
-        try{
-        if(pro.getSexo().compareToIgnoreCase("m")==0){
-        rbnMasculino.setSelected(true);
-        
+        try {
+            if (pro.getSexo().compareToIgnoreCase("m") == 0) {
+                rbnMasculino.setSelected(true);
+
+            } else if (pro.getSexo().compareToIgnoreCase("f") == 0) {
+                rbnFemenino.setSelected(true);
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e, "ERROR", JOptionPane.WARNING_MESSAGE);
         }
-        else if(pro.getSexo().compareToIgnoreCase("f")==0){
-            rbnFemenino.setSelected(true);
-        }
-       
-    }catch(Exception e){
-                JOptionPane.showMessageDialog(null, e, "ERROR", JOptionPane.WARNING_MESSAGE);
-                }
-       
+
         txtDireccionparticular.setText(pro.getDireccion_particular());
         txtNumeroparticular.setText(pro.getNumero_particular());
         cmbComunaparticular.addItem(compart);
@@ -512,17 +509,15 @@ public class Listar_Productores extends javax.swing.JFrame {
         cmbComunacomercial.addItem(comneg);
         txtRegioncomercial.setText(pro.getRegioncomercial());
         txtRegionparticular.setText(pro.getRegionparticular());
-        
+
         usu.setRut(pro.getRut());
     }//GEN-LAST:event_cmbListarproductoresActionPerformed
 
     /**
      * @param args the command line arguments
      */
-  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnVerStock;
     private javax.swing.JButton btnVolver;

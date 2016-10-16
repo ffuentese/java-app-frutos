@@ -48,10 +48,10 @@ public class ImagenDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-             Properties props = new Properties();
-          props.load(new FileInputStream("ws.properties"));
-    
-        String url = props.getProperty("ws");
+            Properties props = new Properties();
+            props.load(new FileInputStream("ws.properties"));
+
+            String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestSubirImagen(f, filename), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -138,10 +138,10 @@ public class ImagenDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-             Properties props = new Properties();
-          props.load(new FileInputStream("ws.properties"));
-    
-        String url = props.getProperty("ws");
+            Properties props = new Properties();
+            props.load(new FileInputStream("ws.properties"));
+
+            String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestObtenerImagen(filename), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -223,10 +223,10 @@ public class ImagenDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-             Properties props = new Properties();
-          props.load(new FileInputStream("ws.properties"));
-    
-        String url = props.getProperty("ws");
+            Properties props = new Properties();
+            props.load(new FileInputStream("ws.properties"));
+
+            String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestUpdImagen(img), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -311,7 +311,7 @@ public class ImagenDAO {
         return response;
     }
 
-        // insertar datos de imagen en base de datos.
+    // insertar datos de imagen en base de datos.
     public boolean create(Imagen img) {
         try {
             //Crea SOAP Connection
@@ -319,10 +319,10 @@ public class ImagenDAO {
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-             Properties props = new Properties();
-          props.load(new FileInputStream("ws.properties"));
-    
-        String url = props.getProperty("ws");
+            Properties props = new Properties();
+            props.load(new FileInputStream("ws.properties"));
+
+            String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestInsImagen(img), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -365,7 +365,7 @@ public class ImagenDAO {
          </SOAP-ENV:Envelope>
          */
         // SOAP Body
-         SOAPBody soapBody = envelope.getBody();
+        SOAPBody soapBody = envelope.getBody();
         SOAPElement soapBodyElem = soapBody.addChildElement("Imagenes_Ins", "web");
         SOAPElement soapBodyElem1 = soapBodyElem.addChildElement("id_producto", "web");
         soapBodyElem1.addTextNode(Integer.toString(p.getId_producto()));
@@ -407,20 +407,19 @@ public class ImagenDAO {
         String response = nl.item(0).getFirstChild().getNodeValue();
         return response;
     }
-    
+
     // Seleccionar imagen
-    
-     public Imagen getImagen(int id_prod) {
+    public Imagen getImagen(int id_prod) {
         try {
             // Crea SOAP Connection
             SOAPConnectionFactory soapConnectionFactory = SOAPConnectionFactory.newInstance();
             SOAPConnection soapConnection = soapConnectionFactory.createConnection();
 
             // Envía Mensaje SOAP a Servidor SOAP 
-             Properties props = new Properties();
-          props.load(new FileInputStream("ws.properties"));
-    
-        String url = props.getProperty("ws");
+            Properties props = new Properties();
+            props.load(new FileInputStream("ws.properties"));
+
+            String url = props.getProperty("ws");
             SOAPMessage soapResponse = soapConnection.call(createSOAPRequestGetImagen(id_prod), url);
 
             // Recibe la respuesta SOAP y la procesa.
@@ -504,7 +503,7 @@ public class ImagenDAO {
 //                usu.setRut(eElement.getElementsByTagName("RUT").item(0).getTextContent());
 //                usu.setPass(eElement.getElementsByTagName("CONTRASENA").item(0).getTextContent());
 //                usu.setId_tipo_perfil(Integer.parseInt(eElement.getElementsByTagName("ID_TIPO_PERFIL").item(0).getTextContent()));
-                
+
                 ima.setId_producto(Integer.parseInt(eElement.getElementsByTagName("ID_PRODUCTO").item(0).getTextContent()));
                 ima.setNombre(eElement.getElementsByTagName("NOMBRE").item(0).getTextContent());
                 ima.setDescripcion(eElement.getElementsByTagName("DESCRIPCION").item(0).getTextContent());
@@ -513,7 +512,7 @@ public class ImagenDAO {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 ima.setFecha(sdf.parse(fecha));
                 ima.setUbicacion(eElement.getElementsByTagName("UBICACION").item(0).getTextContent());
-                
+
             }
 
         }

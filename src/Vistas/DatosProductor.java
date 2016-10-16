@@ -5,13 +5,16 @@
  */
 package Vistas;
 
+import Controller.ActualizarLoginCon;
 import Controller.DatosProdControlador;
 import Controller.ProductorControlador;
 import DAO.ComunaDAO;
+import DAO.UsuarioLoginDAO;
 import DTO.Comuna;
 import DTO.Direccion;
 import DTO.Productor;
 import DTO.Usuario;
+import DTO.UsuarioLogin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.DefaultComboBoxModel;
@@ -26,14 +29,19 @@ public class DatosProductor extends javax.swing.JFrame {
     DatosProdControlador dpc = new DatosProdControlador();
     ComunaDAO cdao = new ComunaDAO();
     Productor pro = new Productor();
+    ActualizarLoginCon alc = new ActualizarLoginCon();
+    UsuarioLogin ulog = new UsuarioLogin();
+    
 
     /**
      * Creates new form Ventana_Principal
      *
      * @param usu
      */
-    public DatosProductor(Usuario usu) {
+    public DatosProductor(Usuario usu, UsuarioLogin log) {
         initComponents();
+        ulog = log;
+        alc.actualizarLogin(ulog);
         this.setTitle("Editar datos personales");
         ArrayList<Comuna> arrcomuna = cdao.listaComunas();
         pro = dpc.getProductor(usu.getRut());
@@ -117,10 +125,6 @@ public class DatosProductor extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         txtNumerocomercial = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        txtPassword1 = new javax.swing.JPasswordField();
-        jLabel17 = new javax.swing.JLabel();
-        txtPassword2 = new javax.swing.JPasswordField();
         cbComunaPart = new javax.swing.JComboBox();
         cbComunaCom = new javax.swing.JComboBox();
 
@@ -175,10 +179,6 @@ public class DatosProductor extends javax.swing.JFrame {
         jLabel14.setText("NÚMERO:");
 
         jLabel15.setText("COMUNA:");
-
-        jLabel16.setText("NUEVA CONTRASEÑA:");
-
-        jLabel17.setText("CONFIRMAR CONTRASEÑA:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -252,15 +252,7 @@ public class DatosProductor extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(jLabel15)
                                         .addGap(10, 10, 10)
-                                        .addComponent(cbComunaCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel16)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(txtPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jLabel17)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(cbComunaCom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addContainerGap(126, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -274,13 +266,7 @@ public class DatosProductor extends javax.swing.JFrame {
                     .addComponent(txtRut, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11)
                     .addComponent(txtDv, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(txtPassword1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel17)
-                    .addComponent(txtPassword2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(10, 10, 10)
+                .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -325,13 +311,14 @@ public class DatosProductor extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // TODO add your handling code here:
+        alc.actualizarLogin(ulog);
         this.dispose();
 
     }//GEN-LAST:event_btnVolverActionPerformed
 
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-
+        alc.actualizarLogin(ulog);
         if (btnModificar.getText().compareTo("MODIFICAR") == 0) {
             btnModificar.setText("GUARDAR");
 //            txtRut.setEnabled(true);
@@ -410,13 +397,13 @@ public class DatosProductor extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "HUBO UN PROBLEMA EN LA ACTUALIZACIÓN");
                 }
                 
-                if (txtPassword1.getPassword().length > 0 && txtPassword2.getPassword().length > 0) {
-                    if (!(Arrays.equals(txtPassword1.getPassword(), txtPassword2.getPassword()))) {
-                        JOptionPane.showMessageDialog(null, "LAS CONTRASEÑAS NO COINCIDEN");
-                    } else {
-
-                    }
-                }
+//                if (txtPassword1.getPassword().length > 0 && txtPassword2.getPassword().length > 0) {
+//                    if (!(Arrays.equals(txtPassword1.getPassword(), txtPassword2.getPassword()))) {
+//                        JOptionPane.showMessageDialog(null, "LAS CONTRASEÑAS NO COINCIDEN");
+//                    } else {
+//
+//                    }
+//                }
 
             }
         }
@@ -440,8 +427,6 @@ public class DatosProductor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -459,8 +444,6 @@ public class DatosProductor extends javax.swing.JFrame {
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtNumerocomercial;
     private javax.swing.JTextField txtNumeroparticular;
-    private javax.swing.JPasswordField txtPassword1;
-    private javax.swing.JPasswordField txtPassword2;
     private javax.swing.JTextField txtRut;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables

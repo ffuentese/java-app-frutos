@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import Controller.ActualizarLoginCon;
 import Controller.DatosProdControlador;
 import DAO.MedidaDAO;
 import DAO.ProductoDAO;
@@ -13,6 +14,7 @@ import DAO.TipoProductoDAO;
 import DTO.Producto;
 import DTO.Productor;
 import DTO.Usuario;
+import DTO.UsuarioLogin;
 import java.awt.print.PrinterException;
 import java.text.MessageFormat;
 import java.util.logging.Level;
@@ -32,14 +34,19 @@ public class ManProductosProductor extends javax.swing.JFrame {
     String col[] = {"Id", "Producto", "Descripción", "Oferta", "Tipo Cultivo", "Tipo Unidad", "Precio U"};
     DefaultTableModel tablemodel = new DefaultTableModel(col, 0);
     ProductoDAO pdao = new ProductoDAO();
-    Producto producto=new Producto();
+    Producto producto = new Producto();
     TipoCultivoDAO tcdao = new TipoCultivoDAO();
     TipoProductoDAO tprdao = new TipoProductoDAO();
     MedidaDAO meddao = new MedidaDAO();
+    ActualizarLoginCon alc = new ActualizarLoginCon();
+    UsuarioLogin ulog = new UsuarioLogin();
+
     /**
      * Creates new form ManProductosProductor
      */
-    public ManProductosProductor(Usuario usu) {
+    public ManProductosProductor(Usuario usu, UsuarioLogin log) {
+        ulog=log;
+        alc.actualizarLogin(ulog);
         initComponents();
         this.setTitle("Administrador de productos");
         pro = dpc.getProductor(usu.getRut());
@@ -47,12 +54,12 @@ public class ManProductosProductor extends javax.swing.JFrame {
         this.fillTable(Integer.parseInt(usu.getRut()));
         //Sólo se puede seleccionar un valor de la tabla.
         tbProductos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
+
         producto.setRut_productor(Integer.parseInt(usu.getRut()));
         producto.setId_direccion(Integer.parseInt(pro.getId_direccion_negocio()));
         tbProductos.setAutoCreateRowSorter(true);
         tbProductos.getTableHeader().setReorderingAllowed(false);
-        
+
     }
 
     private void fillTable(int rut) {
@@ -63,7 +70,7 @@ public class ManProductosProductor extends javax.swing.JFrame {
                 String tipoCultivo = tcdao.getTipoCultivo(prod.getId_tipo_cultivo()).getNombre();
                 String tipoProducto = tprdao.getTipoProducto(prod.getId_tipo_producto()).getNombre();
                 String tipoMedida = meddao.getTipoMedida(prod.getId_medida()).getNombre();
-                String oferta = ((prod.getOferta()==1) ? "Sí" : "No") ;
+                String oferta = ((prod.getOferta() == 1) ? "Sí" : "No");
                 String[] linea = {Integer.toString(prod.getId_producto()),
                     tipoProducto,
                     prod.getDescripcion(),
@@ -162,10 +169,12 @@ public class ManProductosProductor extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // Cierra la ventana y vuelve al menú:
+        alc.actualizarLogin(ulog);
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        alc.actualizarLogin(ulog);
         try {
             // Imprime la tabla:
             MessageFormat header = new MessageFormat("Productos");
@@ -178,21 +187,23 @@ public class ManProductosProductor extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // Pasa el objeto producto a la ventana de edición:
+        alc.actualizarLogin(ulog);
         int id = tbProductos.getSelectedRow();
-        
-        if(id!=-1){
-        int val = Integer.parseInt(tbProductos.getModel().getValueAt(id, 0).toString());
-        Producto prod = pdao.getProducto(val);
-        EditorProducto ep = new EditorProducto(prod);
-        ep.setVisible(true);
-        ep.setLocationRelativeTo(null);
-        dispose();
+
+        if (id != -1) {
+            int val = Integer.parseInt(tbProductos.getModel().getValueAt(id, 0).toString());
+            Producto prod = pdao.getProducto(val);
+            EditorProducto ep = new EditorProducto(prod, ulog);
+            ep.setVisible(true);
+            ep.setLocationRelativeTo(null);
+            dispose();
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         // TODO add your handling code here:
-        EditorProducto ag = new EditorProducto(producto);
+        alc.actualizarLogin(ulog);
+        EditorProducto ag = new EditorProducto(producto, ulog);
         ag.setVisible(true);
         ag.setLocationRelativeTo(null);
         dispose();

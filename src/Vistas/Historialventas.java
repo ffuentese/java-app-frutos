@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import Controller.ActualizarLoginCon;
 import Controller.HistorialVentasControlador;
 import Controller.ProductorControlador;
 import DTO.Productor;
@@ -14,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import DTO.Historial_ventas;
+import DTO.UsuarioLogin;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
@@ -46,13 +48,17 @@ public class Historialventas extends javax.swing.JFrame {
 
     ProductorControlador prc = new ProductorControlador();
     HistorialVentasControlador hvc = new HistorialVentasControlador();
+    ActualizarLoginCon alc = new ActualizarLoginCon();
+    UsuarioLogin ulog = new UsuarioLogin();
     //DefaultComboBoxModel modelListaProductores = new DefaultComboBoxModel(prc.listaProductores().toArray());
     /**
      * DefaultComboBoxModel modelListaProductores = new
      * DefaultComboBoxModel(prc.listaProductores().toArray()); Creates new form
      * Historial_ventas
      */
-    public Historialventas() {
+    public Historialventas(UsuarioLogin log) {
+        ulog = log;
+        alc.actualizarLogin(ulog);
         initComponents();
 
         ArrayList<Productor> arrpro = prc.listaProductores();
@@ -197,10 +203,12 @@ public class Historialventas extends javax.swing.JFrame {
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // Cierra la ventana y vuelve al menú:
+        alc.actualizarLogin(ulog);
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        alc.actualizarLogin(ulog);
         try {
             // Imprime la tabla:
             MessageFormat header = new MessageFormat("Ventas");
@@ -213,7 +221,8 @@ public class Historialventas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnImprimirActionPerformed
 
     private void btnPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPdfActionPerformed
-        // TODO add your handling code here:
+        // Genera un objeto de tipo documento y lo convierte en PDF:
+        alc.actualizarLogin(ulog);
         try {
             Document doc = new Document();
             int returnVal = fileChooser.showSaveDialog(this);
@@ -234,7 +243,7 @@ public class Historialventas extends javax.swing.JFrame {
                 for (int i = 0; i < tbVentas.getColumnCount(); i++) {
                     pdfTable.addCell(tbVentas.getColumnName(i));
                 }
-                //extracting data from the JTable and inserting it to PdfPTable
+                //Extrae los datos de la tabla y los agrega al documento PDF.
                 Font fontH1 = FontFactory.getFont("Helvetica", 10, Font.NORMAL);
                 for (int rows = 0; rows < tbVentas.getRowCount() - 1; rows++) {
                     for (int cols = 0; cols < tbVentas.getColumnCount(); cols++) {
@@ -255,7 +264,9 @@ public class Historialventas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnPdfActionPerformed
 
     private void btnExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcelActionPerformed
-        // TODO add your handling code here:
+        // Solicita un nombre de archivo y genera un libro de MS Excel con los 
+        // datos de la tabla 
+        alc.actualizarLogin(ulog);
         try {
             int returnVal = fileChooser.showSaveDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
@@ -282,13 +293,13 @@ public class Historialventas extends javax.swing.JFrame {
                 excel.close();
                 JOptionPane.showMessageDialog(this, "Libro de Excel creado exitosamente");
             }
-            }catch(IOException e){ 
-                System.out.println(e);
-                JOptionPane.showMessageDialog(this, "Hubo un problema al crear documento: " + e.getMessage());
-            }
+        } catch (IOException e) {
+            // Si existe un error al crear el documento o este se encuentra ocupado
+            // muestra un error
+            System.out.println(e);
+            JOptionPane.showMessageDialog(this, "Hubo un problema al crear documento: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnExcelActionPerformed
-
-    
 
     private void fillTable(String rut) {
         // Llena la tabla. Por ahora el contenido no incluye los nombres, sólo IDs.

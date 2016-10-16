@@ -6,9 +6,13 @@
 package Vistas;
 
 import Controller.DatosProdControlador;
+import Controller.VentanaPrincipalControlador;
+import DAO.ParametroDAO;
 import DTO.InactivityListener;
+import DTO.Parametro;
 import DTO.Productor;
 import DTO.Usuario;
+import DTO.UsuarioLogin;
 import java.awt.event.ActionEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,37 +23,49 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+
 /**
  *
  * @author Windows 7
  */
 public class Ventana_Principal_Productor extends javax.swing.JFrame {
-Usuario usuario = new Usuario();
-InactivityListener listener;
-DatosProdControlador dpc = new DatosProdControlador();
+
+    Usuario usuario = new Usuario();
+    UsuarioLogin ulog = new UsuarioLogin();
+    VentanaPrincipalControlador vpc = new VentanaPrincipalControlador();
+    InactivityListener listener;
+    DatosProdControlador dpc = new DatosProdControlador();
+    ParametroDAO pardao = new ParametroDAO();
+    Parametro timeout = pardao.getParametro(2);
+
     /**
      * Creates new form Ventana_Principal_Productor
+     * @param usu Datos del usuario
+     * @param log Datos de la sesión
      */
-    public Ventana_Principal_Productor(Usuario usu) {
+    public Ventana_Principal_Productor(Usuario usu, UsuarioLogin log) {
         usuario = usu;
+        ulog = log;
         initComponents();
-        Productor p=dpc.getProductor(usu.getRut());
+        Productor p = dpc.getProductor(usu.getRut());
         this.setTitle("Menú");
-        lblUsuario.setText("Bienvenido " + p.getNombre() + " "+p.getApellido());
-        listener = new InactivityListener(this, logout, 1);
+        lblUsuario.setText("Bienvenido " + p.getNombre() + " " + p.getApellido());
+        listener = new InactivityListener(this, logout, Integer.parseInt(timeout.getValor1()));
         listener.start();
 
     }
 
-       Action logout = new AbstractAction() {
+    Action logout = new AbstractAction() {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
             JFrame frame = (JFrame) ae.getSource();
+            vpc.borrarLogin(ulog);
             System.exit(0);
 
         }
     };
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -157,26 +173,27 @@ DatosProdControlador dpc = new DatosProdControlador();
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
         // Cierra la ventana para volver al inicio de sesión:
+        vpc.borrarLogin(ulog);
         this.dispose();
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDatosActionPerformed
         // TODO add your handling code here:
-        DatosProductor dp = new DatosProductor(usuario);
+        DatosProductor dp = new DatosProductor(usuario, ulog);
         dp.setVisible(true);
         dp.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnDatosActionPerformed
 
     private void btnMantenedorProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMantenedorProductosActionPerformed
         // TODO add your handling code here:
-        ManProductosProductor mpp = new ManProductosProductor(usuario);
+        ManProductosProductor mpp = new ManProductosProductor(usuario, ulog);
         mpp.setVisible(true);
         mpp.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnMantenedorProductosActionPerformed
 
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
         // TODO add your handling code here:
-        HistorialVentasProd hv = new HistorialVentasProd(usuario);
+        HistorialVentasProd hv = new HistorialVentasProd(usuario, ulog);
         hv.setVisible(true);
         hv.setLocationRelativeTo(null);
     }//GEN-LAST:event_btnHistorialActionPerformed
@@ -186,13 +203,13 @@ DatosProdControlador dpc = new DatosProdControlador();
         Login login = new Login();
         login.setVisible(true);
         login.setLocationRelativeTo(null);
+        vpc.borrarLogin(ulog);
         this.dispose();
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCerrar;

@@ -5,6 +5,7 @@
  */
 package Vistas;
 
+import Controller.ActualizarLoginCon;
 import DAO.ImagenDAO;
 import DAO.MedidaDAO;
 import DAO.ProductoDAO;
@@ -16,6 +17,7 @@ import DTO.Producto;
 import DTO.TipoCultivo;
 import DTO.TipoProducto;
 import DTO.Usuario;
+import DTO.UsuarioLogin;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -44,13 +46,17 @@ public class EditorProducto extends javax.swing.JFrame {
     ArrayList<TipoProducto> arrtpr = tprdao.listaTipoProducto();
     Producto prod = new Producto();
     ImagenDAO imdao = new ImagenDAO();
+    ActualizarLoginCon alc = new ActualizarLoginCon();
+    UsuarioLogin ulog = new UsuarioLogin();
 
     /**
      * Creates new form EditorProducto
      *
      * @param producto
      */
-    public EditorProducto(Producto producto) {
+    public EditorProducto(Producto producto, UsuarioLogin log) {
+        ulog = log;
+        alc.actualizarLogin(ulog);
         initComponents();
         for (int i = 0; i < arrmed.size(); i++) {
             cbMedida.addItem(arrmed.get(i));
@@ -392,7 +398,7 @@ public class EditorProducto extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-
+        alc.actualizarLogin(ulog);
         if (btnModificar.getText() == "Modificar") {
             txtDescripcion.setEditable(true);
             txtZonaDeCultivo.setEditable(true);
@@ -469,7 +475,7 @@ public class EditorProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnImagenActionPerformed
 
     private void OpenActionPerformed(java.awt.event.ActionEvent evt) {
-
+        alc.actualizarLogin(ulog);
         int returnVal = fileChooser.showOpenDialog(this);
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
