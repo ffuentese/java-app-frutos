@@ -24,12 +24,21 @@ public class LoginControlador {
     UsuarioLoginDAO ulogdao = new UsuarioLoginDAO();
 
     public String hash(String password) throws NoSuchAlgorithmException, UnsupportedEncodingException {
-
-        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
-        crypt.reset();
-        crypt.update(password.getBytes("UTF-8"));
-
-        return new BigInteger(1, crypt.digest()).toString(16);
+//
+//        MessageDigest crypt = MessageDigest.getInstance("SHA-1");
+//        crypt.reset();
+//        crypt.update(password.getBytes("UTF-8"));
+//
+//        return new BigInteger(1, crypt.digest()).toString(16);
+        
+         MessageDigest mDigest = MessageDigest.getInstance("SHA1");
+        byte[] result = mDigest.digest(password.getBytes());        
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(Integer.toString((result[i] & 0xff) + 0x100, 16).substring(1));
+        }
+         
+        return sb.toString();
     }
     
     public Usuario loginUsuario(String user, String password, int perfil){
